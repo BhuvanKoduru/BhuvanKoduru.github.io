@@ -12,7 +12,7 @@
       "postalCode": "",
       "city": "Pittsburgh",
       "countryCode": "USA",
-      "region": "Pennsylvani"
+      "region": "Pennsylvania"
     },
     "profiles": [
       {
@@ -27,10 +27,43 @@
       }
     ]
   },
+  "education": [
+
+        {
+      "institution": "Carnegie Mellon University",
+      "location": "Pittsburgh, PA",
+      "studyType": "Master of Science in Intelligent Information Systems",
+      "startDate": "2025-08",
+      "endDate": "2026-12",
+      "courses": ["Introduction to Deep Learning", "Advanced Natural Language Processing",
+      "Introduction to Question Answering"
+  
+      ]
+    },
+    {
+      "institution": "JSS Science and Technology University",
+      "location": "Mysuru, India",
+      "url": "https://jssstuniv.in/",
+      "studyType": "Bachelor of Engineering in Information Science and Engineering",
+      "startDate": "2020-12",
+      "endDate": "2024-06",
+      "score": "9.44/10 (3.99/4 GPA)",
+      "courses": [
+        "Python Programming",
+        "Data Mining",
+        "Statistics",
+        "Calculus",
+        "Linear Algebra",
+        "Mathematical Modeling"
+      ]
+    }
+],
   "work": [
     {
       "name": "Adobe",
       "position": "Associate Technical Consultant",
+      "location": "Bengaluru",
+
       "url": "https://adobe.com",
       "startDate": "2024-08",
       "endDate": "2025-04",
@@ -44,6 +77,7 @@
     {
       "name": "Nosh Robotics",
       "position": "Computer Vision Intern",
+      "location": "Bengaluru",
       "url": "https://www.letsnosh.io/",
       "startDate": "2024-02",
       "endDate": "2024-06",
@@ -52,7 +86,52 @@
         "Trained CNN models (ResNet, Inception, MobileNet) for ingredient cooking-level estimation.",
         "Optimized and quantized models for deployment on edge devices."
       ]
-    }
+    },
+
+
+    {
+  "name": "IIT Hyderabad, Dept. of Heritage Science and Technology",
+  "position": "Research Intern",
+  "location": "Remote",
+  "startDate": "2023-10",
+  "endDate": "2024-03",
+  "summary": "Worked on motion capture and mobile camera data analysis to evaluate differences and improve synchronization methods.",
+  "highlights": [
+    "Developed evaluation metrics to compare motion capture and mobile camera data.",
+    "Ensured time synchronization between different data sources.",
+    "Applied time series analysis and mathematical curve smoothing techniques.",
+    "Gained research lab experience in computer vision and machine learning."
+  ]
+},
+{
+  "name": "Adobe",
+  "position": "Technical Consultant Intern",
+  "location": "Bengaluru, Karnataka, India",
+  "startDate": "2023-05",
+  "endDate": "2023-07",
+  "summary": "Developed an AI-powered tool for enhancing social media posts using generative AI and Adobe Workfront Fusion.",
+  "highlights": [
+    "Integrated ChatGPT, Stable Diffusion, and Photoshop Actions into Workfront.",
+    "Built caption generation, image generation, and editing workflows.",
+    "Enhanced productivity for marketers, copywriters, and designers.",
+    "Presented tool to senior leadership and received appreciation."
+  ]
+},
+{
+  "name": "Changepay",
+  "position": "Market Research Intern",
+  "location": "Mysuru, Karnataka, India",
+  "url": "https://changepay.in",
+  "startDate": "2021-03",
+  "endDate": "2021-09",
+  "summary": "Conducted market research and relationship-building initiatives at a fintech start-up.",
+  "highlights": [
+    "Supported research and analysis on fintech products.",
+    "Built strong client and partner relationships.",
+    "Collaborated effectively in a small start-up team environment."
+  ]
+}
+
   ],
   "volunteer": [
     {
@@ -68,26 +147,7 @@
       ]
     }
   ],
-  "education": [
-    {
-      "institution": "JSS Science and Technology University",
-      "location": "Mysuru, India",
-      "url": "https://jssstuniv.in/",
-      "area": "Information Science and Engineering",
-      "studyType": "Bachelor of Engineering",
-      "startDate": "2020-12",
-      "endDate": "2024-06",
-      "score": "9.44/10 (3.99/4 GPA)",
-      "courses": [
-        "Python Programming",
-        "Data Mining",
-        "Statistics",
-        "Calculus",
-        "Linear Algebra",
-        "Mathematical Modeling"
-      ]
-    }
-  ],
+  
   "awards": [
     {
       "title": "Finalist, AWS DeepRacer India Competition",
@@ -95,20 +155,51 @@
       "awarder": "Adobe",
       "summary": "Ranked 7th out of 115, built ML model for self-driving cars."
     },
-    {
-      "title": "Hackathon Winner",
-      "date": "2021-2022",
-      "awarder": "HPE, ICE Telangana, and AI Startups",
-      "summary": "Won 4 hackathons, building ML and AI-driven solutions."
-    }
+{
+    "title": "Winner, Hackmitten Hackathon",
+    "date": "2023-05",
+    "awarder": "MIT Thandavapura and LingoTran",
+    "summary": "Built a tool to measure pronunciation accuracy in Portuguese using Google APIs, soundwave analysis, and DTW for variable-length audio files. First NLP project."
+  },
+  {
+    "title": "Winner, Prayog Hackathon",
+    "date": "2023-05",
+    "awarder": "Vidya Vardhaka College of Engineering",
+    "summary": "Developed a Yoga app for pose estimation using vector angle differences for joint accuracy. Integrated ChatGPT API for a customizable chatbot."
+  },
+  {
+    "title": "Winner, SwarmIT Hackathon",
+    "date": "2023-04",
+    "awarder": "Hewlett Packard Enterprise and GSSS Institute of Engineering and Technology for Women",
+    "summary": "Built a hospital appointment booking app with efficient patient queueing. Developed a CNN for skin disease diagnosis and an algorithm using Google Traffic API for doctor allocation."
+  },
+  {
+    "title": "Winner, Hackfest Hackathon",
+    "date": "2023-03",
+    "awarder": "t-hub and Inter Continental Exchange",
+    "summary": "Built a multi-use application including code-to-flowchart conversion, complexity analysis, maintainability index calculator, and malicious Git commit tracker. Integrated Flask, Hugging Face APIs, and Flutter."
+  }
   ],
   "certificates": [
-    {
-      "name": "Machine Learning",
-      "date": "2021-01-01",
-      "issuer": "Stanford University (Coursera)",
-      "url": "https://coursera.org"
-    }
+{
+  "name": "Advanced Learning Algorithms",
+  "date": "2022-07",
+  "issuer": "Stanford Online (Coursera)",
+  "url": "https://www.coursera.org/verify/XL2WP25NZ3K4"
+},
+{
+  "name": "Supervised Machine Learning",
+  "date": "2022-07",
+  "issuer": "Stanford Online (Coursera)",
+  "url": "https://www.coursera.org/verify/FPUQM782BLQ2"
+},
+{
+  "name": "Machine Learning",
+  "date": "2022-03",
+  "issuer": "Stanford Online (Coursera)",
+  "url": "https://www.coursera.org/verify/2GC6DXF2GY8E"
+}
+
   ],
   "skills": [
     {
@@ -170,19 +261,18 @@
         "Ranked reservations and provided smart recommendations."
       ],
       "startDate": "2025-01-01",
-      "endDate": "2025-02-01",
-      "url": "https://example.com"
+      "endDate": "2025-02-01"
+      
     },
     {
       "name": "Osteoarthritis Classifier",
       "summary": "Built ML model to classify osteoarthritis severity using medical images in collaboration with a doctor.",
-      "highlights": ["Computer Vision", "Healthcare AI"],
-      "url": "https://example.com"
+      "highlights": ["Computer Vision", "Healthcare AI"]
+     
     },
     {
       "name": "Timetable Generator",
-      "summary": "Automated timetable scheduling system for the department.",
-      "url": "https://example.com"
+      "summary": "Automated timetable scheduling system for the department."
     }
   ]
 }
