@@ -11,7 +11,7 @@ ninja.data = [{
     },
   },{id: "nav-projects",
           title: "projects",
-          description: "A growing collection of your cool projects.",
+          description: "A growing collection of my projects.",
           section: "Navigation",
           handler: () => {
             window.location.href = "/projects/";
@@ -31,8 +31,8 @@ ninja.data = [{
             window.location.href = "/cv/";
           },
         },{id: "nav-teaching",
-          title: "teaching",
-          description: "Materials for courses you taught. Replace this text with your description.",
+          title: "Teaching",
+          description: "A look at my journey teaching Machine Learning and Deep Learning at JSSSTU.",
           section: "Navigation",
           handler: () => {
             window.location.href = "/teaching/";
@@ -416,29 +416,29 @@ ninja.data = [{
             },},{id: "news-a-simple-inline-announcement-with-markdown-emoji-sparkles-smile",
           title: 'A simple inline announcement with Markdown emoji! :sparkles: :smile:',
           description: "",
-          section: "News",},{id: "projects-project-1",
-          title: 'project 1',
-          description: "with background image",
+          section: "News",},{id: "projects-foodiespot-ai-agent",
+          title: 'FoodieSpot AI Agent',
+          description: "An AI-powered agent to help users discover and recommend food spots — using recommendation logic and possibly retrieval-augmented generation.",
           section: "Projects",handler: () => {
               window.location.href = "/projects/1_project/";
-            },},{id: "projects-project-2",
-          title: 'project 2',
-          description: "a project with a background image and giscus comments",
+            },},{id: "projects-fsil-assignment-rag-with-citations",
+          title: 'FSIL Assignment (RAG with Citations)',
+          description: "Implementation of Retrieval-Augmented Generation (RAG) with source citations.",
           section: "Projects",handler: () => {
               window.location.href = "/projects/2_project/";
-            },},{id: "projects-project-3-with-very-long-name",
-          title: 'project 3 with very long name',
-          description: "a project that redirects to another website",
+            },},{id: "projects-fsil-assignment-rag-with-citations",
+          title: 'FSIL Assignment (RAG with Citations)',
+          description: "Implementation of Retrieval-Augmented Generation (RAG) with source citations.",
           section: "Projects",handler: () => {
               window.location.href = "/projects/3_project/";
-            },},{id: "projects-project-4",
-          title: 'project 4',
-          description: "another without an image",
+            },},{id: "projects-minesweeper-ai",
+          title: 'Minesweeper AI',
+          description: "An AI agent for playing Minesweeper by making safe logical moves to avoid mines—a fun reinforcement-learning demo.",
           section: "Projects",handler: () => {
               window.location.href = "/projects/4_project/";
-            },},{id: "projects-project-5",
-          title: 'project 5',
-          description: "a project with a background image",
+            },},{id: "projects-nim-with-q-learning",
+          title: 'Nim with Q-Learning',
+          description: "A Nim game agent trained using Q-learning demonstrating reinforcement learning in a classic board game setting.",
           section: "Projects",handler: () => {
               window.location.href = "/projects/5_project/";
             },},{id: "projects-project-6",
