@@ -1,10 +1,15 @@
 ---
 layout: page
-title: project 4
-description: another without an image
-img:
+title: "Minesweeper AI"
+description: An AI agent for playing Minesweeper by making safe logical moves to avoid mines—a fun reinforcement-learning demo.
+img: assets/img/7.jpg
 importance: 3
+repo: "Minesweeper"
 category: fun
+tags:
+  - AI
+  - Game
+  - Reinforcement Learning
 ---
 
 Every project has a beautiful feature showcase page.

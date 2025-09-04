@@ -1,11 +1,16 @@
 ---
-layout: page
-title: project 3 with very long name
-description: a project that redirects to another website
 img: assets/img/7.jpg
-redirect: https://unsplash.com
-importance: 3
+layout: page
+title: "FSIL Assignment (RAG with Citations)"
+description: Implementation of Retrieval-Augmented Generation (RAG) with source citations.
+img: assets/img/7.jpg
+importance: 2
+repo: "RAG-with-citations"
 category: work
+tags:
+  - RAG
+  - NLP
+  - Retrieval
 ---
 
 Every project has a beautiful feature showcase page.

@@ -1,10 +1,18 @@
 ---
 layout: page
-title: project 5
-description: a project with a background image
+title: "Nim with Q-Learning"
+description: A Nim game agent trained using Q-learning demonstrating reinforcement learning in a classic board game setting.
+img: assets/img/7.jpg
+
+importance: 4
+repo: "Nim"
+category: fun
+tags:
+  - Reinforcement Learning
+  - Game Theory
+  - Python
 img: assets/img/1.jpg
 importance: 3
-category: fun
 ---
 
 Every project has a beautiful feature showcase page.

@@ -1,11 +1,15 @@
 ---
 layout: page
-title: project 1
-description: with background image
+
+description: An AI-powered agent to help users discover and recommend food spots — using recommendation logic and possibly retrieval-augmented generation.
 img: assets/img/12.jpg
 importance: 1
-category: work
-related_publications: true
+
+title: "FoodieSpot AI Agent"
+repo: "foodiespot-agent"
+category: fun
+importance: 1
+tags: ["AI Agent", "Python", "Recommendation"]
 ---
 
 Every project has a beautiful feature showcase page.

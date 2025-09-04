@@ -1,11 +1,22 @@
 ---
-layout: page
-title: project 2
-description: a project with a background image and giscus comments
+
 img: assets/img/3.jpg
 importance: 2
-category: work
 giscus_comments: true
+
+img: assets/img/7.jpg
+layout: page
+title: "FSIL Assignment (RAG with Citations)"
+description: Implementation of Retrieval-Augmented Generation (RAG) with source citations.
+img: assets/img/7.jpg
+importance: 2
+repo: "RAG-with-citations"
+category: work
+tags:
+  - RAG
+  - NLP
+  - Retrieval
+---
 ---
 
 Every project has a beautiful feature showcase page.
