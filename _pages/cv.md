@@ -5,7 +5,7 @@ title: Resume
 nav: true
 nav_order: 5
 cv_pdf: resume.pdf # you can also use external links here
-description: Click to download my resume
+description: Click the icon to download my resume
 toc:
   sidebar: left
 ---
