@@ -2,7 +2,7 @@
 layout: page
 
 description: An AI-powered agent to help users discover and recommend food spots — using recommendation logic and possibly retrieval-augmented generation.
-img: assets/img/12.jpg
+img: assets/img/agent.jpg
 importance: 1
 
 title: "FoodieSpot AI Agent"
@@ -12,74 +12,56 @@ importance: 1
 tags: ["AI Agent", "Python", "Recommendation"]
 ---
 
-Every project has a beautiful feature showcase page.
-It's easy to include images in a flexible 3-column grid format.
-Make your photos 1/3, 2/3, or full width.
 
-To give your project a background in the portfolio page, just add the img tag to the front matter like so:
 
-    ---
-    layout: page
-    title: project
-    description: a project with a background image
-    img: /assets/img/12.jpg
-    ---
+Here's a <a href="https://drive.google.com/file/d/10Y34qgGaS7E-LpUfC8_m_oetmn0_ioj6/view?usp=drive_link"> video demo of the project </a> <br>
+Here's the <a href="https://github.com/BhuvanKoduru/foodiespot-agent"> GitHub repo </a> <br>
+Here's the <a href="https://www.notion.so/Creating-a-Restaurant-Reservation-Bot-19131cf78e8180e0a169c6727b9a72b0#19131cf78e818031ad1cc68c610a0671">detailed documentation of the project </a>
 
-<div class="row">
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/1.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/3.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/5.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-</div>
-<div class="caption">
-    Caption photos easily. On the left, a road goes through a tunnel. Middle, leaves artistically fall in a hipster photoshoot. Right, in another hipster photoshoot, a lumberjack grasps a handful of pine needles.
-</div>
-<div class="row">
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/5.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-</div>
-<div class="caption">
-    This image can also have a caption. It's like magic.
-</div>
+# Use case
 
-You can also put regular text between your rows of images, even citations {% cite einstein1950meaning %}.
-Say you wanted to write a bit about your project before you posted the rest of the images.
-You describe how you toiled, sweated, _bled_ for your project, and then... you reveal its glory in the next row of images.
+This is a conversational AI assistant using Llama3.1 8B model to help users make restaurant reservations. It understands the user’s intent, and responds accordingly. It has access to a few functions, called tools, which are used to perform certain functionalities such as listing available locations, cuisine based recommendations, checking availabilities for the selected restaurant,  and finally making a booking for the user. Its main source of information is an SQLite database, which it reads from and updates as and when needed.
 
-<div class="row justify-content-sm-center">
-    <div class="col-sm-8 mt-3 mt-md-0">
-        {% include figure.liquid path="assets/img/6.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-    <div class="col-sm-4 mt-3 mt-md-0">
-        {% include figure.liquid path="assets/img/11.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-</div>
-<div class="caption">
-    You can also have artistically styled 2/3 + 1/3 images, like these.
-</div>
+## Key Steps (Bot flow)
 
-The code is simple.
-Just wrap your images with `<div class="col-sm">` and place them inside `<div class="row">` (read more about the <a href="https://getbootstrap.com/docs/4.4/layout/grid/">Bootstrap Grid</a> system).
-To make images responsive, add `img-fluid` class to each; for rounded corners and shadows use `rounded` and `z-depth-1` classes.
-Here's the code for the last row of images above:
+The FoodieSpot AI chatbot assists users with restaurant reservations through a structured, conversational flow. It begins by greeting the user and understanding their intent. If a reservation is requested, the bot collects details such as date, time, number of guests, and preferred location. If the user is unsure about restaurants, it fetches available locations. Once all details are confirmed, the bot finalizes the booking. If a restaurant is unavailable, it suggests alternatives. The chatbot also handles general inquiries about restaurants and menus, ensuring a smooth and helpful interaction before closing the conversation politely.
 
-{% raw %}
+1. Greeting & Understanding Intent
+User: "Hey, I want to book a table for dinner."
+Bot: "Hi! Welcome to FoodieSpot! I'd be happy to assist you. Could you please provide the date and time for your reservation?"
+2. Gathering Reservation Details
+User: "Tomorrow at 6 PM."
+Bot: "Great! How many seats will you need?"
+User: "For 4 people."
+Bot: "Do you have a specific restaurant in mind, or would you like to see our available locations?"
+3. Fetching Restaurant Locations (if needed)
+User: "What restaurants are available?"
+Bot: (Calls get_locations(), then responds)
+"Here are our available restaurants: Waffle Wonderland, Spicy Bites, Ocean’s Delight, and Green Garden. Which one would you like to book?"
+4. Confirming Reservation
+User: "I'd like to book at Spicy Bites."
+Bot: "Just to confirm: You’d like to book a table at Spicy Bites for 4 people tomorrow at 6 PM. Shall I proceed with the reservation?"
+User: "Yes, please."
+Bot: (Calls confirm_reservation(location="Spicy Bites", date="Tomorrow", slot="6:00 PM", seats_needed=4))
+Bot: "Your reservation at Spicy Bites for 4 people tomorrow at 6 PM has been successfully booked! Let me know if you need anything else."
+5. Handling Unavailability
+(If Spicy Bites is full)
+Bot: "Unfortunately, Spicy Bites is fully booked for that time. Would you like me to find alternative restaurants for you?"
+User: "Yes, please."
+Bot: (Calls find_alternate_restaurants(date="Tomorrow", slot="6:00 PM", seats_needed=4))
+Bot: "I found availability at Ocean’s Delight and Green Garden for the same time. Would you like to book one of these?"
+User: "Let’s go with Ocean’s Delight."
+Bot: (Calls confirm_reservation(location="Ocean’s Delight", date="Tomorrow", slot="6:00 PM", seats_needed=4))
+Bot: "Your reservation at Ocean’s Delight for 4 people tomorrow at 6 PM is confirmed!"
+6. Handling General Inquiries
+User: "What kind of food does Waffle Wonderland serve?"
+Bot: "Waffle Wonderland specializes in breakfast items like waffles, pancakes, and omelets, along with a selection of coffee and fresh juices."
+7. Closing the Conversation
+User: "Thanks for your help!"
+Bot: "You're welcome! Enjoy your meal at FoodieSpot. Have a great day!"
 
-```html
-<div class="row justify-content-sm-center">
-  <div class="col-sm-8 mt-3 mt-md-0">
-    {% include figure.liquid path="assets/img/6.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-  </div>
-  <div class="col-sm-4 mt-3 mt-md-0">
-    {% include figure.liquid path="assets/img/11.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-  </div>
-</div>
-```
+The above can also be used to simulate real conversations with the chatbot upon running it. Also:
 
-{% endraw %}
+1. List all the restaurants you have
+2. Which of these are Indian etc. can also be used.
+

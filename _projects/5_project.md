@@ -6,7 +6,7 @@ img: assets/img/7.jpg
 
 importance: 4
 repo: "Nim"
-category: fun
+category: work
 tags:
   - Reinforcement Learning
   - Game Theory

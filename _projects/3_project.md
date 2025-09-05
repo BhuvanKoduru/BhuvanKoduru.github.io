@@ -3,7 +3,7 @@ img: assets/img/7.jpg
 layout: page
 title: "FSIL Assignment (RAG with Citations)"
 description: Implementation of Retrieval-Augmented Generation (RAG) with source citations.
-img: assets/img/7.jpg
+img: assets/img/rag.png
 importance: 2
 repo: "RAG-with-citations"
 category: work

@@ -1,6 +1,6 @@
 ---
 layout: about
-title: about
+title: About
 permalink: /
 subtitle: <a href='mailto:bkoduru@andrew.cmu.edu'>bkoduru@andrew.cmu.edu</a>.
 

@@ -62,7 +62,7 @@
     {
       "name": "Adobe",
       "position": "Associate Technical Consultant",
-      "location": "Bengaluru",
+      "location": "Bengaluru, India",
 
       "url": "https://adobe.com",
       "startDate": "2024-08",
@@ -77,7 +77,7 @@
     {
       "name": "Nosh Robotics",
       "position": "Computer Vision Intern",
-      "location": "Bengaluru",
+      "location": "Bengaluru, India",
       "url": "https://www.letsnosh.io/",
       "startDate": "2024-02",
       "endDate": "2024-06",
@@ -92,7 +92,7 @@
     {
   "name": "IIT Hyderabad, Dept. of Heritage Science and Technology",
   "position": "Research Intern",
-  "location": "Remote",
+  "location": "Remote (Hyderabad, India)",
   "startDate": "2023-10",
   "endDate": "2024-03",
   "summary": "Worked on motion capture and mobile camera data analysis to evaluate differences and improve synchronization methods.",
@@ -106,7 +106,7 @@
 {
   "name": "Adobe",
   "position": "Technical Consultant Intern",
-  "location": "Bengaluru, Karnataka, India",
+  "location": "Bengaluru, India",
   "startDate": "2023-05",
   "endDate": "2023-07",
   "summary": "Developed an AI-powered tool for enhancing social media posts using generative AI and Adobe Workfront Fusion.",
@@ -120,7 +120,7 @@
 {
   "name": "Changepay",
   "position": "Market Research Intern",
-  "location": "Mysuru, Karnataka, India",
+  "location": "Mysuru, India",
   "url": "https://changepay.in",
   "startDate": "2021-03",
   "endDate": "2021-09",
@@ -133,19 +133,41 @@
 }
 
   ],
-  "volunteer": [
+
+  "projects": [
     {
-      "organization": "Google Developer Student Clubs (GDSC)",
-      "location": "JSS STU, Mysuru",
-      "position": "Machine Learning Lead",
-      "startDate": "2022-09",
-      "endDate": "2024-06",
-      "summary": "Organized and conducted ML/DL workshops and mentored student projects.",
+      "name": "FoodieSpot Conversational Agent",
+      "summary": "Built a conversational AI agent for restaurant reservations using LLaMA-3.1-8B with tool calling and RAG.",
       "highlights": [
-        "Led ML workshops with 100+ participants.",
-        "Guided peers in deploying AI models in real-world applications."
-      ]
+        "Integrated APIs and designed conversation flow.",
+        "Ranked reservations and provided smart recommendations."
+      ],
+      "startDate": "2025-01-01",
+      "endDate": "2025-02-01"
+      
+    },
+    {
+      "name": "RAG on 10K filings",
+      "summary": "Implementation of Retrieval-Augmented Generation (RAG) with source citations.",
+      "highlights": [
+        "Integrated APIs and designed conversation flow.",
+        "Provided logical answers across many models for a given query."
+      ],
+      "startDate": "2024-05-01",
+      "endDate": "2024-06-01"
+      
+    },
+    {
+      "name": "Minesweeper",
+      "summary": "An AI agent for playing Minesweeper by making safe logical moves to avoid mines—a fun demo.",
+      "highlights": [
+        "Inferential logic for playing games"
+      ],
+      "startDate": "2022-04-01",
+      "endDate": "2022-05-01"
+      
     }
+   
   ],
   
   "awards": [
@@ -201,23 +223,39 @@
 }
 
   ],
+
+    "volunteer": [
+    {
+      "organization": "Google Developer Student Clubs (GDSC)",
+      "location": "JSS STU, Mysuru",
+      "position": "Machine Learning Lead",
+      "startDate": "2022-09",
+      "endDate": "2024-06",
+      "summary": "Organized and conducted ML/DL workshops and mentored student projects.",
+      "highlights": [
+        "Led ML workshops with 100+ participants.",
+        "Guided peers in deploying AI models in real-world applications."
+      ]
+    }
+  ],
+
+
   "skills": [
     {
       "name": "Machine Learning",
       "level": "Advanced",
       "keywords": [
-        "Computer Vision",
         "Generative AI",
         "RAG Systems",
         "LLM Agents",
-        "GANs",
-        "Causal ML"
+        "Computer Vision"
+
       ]
     },
     {
       "name": "Programming",
       "level": "Advanced",
-      "keywords": ["Python", "TensorFlow", "PyTorch", "FAISS", "ChromaDB", "Streamlit"]
+      "keywords": ["Python", "PyTorch", "FAISS", "ChromaDB", "Streamlit"]
     }
   ],
   "languages": [
@@ -240,39 +278,6 @@
     {
       "language": "Hindi",
       "fluency": "Fluent"
-    }
-  ],
-  "interests": [
-    {
-      "name": "Artificial Intelligence",
-      "keywords": ["Generative AI", "Agents", "Causal Models", "Mechanistic Interpretability"]
-    },
-    {
-      "name": "Mathematics",
-      "keywords": ["Probability", "Linear Algebra", "Statistics"]
-    }
-  ],
-  "projects": [
-    {
-      "name": "FoodieSpot Conversational Agent",
-      "summary": "Built a conversational AI agent for restaurant reservations using LLaMA-3.1-8B with tool calling and RAG.",
-      "highlights": [
-        "Integrated APIs and designed conversation flow.",
-        "Ranked reservations and provided smart recommendations."
-      ],
-      "startDate": "2025-01-01",
-      "endDate": "2025-02-01"
-      
-    },
-    {
-      "name": "Osteoarthritis Classifier",
-      "summary": "Built ML model to classify osteoarthritis severity using medical images in collaboration with a doctor.",
-      "highlights": ["Computer Vision", "Healthcare AI"]
-     
-    },
-    {
-      "name": "Timetable Generator",
-      "summary": "Automated timetable scheduling system for the department."
     }
   ]
 }

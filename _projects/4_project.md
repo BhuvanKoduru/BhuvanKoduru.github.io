@@ -1,8 +1,8 @@
 ---
 layout: page
 title: "Minesweeper AI"
-description: An AI agent for playing Minesweeper by making safe logical moves to avoid mines—a fun reinforcement-learning demo.
-img: assets/img/7.jpg
+description: An AI agent for playing Minesweeper by making safe logical moves to avoid mines—a fun demo.
+img: assets/img/ms.jpeg
 importance: 3
 repo: "Minesweeper"
 category: fun
@@ -12,74 +12,75 @@ tags:
   - Reinforcement Learning
 ---
 
-Every project has a beautiful feature showcase page.
-It's easy to include images in a flexible 3-column grid format.
-Make your photos 1/3, 2/3, or full width.
+This project is an **AI-powered Minesweeper solver** that uses **propositional logic** to play the classic game. The AI reasons about the game board using logical sentences and makes safe moves whenever possible, falling back to random moves only when necessary.
 
-To give your project a background in the portfolio page, just add the img tag to the front matter like so:
+ [Here's a demo video](https://drive.google.com/file/d/1083Tj_0Zo2GY8GKhMl5gww7ZXk_zdcCs/view?usp=share_link)
 
-    ---
-    layout: page
-    title: project
-    description: a project with a background image
-    img: /assets/img/12.jpg
-    ---
 
-<div class="row">
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/1.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/3.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/5.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-</div>
-<div class="caption">
-    Caption photos easily. On the left, a road goes through a tunnel. Middle, leaves artistically fall in a hipster photoshoot. Right, in another hipster photoshoot, a lumberjack grasps a handful of pine needles.
-</div>
-<div class="row">
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/5.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-</div>
-<div class="caption">
-    This image can also have a caption. It's like magic.
-</div>
+---
 
-You can also put regular text between your rows of images.
-Say you wanted to write a little bit about your project before you posted the rest of the images.
-You describe how you toiled, sweated, _bled_ for your project, and then... you reveal its glory in the next row of images.
+##  Project Overview
+The project consists of three main components:
 
-<div class="row justify-content-sm-center">
-    <div class="col-sm-8 mt-3 mt-md-0">
-        {% include figure.liquid path="assets/img/6.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-    <div class="col-sm-4 mt-3 mt-md-0">
-        {% include figure.liquid path="assets/img/11.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-</div>
-<div class="caption">
-    You can also have artistically styled 2/3 + 1/3 images, like these.
-</div>
+### 1. **Minesweeper Game Engine**
+- Implements the game board with a customizable **height**, **width**, and **number of mines**.
+- Randomly places mines and tracks revealed cells.
+- Provides utility methods:
+  - `nearby_mines(cell)` → counts how many mines are adjacent to a given cell.
+  - `is_mine(cell)` → checks if a cell contains a mine.
+  - `won()` → determines if all mines have been flagged.
+- Includes a text-based board visualization for debugging.
 
-The code is simple.
-Just wrap your images with `<div class="col-sm">` and place them inside `<div class="row">` (read more about the <a href="https://getbootstrap.com/docs/4.4/layout/grid/">Bootstrap Grid</a> system).
-To make images responsive, add `img-fluid` class to each; for rounded corners and shadows use `rounded` and `z-depth-1` classes.
-Here's the code for the last row of images above:
+### 2. **Sentence (Logical Representation)**
+- Encodes **logical knowledge** about the game.
+- Each `Sentence` represents:
+  - A **set of cells** on the board.
+  - A **count** of how many of those cells contain mines.
+- Provides inference capabilities:
+  - `known_mines()` → identifies cells that must be mines.
+  - `known_safes()` → identifies cells that must be safe.
+  - `mark_mine(cell)` → updates sentences when a cell is confirmed as a mine.
+  - `mark_safe(cell)` → updates sentences when a cell is confirmed safe.
 
-{% raw %}
+### 3. **Minesweeper AI**
+- The reasoning engine that plays the game.
+- Maintains sets of:
+  - **Moves made** (to avoid repeats).
+  - **Known safes** and **known mines**.
+  - A **knowledge base** of sentences about the board.
+- **Key Methods:**
+  - `add_knowledge(cell, count)`  
+    - Marks a cell as safe.  
+    - Adds a new logical sentence based on nearby unrevealed cells and mine counts.  
+    - Updates the knowledge base by inferring additional safe/mine cells.  
+    - Uses **subset reasoning** to derive new knowledge (e.g., if `{A, B, C} = 2` and `{A, B} = 1`, then `{C} = 1`).
+  - `make_safe_move()`  
+    - Selects a cell that is logically guaranteed to be safe.
+  - `make_random_move()`  
+    - Selects a random move when no safe moves are known, avoiding flagged mines.
 
-```html
-<div class="row justify-content-sm-center">
-  <div class="col-sm-8 mt-3 mt-md-0">
-    {% include figure.liquid path="assets/img/6.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-  </div>
-  <div class="col-sm-4 mt-3 mt-md-0">
-    {% include figure.liquid path="assets/img/11.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-  </div>
-</div>
-```
+---
 
-{% endraw %}
+##  How the AI Thinks
+1. **Player clicks a cell** → game reveals number of nearby mines.  
+2. **AI adds knowledge** → creates logical constraints from that number.  
+3. **Logical inference** → deduces safe cells or mines.  
+4. **Decision-making**:  
+   - Prefer safe moves (guaranteed by logic).  
+   - If no safe move is available, make a random move.  
+
+This allows the AI to play Minesweeper in a human-like reasoning process.
+
+---
+
+##  Skills Demonstrated
+- **Artificial Intelligence & Logic** → Representing knowledge with logical sentences.  
+- **Game Development** → Implemented a custom Minesweeper engine.  
+- **Algorithm Design** → Inference rules for subset relationships.  
+- **Python Programming** → OOP design with classes, sets, and randomization.
+
+---
+
+## Takeaways
+This project showcases how **knowledge-based AI** can be applied to reasoning under uncertainty. Instead of brute-force simulation, the AI uses logical deduction to safely progress through the game — just like a human player.
+
