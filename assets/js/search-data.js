@@ -4,13 +4,20 @@ const ninja = document.querySelector('ninja-keys');
 // add the home and posts menu items
 ninja.data = [{
     id: "nav-about",
-    title: "about",
+    title: "About",
     section: "Navigation",
     handler: () => {
       window.location.href = "/";
     },
-  },{id: "nav-repositories",
-          title: "repositories",
+  },{id: "nav-projects",
+          title: "Projects",
+          description: "A growing collection of my projects.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/projects/";
+          },
+        },{id: "nav-repositories",
+          title: "Repositories",
           description: "Here are some of my GitHub repositories!",
           section: "Navigation",
           handler: () => {
@@ -414,8 +421,8 @@ ninja.data = [{
           description: "An AI-powered agent to help users discover and recommend food spots — using recommendation logic and possibly retrieval-augmented generation.",
           section: "Projects",handler: () => {
               window.location.href = "/projects/1_project/";
-            },},{id: "projects-fsil-assignment-rag-with-citations",
-          title: 'FSIL Assignment (RAG with Citations)',
+            },},{id: "projects-rag-with-citations-for-sec-10k-tickers",
+          title: 'RAG with Citations for SEC 10K tickers',
           description: "Implementation of Retrieval-Augmented Generation (RAG) with source citations.",
           section: "Projects",handler: () => {
               window.location.href = "/projects/2_project/";
@@ -426,7 +433,7 @@ ninja.data = [{
               window.location.href = "/projects/3_project/";
             },},{id: "projects-minesweeper-ai",
           title: 'Minesweeper AI',
-          description: "An AI agent for playing Minesweeper by making safe logical moves to avoid mines—a fun reinforcement-learning demo.",
+          description: "An AI agent for playing Minesweeper by making safe logical moves to avoid mines—a fun demo.",
           section: "Projects",handler: () => {
               window.location.href = "/projects/4_project/";
             },},{id: "projects-nim-with-q-learning",
