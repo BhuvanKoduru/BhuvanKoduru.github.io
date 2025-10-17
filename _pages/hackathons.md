@@ -1,3 +1,15 @@
+---
+layout: page
+title: Hackathons
+permalink: /hackathons/
+description: A small description of the hackathons I have won.
+nav: true
+nav_order: 3
+display_categories: [fun]
+horizontal: false
+---
+
+
 # Hackathon Awards
 
 ## Hackmitten Hackathon Winner
