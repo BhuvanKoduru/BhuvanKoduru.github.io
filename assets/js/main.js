@@ -316,6 +316,231 @@ document.querySelectorAll('.projects-grid').forEach(grid => {
 });
 
 // ============================================
+// Animated Background - Floating Particles
+// ============================================
+
+const particleContainer = document.createElement('div');
+particleContainer.className = 'particles-container';
+document.body.prepend(particleContainer);
+
+const particleStyles = document.createElement('style');
+particleStyles.textContent = `
+    .particles-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 0;
+        overflow: hidden;
+    }
+    .particle {
+        position: absolute;
+        border-radius: 50%;
+        opacity: 0;
+        animation: floatParticle linear infinite;
+    }
+    @keyframes floatParticle {
+        0% {
+            transform: translateY(100vh) rotate(0deg);
+            opacity: 0;
+        }
+        10% {
+            opacity: 1;
+        }
+        90% {
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(-100px) rotate(720deg);
+            opacity: 0;
+        }
+    }
+    .gradient-orb {
+        position: fixed;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.15;
+        pointer-events: none;
+        z-index: 0;
+        animation: orbFloat 20s ease-in-out infinite;
+    }
+    .gradient-orb-1 {
+        width: 400px;
+        height: 400px;
+        background: var(--color-accent);
+        top: 10%;
+        right: -100px;
+        animation-delay: 0s;
+    }
+    .gradient-orb-2 {
+        width: 300px;
+        height: 300px;
+        background: var(--color-accent-light);
+        bottom: 20%;
+        left: -50px;
+        animation-delay: -7s;
+    }
+    .gradient-orb-3 {
+        width: 250px;
+        height: 250px;
+        background: #74c69d;
+        top: 50%;
+        right: 20%;
+        animation-delay: -14s;
+    }
+    @keyframes orbFloat {
+        0%, 100% {
+            transform: translate(0, 0) scale(1);
+        }
+        25% {
+            transform: translate(30px, -30px) scale(1.1);
+        }
+        50% {
+            transform: translate(-20px, 20px) scale(0.9);
+        }
+        75% {
+            transform: translate(-30px, -20px) scale(1.05);
+        }
+    }
+    [data-theme="dark"] .gradient-orb {
+        opacity: 0.1;
+    }
+    @media (max-width: 768px) {
+        .gradient-orb {
+            opacity: 0.08;
+        }
+        .particles-container {
+            display: none;
+        }
+    }
+`;
+document.head.appendChild(particleStyles);
+
+// Create gradient orbs
+for (let i = 1; i <= 3; i++) {
+    const orb = document.createElement('div');
+    orb.className = `gradient-orb gradient-orb-${i}`;
+    document.body.prepend(orb);
+}
+
+// Create floating particles
+function createParticle() {
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+
+    const size = Math.random() * 6 + 2;
+    const duration = Math.random() * 20 + 15;
+    const startX = Math.random() * 100;
+
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const colors = isDark
+        ? ['rgba(64, 145, 108, 0.4)', 'rgba(82, 183, 136, 0.3)', 'rgba(116, 198, 157, 0.3)']
+        : ['rgba(45, 106, 79, 0.3)', 'rgba(64, 145, 108, 0.25)', 'rgba(82, 183, 136, 0.2)'];
+    const color = colors[Math.floor(Math.random() * colors.length)];
+
+    particle.style.cssText = `
+        width: ${size}px;
+        height: ${size}px;
+        left: ${startX}%;
+        background: ${color};
+        animation-duration: ${duration}s;
+        box-shadow: 0 0 ${size * 2}px ${color};
+    `;
+
+    particleContainer.appendChild(particle);
+
+    setTimeout(() => {
+        particle.remove();
+    }, duration * 1000);
+}
+
+// Initial particles
+for (let i = 0; i < 15; i++) {
+    setTimeout(createParticle, i * 500);
+}
+
+// Continuously create particles
+setInterval(createParticle, 2000);
+
+// ============================================
+// Mouse Trail Effect
+// ============================================
+
+const trailContainer = document.createElement('div');
+trailContainer.className = 'mouse-trail-container';
+document.body.appendChild(trailContainer);
+
+const trailStyles = document.createElement('style');
+trailStyles.textContent = `
+    .mouse-trail-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 9998;
+    }
+    .trail-dot {
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        background: var(--color-accent);
+        border-radius: 50%;
+        pointer-events: none;
+        opacity: 0.6;
+        transition: transform 0.1s ease, opacity 0.5s ease;
+    }
+    @media (max-width: 768px) {
+        .mouse-trail-container { display: none; }
+    }
+`;
+document.head.appendChild(trailStyles);
+
+const trailDots = [];
+const numTrailDots = 12;
+
+for (let i = 0; i < numTrailDots; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'trail-dot';
+    dot.style.transform = `scale(${1 - i * 0.07})`;
+    dot.style.opacity = 0.5 - i * 0.04;
+    trailContainer.appendChild(dot);
+    trailDots.push({ el: dot, x: 0, y: 0 });
+}
+
+let trailMouseX = 0, trailMouseY = 0;
+
+document.addEventListener('mousemove', (e) => {
+    trailMouseX = e.clientX;
+    trailMouseY = e.clientY;
+});
+
+function animateTrail() {
+    let x = trailMouseX;
+    let y = trailMouseY;
+
+    trailDots.forEach((dot, index) => {
+        const nextX = x;
+        const nextY = y;
+
+        dot.x += (nextX - dot.x) * (0.3 - index * 0.02);
+        dot.y += (nextY - dot.y) * (0.3 - index * 0.02);
+
+        dot.el.style.left = dot.x + 'px';
+        dot.el.style.top = dot.y + 'px';
+
+        x = dot.x;
+        y = dot.y;
+    });
+
+    requestAnimationFrame(animateTrail);
+}
+animateTrail();
+
+// ============================================
 // Console Easter Egg
 // ============================================
 
