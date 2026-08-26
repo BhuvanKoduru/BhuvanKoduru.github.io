@@ -316,230 +316,258 @@ document.querySelectorAll('.projects-grid').forEach(grid => {
 });
 
 // ============================================
-// Animated Background - Floating Particles
+// Interactive Particle Network Canvas
 // ============================================
 
-const particleContainer = document.createElement('div');
-particleContainer.className = 'particles-container';
-document.body.prepend(particleContainer);
-
-const particleStyles = document.createElement('style');
-particleStyles.textContent = `
-    .particles-container {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: 9990;
-        overflow: hidden;
-    }
-    .particle {
-        position: absolute;
-        border-radius: 50%;
-        opacity: 0;
-        animation: floatParticle linear infinite;
-    }
-    @keyframes floatParticle {
-        0% {
-            transform: translateY(100vh) rotate(0deg);
-            opacity: 0;
-        }
-        10% {
-            opacity: 0.6;
-        }
-        90% {
-            opacity: 0.6;
-        }
-        100% {
-            transform: translateY(-100px) rotate(720deg);
-            opacity: 0;
-        }
-    }
-    .gradient-orb {
-        position: fixed;
-        border-radius: 50%;
-        filter: blur(100px);
-        opacity: 0.3;
-        pointer-events: none;
-        z-index: 9989;
-        animation: orbFloat 25s ease-in-out infinite;
-    }
-    .gradient-orb-1 {
-        width: 500px;
-        height: 500px;
-        background: var(--color-accent);
-        top: -100px;
-        right: -150px;
-        animation-delay: 0s;
-    }
-    .gradient-orb-2 {
-        width: 400px;
-        height: 400px;
-        background: var(--color-accent-light);
-        bottom: -100px;
-        left: -100px;
-        animation-delay: -8s;
-    }
-    .gradient-orb-3 {
-        width: 350px;
-        height: 350px;
-        background: #74c69d;
-        top: 40%;
-        right: 10%;
-        animation-delay: -16s;
-    }
-    @keyframes orbFloat {
-        0%, 100% {
-            transform: translate(0, 0) scale(1);
-        }
-        25% {
-            transform: translate(40px, -40px) scale(1.15);
-        }
-        50% {
-            transform: translate(-30px, 30px) scale(0.85);
-        }
-        75% {
-            transform: translate(-40px, -30px) scale(1.1);
-        }
-    }
-    [data-theme="dark"] .gradient-orb {
-        opacity: 0.2;
-    }
-    @media (max-width: 768px) {
-        .gradient-orb {
-            opacity: 0.15;
-            filter: blur(60px);
-        }
-        .particles-container {
-            display: none;
-        }
-    }
+const canvas = document.createElement('canvas');
+canvas.id = 'particle-canvas';
+canvas.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
 `;
-document.head.appendChild(particleStyles);
+document.body.prepend(canvas);
 
-// Create gradient orbs
-for (let i = 1; i <= 3; i++) {
-    const orb = document.createElement('div');
-    orb.className = `gradient-orb gradient-orb-${i}`;
-    document.body.prepend(orb);
+const ctx = canvas.getContext('2d');
+let particles = [];
+let mouse = { x: null, y: null, radius: 150 };
+
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 }
-
-// Create floating particles
-function createParticle() {
-    const particle = document.createElement('div');
-    particle.className = 'particle';
-
-    const size = Math.random() * 8 + 4;
-    const duration = Math.random() * 15 + 10;
-    const startX = Math.random() * 100;
-
-    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-    const colors = isDark
-        ? ['rgba(82, 183, 136, 0.7)', 'rgba(116, 198, 157, 0.6)', 'rgba(64, 145, 108, 0.6)']
-        : ['rgba(45, 106, 79, 0.5)', 'rgba(64, 145, 108, 0.4)', 'rgba(82, 183, 136, 0.4)'];
-    const color = colors[Math.floor(Math.random() * colors.length)];
-
-    particle.style.cssText = `
-        width: ${size}px;
-        height: ${size}px;
-        left: ${startX}%;
-        background: ${color};
-        animation-duration: ${duration}s;
-        box-shadow: 0 0 ${size * 3}px ${color};
-    `;
-
-    particleContainer.appendChild(particle);
-
-    setTimeout(() => {
-        particle.remove();
-    }, duration * 1000);
-}
-
-// Initial burst of particles
-for (let i = 0; i < 20; i++) {
-    setTimeout(createParticle, i * 300);
-}
-
-// Continuously create particles
-setInterval(createParticle, 1500);
-
-// ============================================
-// Mouse Trail Effect
-// ============================================
-
-const trailContainer = document.createElement('div');
-trailContainer.className = 'mouse-trail-container';
-document.body.appendChild(trailContainer);
-
-const trailStyles = document.createElement('style');
-trailStyles.textContent = `
-    .mouse-trail-container {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: 9998;
-    }
-    .trail-dot {
-        position: absolute;
-        width: 6px;
-        height: 6px;
-        background: var(--color-accent);
-        border-radius: 50%;
-        pointer-events: none;
-        opacity: 0.6;
-        transition: transform 0.1s ease, opacity 0.5s ease;
-    }
-    @media (max-width: 768px) {
-        .mouse-trail-container { display: none; }
-    }
-`;
-document.head.appendChild(trailStyles);
-
-const trailDots = [];
-const numTrailDots = 12;
-
-for (let i = 0; i < numTrailDots; i++) {
-    const dot = document.createElement('div');
-    dot.className = 'trail-dot';
-    dot.style.transform = `scale(${1 - i * 0.07})`;
-    dot.style.opacity = 0.5 - i * 0.04;
-    trailContainer.appendChild(dot);
-    trailDots.push({ el: dot, x: 0, y: 0 });
-}
-
-let trailMouseX = 0, trailMouseY = 0;
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
 
 document.addEventListener('mousemove', (e) => {
-    trailMouseX = e.clientX;
-    trailMouseY = e.clientY;
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
 });
 
-function animateTrail() {
-    let x = trailMouseX;
-    let y = trailMouseY;
+document.addEventListener('mouseleave', () => {
+    mouse.x = null;
+    mouse.y = null;
+});
 
-    trailDots.forEach((dot, index) => {
-        const nextX = x;
-        const nextY = y;
+class Particle {
+    constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 3 + 1;
+        this.baseX = this.x;
+        this.baseY = this.y;
+        this.density = Math.random() * 30 + 1;
+        this.vx = (Math.random() - 0.5) * 0.5;
+        this.vy = (Math.random() - 0.5) * 0.5;
+    }
 
-        dot.x += (nextX - dot.x) * (0.3 - index * 0.02);
-        dot.y += (nextY - dot.y) * (0.3 - index * 0.02);
+    update() {
+        // Mouse interaction
+        if (mouse.x != null && mouse.y != null) {
+            let dx = mouse.x - this.x;
+            let dy = mouse.y - this.y;
+            let distance = Math.sqrt(dx * dx + dy * dy);
+            let forceDirectionX = dx / distance;
+            let forceDirectionY = dy / distance;
+            let maxDistance = mouse.radius;
+            let force = (maxDistance - distance) / maxDistance;
+            let directionX = forceDirectionX * force * this.density;
+            let directionY = forceDirectionY * force * this.density;
 
-        dot.el.style.left = dot.x + 'px';
-        dot.el.style.top = dot.y + 'px';
+            if (distance < mouse.radius) {
+                this.x -= directionX;
+                this.y -= directionY;
+            }
+        }
 
-        x = dot.x;
-        y = dot.y;
+        // Gentle floating motion
+        this.x += this.vx;
+        this.y += this.vy;
+
+        // Bounce off edges
+        if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+        if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+
+        // Keep in bounds
+        this.x = Math.max(0, Math.min(canvas.width, this.x));
+        this.y = Math.max(0, Math.min(canvas.height, this.y));
+    }
+
+    draw() {
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        ctx.fillStyle = isDark ? 'rgba(82, 183, 136, 0.8)' : 'rgba(45, 106, 79, 0.6)';
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.closePath();
+        ctx.fill();
+    }
+}
+
+function initParticles() {
+    particles = [];
+    const numParticles = Math.min(80, Math.floor((canvas.width * canvas.height) / 15000));
+    for (let i = 0; i < numParticles; i++) {
+        particles.push(new Particle());
+    }
+}
+initParticles();
+window.addEventListener('resize', initParticles);
+
+function connectParticles() {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const maxDistance = 120;
+
+    for (let a = 0; a < particles.length; a++) {
+        for (let b = a + 1; b < particles.length; b++) {
+            let dx = particles[a].x - particles[b].x;
+            let dy = particles[a].y - particles[b].y;
+            let distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < maxDistance) {
+                let opacity = 1 - (distance / maxDistance);
+                ctx.strokeStyle = isDark
+                    ? `rgba(82, 183, 136, ${opacity * 0.4})`
+                    : `rgba(45, 106, 79, ${opacity * 0.3})`;
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(particles[a].x, particles[a].y);
+                ctx.lineTo(particles[b].x, particles[b].y);
+                ctx.stroke();
+            }
+        }
+    }
+}
+
+function animateParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    particles.forEach(particle => {
+        particle.update();
+        particle.draw();
     });
 
-    requestAnimationFrame(animateTrail);
+    connectParticles();
+    requestAnimationFrame(animateParticles);
 }
-animateTrail();
+animateParticles();
+
+// ============================================
+// Aurora Gradient Background
+// ============================================
+
+const auroraStyles = document.createElement('style');
+auroraStyles.textContent = `
+    .aurora-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 0;
+        overflow: hidden;
+    }
+    .aurora-layer {
+        position: absolute;
+        width: 200%;
+        height: 200%;
+        top: -50%;
+        left: -50%;
+        background: linear-gradient(
+            45deg,
+            transparent 0%,
+            rgba(45, 106, 79, 0.03) 25%,
+            transparent 50%,
+            rgba(64, 145, 108, 0.05) 75%,
+            transparent 100%
+        );
+        animation: auroraMove 20s ease-in-out infinite;
+    }
+    .aurora-layer:nth-child(2) {
+        background: linear-gradient(
+            -45deg,
+            transparent 0%,
+            rgba(82, 183, 136, 0.04) 30%,
+            transparent 60%,
+            rgba(116, 198, 157, 0.03) 80%,
+            transparent 100%
+        );
+        animation: auroraMove 25s ease-in-out infinite reverse;
+        animation-delay: -5s;
+    }
+    .aurora-layer:nth-child(3) {
+        background: radial-gradient(
+            ellipse at 30% 20%,
+            rgba(45, 106, 79, 0.08) 0%,
+            transparent 50%
+        );
+        animation: auroraPulse 15s ease-in-out infinite;
+    }
+    @keyframes auroraMove {
+        0%, 100% {
+            transform: translate(0, 0) rotate(0deg);
+        }
+        25% {
+            transform: translate(2%, 1%) rotate(1deg);
+        }
+        50% {
+            transform: translate(-1%, 2%) rotate(-1deg);
+        }
+        75% {
+            transform: translate(-2%, -1%) rotate(0.5deg);
+        }
+    }
+    @keyframes auroraPulse {
+        0%, 100% {
+            opacity: 0.5;
+            transform: scale(1);
+        }
+        50% {
+            opacity: 1;
+            transform: scale(1.2);
+        }
+    }
+    [data-theme="dark"] .aurora-layer {
+        background: linear-gradient(
+            45deg,
+            transparent 0%,
+            rgba(64, 145, 108, 0.06) 25%,
+            transparent 50%,
+            rgba(82, 183, 136, 0.08) 75%,
+            transparent 100%
+        );
+    }
+    [data-theme="dark"] .aurora-layer:nth-child(2) {
+        background: linear-gradient(
+            -45deg,
+            transparent 0%,
+            rgba(82, 183, 136, 0.07) 30%,
+            transparent 60%,
+            rgba(116, 198, 157, 0.05) 80%,
+            transparent 100%
+        );
+    }
+    [data-theme="dark"] .aurora-layer:nth-child(3) {
+        background: radial-gradient(
+            ellipse at 30% 20%,
+            rgba(64, 145, 108, 0.12) 0%,
+            transparent 50%
+        );
+    }
+    @media (max-width: 768px) {
+        .aurora-bg { display: none; }
+    }
+`;
+document.head.appendChild(auroraStyles);
+
+const auroraBg = document.createElement('div');
+auroraBg.className = 'aurora-bg';
+auroraBg.innerHTML = '<div class="aurora-layer"></div><div class="aurora-layer"></div><div class="aurora-layer"></div>';
+document.body.prepend(auroraBg);
 
 // ============================================
 // Console Easter Egg
