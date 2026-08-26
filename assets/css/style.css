@@ -164,10 +164,17 @@ strong {
 }
 
 .nav-logo {
-  font-family: var(--font-sans);
-  font-size: 1rem;
-  font-weight: 600;
+  font-family: var(--font-mono);
+  font-size: 0.9375rem;
   color: var(--color-text);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nav-logo::before {
+  content: '>';
+  color: var(--color-accent);
 }
 
 .nav-links {
@@ -180,7 +187,7 @@ strong {
 .nav-links a {
   color: var(--color-text-light);
   font-size: 0.875rem;
-  font-weight: 500;
+  font-family: var(--font-mono);
   transition: color 0.2s ease;
 }
 
@@ -317,18 +324,35 @@ strong {
   left: -12px;
 }
 
-/* Name styling */
+/* Typing animation */
 .typing-name {
   display: inline-block;
+  overflow: hidden;
+  border-right: 3px solid var(--color-accent);
+  white-space: nowrap;
+  animation: typing 2s steps(20, end), blink 0.75s step-end infinite;
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes blink {
+  from, to { border-color: transparent; }
+  50% { border-color: var(--color-accent); }
 }
 
 .terminal-prompt {
   font-family: var(--font-mono);
   font-size: 0.875rem;
-  color: var(--color-accent);
+  color: var(--color-text-light);
   margin-bottom: var(--spacing-xs);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+}
+
+.terminal-prompt::before {
+  content: '$ ';
+  color: var(--color-accent);
 }
 
 .profile-meta {
@@ -734,16 +758,16 @@ strong {
 /* Hero animations - immediate on page load */
 .hero-animate {
     opacity: 0;
-    transform: translateY(20px);
-    animation: fadeInUp 0.6s ease-out forwards;
-    animation-delay: calc(var(--delay, 0) * 0.1s);
+    transform: translateY(30px);
+    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: calc(var(--delay, 0) * 0.12s);
 }
 
 .hero-animate-right {
     opacity: 0;
-    transform: translateX(30px);
-    animation: slideInRight 0.6s ease-out forwards;
-    animation-delay: calc(var(--delay, 0) * 0.1s);
+    transform: translateX(50px);
+    animation: slideInRight 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: calc(var(--delay, 0) * 0.12s);
 }
 
 /* ============================================
