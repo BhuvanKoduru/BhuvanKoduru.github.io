@@ -1,44 +1,111 @@
 // ============================================
-// Scroll-triggered animations
+// Theme Toggle (Dark/Light Mode)
+// ============================================
+
+const themeToggle = document.getElementById('themeToggle');
+const html = document.documentElement;
+const sunIcon = document.querySelector('.sun-icon');
+const moonIcon = document.querySelector('.moon-icon');
+
+// Check for saved theme preference or default to light
+const savedTheme = localStorage.getItem('theme') || 'light';
+html.setAttribute('data-theme', savedTheme);
+updateThemeIcon(savedTheme);
+
+themeToggle?.addEventListener('click', () => {
+    const currentTheme = html.getAttribute('data-theme');
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+    html.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    updateThemeIcon(newTheme);
+});
+
+function updateThemeIcon(theme) {
+    if (sunIcon && moonIcon) {
+        if (theme === 'dark') {
+            sunIcon.style.display = 'none';
+            moonIcon.style.display = 'block';
+        } else {
+            sunIcon.style.display = 'block';
+            moonIcon.style.display = 'none';
+        }
+    }
+}
+
+// ============================================
+// Scroll-Triggered Animations
 // ============================================
 
 const observerOptions = {
     root: null,
     rootMargin: '0px',
-    threshold: 0.15
+    threshold: 0.1
 };
 
 const animationObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry, index) => {
+    entries.forEach((entry) => {
         if (entry.isIntersecting) {
-            // Add staggered delay based on element's position
-            const delay = entry.target.dataset.delay || index * 100;
-            setTimeout(() => {
-                entry.target.classList.add('visible');
-            }, delay);
+            entry.target.classList.add('visible');
+            animationObserver.unobserve(entry.target);
         }
     });
 }, observerOptions);
 
-// Observe all animated elements
 document.addEventListener('DOMContentLoaded', () => {
-    const animatedElements = document.querySelectorAll('.fade-in-up, .slide-in-left, .slide-in-right, .scale-in, .reveal-line, .section-divider, .img-reveal');
-
+    const animatedElements = document.querySelectorAll('.animate');
     animatedElements.forEach((el, index) => {
-        el.dataset.delay = index * 80; // Stagger by 80ms
+        el.style.animationDelay = `${index * 0.08}s`;
         animationObserver.observe(el);
     });
-
-    // Trigger initial visible elements
-    setTimeout(() => {
-        document.querySelectorAll('.hero .fade-in-up').forEach((el, i) => {
-            setTimeout(() => el.classList.add('visible'), i * 100);
-        });
-    }, 100);
 });
 
 // ============================================
-// Smooth scroll for anchor links
+// Floating Table of Contents
+// ============================================
+
+const tocLinks = document.querySelectorAll('.floating-toc a');
+const sections = document.querySelectorAll('section[id]');
+
+function updateTOC() {
+    let currentSection = '';
+
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.clientHeight;
+
+        if (window.scrollY >= sectionTop - 200) {
+            currentSection = section.getAttribute('id');
+        }
+    });
+
+    tocLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${currentSection}`) {
+            link.classList.add('active');
+        }
+    });
+}
+
+window.addEventListener('scroll', updateTOC);
+updateTOC();
+
+// ============================================
+// Navbar Scroll Effect
+// ============================================
+
+const nav = document.querySelector('.nav');
+
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+        nav.classList.add('scrolled');
+    } else {
+        nav.classList.remove('scrolled');
+    }
+});
+
+// ============================================
+// Smooth Scroll for Anchor Links
 // ============================================
 
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -55,58 +122,32 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 });
 
 // ============================================
-// Active navigation state
+// Active Navigation State
 // ============================================
 
 const currentPage = window.location.pathname.split('/').pop() || 'index.html';
 document.querySelectorAll('.nav-links a').forEach(link => {
     const href = link.getAttribute('href');
-    if (href === currentPage || (currentPage === '' && href === 'index.html')) {
+    if (href && (href === currentPage || (currentPage === '' && href === 'index.html'))) {
         link.classList.add('active');
     }
 });
 
 // ============================================
-// Navbar scroll effect
+// Typing Animation Enhancement
 // ============================================
 
-let lastScroll = 0;
-const nav = document.querySelector('.nav');
-
-window.addEventListener('scroll', () => {
-    const currentScroll = window.pageYOffset;
-
-    if (currentScroll > 50) {
-        nav.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
-        nav.style.background = 'rgba(255, 255, 255, 0.98)';
-    } else {
-        nav.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.05)';
-        nav.style.background = 'rgba(255, 255, 255, 0.95)';
-    }
-
-    lastScroll = currentScroll;
-});
+const typingElement = document.querySelector('.typing-name');
+if (typingElement) {
+    // Reset animation on page load for consistent experience
+    typingElement.style.width = '0';
+    setTimeout(() => {
+        typingElement.style.width = '100%';
+    }, 500);
+}
 
 // ============================================
-// Magnetic effect for social links
-// ============================================
-
-document.querySelectorAll('.social-link').forEach(link => {
-    link.addEventListener('mousemove', (e) => {
-        const rect = link.getBoundingClientRect();
-        const x = e.clientX - rect.left - rect.width / 2;
-        const y = e.clientY - rect.top - rect.height / 2;
-
-        link.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px) scale(1.1)`;
-    });
-
-    link.addEventListener('mouseleave', () => {
-        link.style.transform = 'translate(0, 0) scale(1)';
-    });
-});
-
-// ============================================
-// Tilt effect for project cards
+// Project Card Tilt Effect
 // ============================================
 
 document.querySelectorAll('.project-card').forEach(card => {
@@ -114,14 +155,12 @@ document.querySelectorAll('.project-card').forEach(card => {
         const rect = card.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
-
         const centerX = rect.width / 2;
         const centerY = rect.height / 2;
+        const rotateX = (y - centerY) / 25;
+        const rotateY = (centerX - x) / 25;
 
-        const rotateX = (y - centerY) / 20;
-        const rotateY = (centerX - x) / 20;
-
-        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px)`;
     });
 
     card.addEventListener('mouseleave', () => {
@@ -130,127 +169,36 @@ document.querySelectorAll('.project-card').forEach(card => {
 });
 
 // ============================================
-// Typing effect for headings (optional)
+// Social Link Magnetic Effect
 // ============================================
 
-function typeWriter(element, text, speed = 50) {
-    let i = 0;
-    element.innerHTML = '';
-
-    function type() {
-        if (i < text.length) {
-            element.innerHTML += text.charAt(i);
-            i++;
-            setTimeout(type, speed);
-        }
-    }
-
-    type();
-}
-
-// ============================================
-// Parallax effect for profile image
-// ============================================
-
-const profileImage = document.querySelector('.profile-image');
-if (profileImage) {
-    window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-        const rate = scrolled * 0.15;
-        profileImage.style.transform = `translateY(${rate}px)`;
+document.querySelectorAll('.social-link').forEach(link => {
+    link.addEventListener('mousemove', (e) => {
+        const rect = link.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        link.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px) translateY(-3px)`;
     });
-}
 
-// ============================================
-// Counter animation for stats (if added later)
-// ============================================
-
-function animateCounter(element, target, duration = 2000) {
-    let start = 0;
-    const increment = target / (duration / 16);
-
-    function updateCounter() {
-        start += increment;
-        if (start < target) {
-            element.textContent = Math.floor(start);
-            requestAnimationFrame(updateCounter);
-        } else {
-            element.textContent = target;
-        }
-    }
-
-    updateCounter();
-}
-
-// ============================================
-// Cursor follower (subtle)
-// ============================================
-
-const cursor = document.createElement('div');
-cursor.classList.add('cursor-follower');
-document.body.appendChild(cursor);
-
-// Add cursor styles dynamically
-const cursorStyles = document.createElement('style');
-cursorStyles.textContent = `
-    .cursor-follower {
-        width: 20px;
-        height: 20px;
-        border: 2px solid var(--color-accent);
-        border-radius: 50%;
-        position: fixed;
-        pointer-events: none;
-        z-index: 9999;
-        opacity: 0;
-        transition: opacity 0.3s ease, transform 0.15s ease;
-        transform: translate(-50%, -50%);
-    }
-
-    body:hover .cursor-follower {
-        opacity: 0.5;
-    }
-
-    a:hover ~ .cursor-follower,
-    button:hover ~ .cursor-follower {
-        transform: translate(-50%, -50%) scale(1.5);
-        opacity: 0.8;
-    }
-
-    @media (max-width: 768px) {
-        .cursor-follower { display: none; }
-    }
-`;
-document.head.appendChild(cursorStyles);
-
-document.addEventListener('mousemove', (e) => {
-    cursor.style.left = e.clientX + 'px';
-    cursor.style.top = e.clientY + 'px';
+    link.addEventListener('mouseleave', () => {
+        link.style.transform = 'translate(0, 0)';
+    });
 });
 
 // ============================================
-// Page load animation
+// Publication Item Hover Effect
 // ============================================
 
-window.addEventListener('load', () => {
-    document.body.classList.add('loaded');
-
-    // Add loaded styles
-    const loadedStyles = document.createElement('style');
-    loadedStyles.textContent = `
-        body {
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-        body.loaded {
-            opacity: 1;
-        }
-    `;
-    document.head.appendChild(loadedStyles);
+document.querySelectorAll('.publication-item').forEach(item => {
+    item.addEventListener('mouseenter', () => {
+        item.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+    });
 });
 
-// Prevent flash of unstyled content
-document.body.style.opacity = '0';
-setTimeout(() => {
-    document.body.style.transition = 'opacity 0.5s ease';
-    document.body.style.opacity = '1';
-}, 100);
+// ============================================
+// Console Easter Egg
+// ============================================
+
+console.log('%c> Hello, fellow developer! 👋', 'color: #2d6a4f; font-size: 16px; font-weight: bold;');
+console.log('%c> Feel free to explore the code.', 'color: #666; font-size: 12px;');
+console.log('%c> Built with vanilla HTML, CSS, and JS.', 'color: #666; font-size: 12px;');

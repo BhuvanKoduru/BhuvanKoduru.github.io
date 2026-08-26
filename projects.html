@@ -1,41 +1,75 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Projects - Bhuvan Koduru">
     <title>Projects | Bhuvan Koduru</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
     <!-- Navigation -->
     <nav class="nav">
         <div class="nav-container">
-            <a href="index.html" class="nav-logo">Bhuvan Koduru</a>
+            <a href="index.html" class="nav-logo">bhuvan_koduru</a>
             <ul class="nav-links">
-                <li><a href="index.html">About</a></li>
-                <li><a href="research.html">Research</a></li>
-                <li><a href="projects.html" class="active">Projects</a></li>
-                <li><a href="assets/Bhuvan_Koduru_Resume.pdf" target="_blank">CV</a></li>
+                <li><a href="index.html">~/about</a></li>
+                <li><a href="research.html">~/research</a></li>
+                <li><a href="projects.html" class="active">~/projects</a></li>
+                <li><a href="assets/Bhuvan_Koduru_Resume.pdf" target="_blank">~/cv</a></li>
+                <li>
+                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                        <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <line x1="12" y1="1" x2="12" y2="3"></line>
+                            <line x1="12" y1="21" x2="12" y2="23"></line>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                            <line x1="1" y1="12" x2="3" y2="12"></line>
+                            <line x1="21" y1="12" x2="23" y2="12"></line>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                        </svg>
+                        <svg class="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                    </button>
+                </li>
             </ul>
         </div>
     </nav>
 
-    <!-- Projects Section -->
-    <section class="hero">
+    <!-- Hero -->
+    <section class="hero" style="min-height: auto; padding-bottom: var(--spacing-lg);">
         <div class="container">
-            <h1 class="fade-in-up">Projects</h1>
-            <p class="fade-in-up" style="font-size: 1.125rem; margin-bottom: 3rem;">
-                A collection of research projects, coursework, and hackathon wins exploring AI systems, multimodal learning, and practical applications.
+            <p class="terminal-prompt animate visible">ls ~/projects</p>
+            <h1 class="animate visible delay-1">Projects & Experience</h1>
+            <p class="animate visible delay-2" style="max-width: 600px; margin-top: 1rem;">
+                A collection of research projects, coursework, hackathon wins, and industry work exploring
+                <strong>AI systems</strong>, <strong>multimodal learning</strong>, and <strong>practical applications</strong>.
             </p>
+        </div>
+    </section>
 
-            <h2>Research Projects</h2>
+    <!-- Research Projects -->
+    <section class="section">
+        <div class="container">
+            <h2 class="animate">
+                <span class="section-number">01</span>
+                Research Projects
+            </h2>
 
             <div class="projects-grid">
-                <div class="project-card fade-in-up">
+                <div class="project-card animate">
+                    <div class="project-number">01</div>
                     <h3 class="project-title">Persona-Induced Response Modulation</h3>
                     <p class="project-description">
-                        Engineered an activation-steering pipeline inducing confident personas without fine-tuning. Achieved 95% uncertainty reduction through direct manipulation of model activations, ablated on Llama 3.1 8B & Gemma 2 2B.
+                        Engineered an activation-steering pipeline inducing confident personas without fine-tuning.
+                        Achieved 95% uncertainty reduction through direct manipulation of model activations,
+                        ablated on Llama 3.1 8B & Gemma 2 2B.
                     </p>
                     <div class="project-tags">
                         <span class="tag">Activation Steering</span>
@@ -44,10 +78,12 @@
                     </div>
                 </div>
 
-                <div class="project-card fade-in-up">
+                <div class="project-card animate">
+                    <div class="project-number">02</div>
                     <h3 class="project-title">Arabic TTS Fine-Tuning</h3>
                     <p class="project-description">
-                        Supervised fine-tuning of NeuTTS-Air on a proprietary Arabic dataset achieving 30% WER. Work conducted in Prof. Bhiksha Raj's lab at CMU.
+                        Supervised fine-tuning of NeuTTS-Air on a proprietary Arabic dataset achieving 30% WER.
+                        Work conducted in Prof. Bhiksha Raj's lab at CMU.
                     </p>
                     <div class="project-tags">
                         <span class="tag">Speech</span>
@@ -56,10 +92,12 @@
                     </div>
                 </div>
 
-                <div class="project-card fade-in-up">
+                <div class="project-card animate">
+                    <div class="project-number">03</div>
                     <h3 class="project-title">FoodieSpot Restaurant Booking Agent</h3>
                     <p class="project-description">
-                        Built a Llama 3.1 8B agent with tool use capabilities, MongoDB reservations, and RAG retrieval for restaurant recommendations and bookings.
+                        Built a Llama 3.1 8B agent with tool use capabilities, MongoDB reservations, and
+                        RAG retrieval for restaurant recommendations and bookings.
                     </p>
                     <div class="project-tags">
                         <span class="tag">LLM Agents</span>
@@ -68,10 +106,12 @@
                     </div>
                 </div>
 
-                <div class="project-card fade-in-up">
+                <div class="project-card animate">
+                    <div class="project-number">04</div>
                     <h3 class="project-title">RAG with Citations for SEC 10K</h3>
                     <p class="project-description">
-                        Implementation of Retrieval-Augmented Generation with source citations for financial document analysis. Built with FAISS, ChromaDB, and multiple LLM backends.
+                        Implementation of Retrieval-Augmented Generation with source citations for financial
+                        document analysis. Built with FAISS, ChromaDB, and multiple LLM backends.
                     </p>
                     <div class="project-tags">
                         <span class="tag">RAG</span>
@@ -80,14 +120,24 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
 
-            <h2 style="margin-top: 4rem;">Hackathon Wins</h2>
+    <!-- Hackathon Wins -->
+    <section class="section section-nature-bg">
+        <div class="container">
+            <h2 class="animate">
+                <span class="section-number">02</span>
+                Hackathon Wins
+            </h2>
 
             <div class="projects-grid">
-                <div class="project-card fade-in-up">
-                    <h3 class="project-title">🏆 Hackmitten (MIT Thandavapura)</h3>
+                <div class="project-card animate">
+                    <div class="project-number" style="color: var(--color-accent);">1st</div>
+                    <h3 class="project-title">Hackmitten (MIT Thandavapura)</h3>
                     <p class="project-description">
-                        Devised a Portuguese pronunciation scorer using acoustic-waveform similarity & DTW (no STT). First place winner.
+                        Devised a Portuguese pronunciation scorer using acoustic-waveform similarity & DTW
+                        (no STT). First place winner.
                     </p>
                     <div class="project-tags">
                         <span class="tag">Speech Processing</span>
@@ -96,10 +146,12 @@
                     </div>
                 </div>
 
-                <div class="project-card fade-in-up">
-                    <h3 class="project-title">🏆 Prayog (VVCE Mysuru)</h3>
+                <div class="project-card animate">
+                    <div class="project-number" style="color: var(--color-accent);">1st</div>
+                    <h3 class="project-title">Prayog (VVCE Mysuru)</h3>
                     <p class="project-description">
-                        Built a real-time yoga pose estimator with joint-angle feedback & a ChatGPT assistant for corrections and guidance.
+                        Built a real-time yoga pose estimator with joint-angle feedback & a ChatGPT assistant
+                        for corrections and guidance.
                     </p>
                     <div class="project-tags">
                         <span class="tag">Computer Vision</span>
@@ -108,10 +160,12 @@
                     </div>
                 </div>
 
-                <div class="project-card fade-in-up">
-                    <h3 class="project-title">🏆 SwarmIT (HPE & GSSIETW)</h3>
+                <div class="project-card animate">
+                    <div class="project-number" style="color: var(--color-accent);">1st</div>
+                    <h3 class="project-title">SwarmIT (HPE & GSSIETW)</h3>
                     <p class="project-description">
-                        Developed a hospital scheduler pairing CNN skin-disease diagnosis with traffic-aware allocation for optimal patient routing.
+                        Developed a hospital scheduler pairing CNN skin-disease diagnosis with traffic-aware
+                        allocation for optimal patient routing.
                     </p>
                     <div class="project-tags">
                         <span class="tag">CNN</span>
@@ -120,10 +174,12 @@
                     </div>
                 </div>
 
-                <div class="project-card fade-in-up">
-                    <h3 class="project-title">🏆 Hackfest (T-Hub & ICE Hyderabad)</h3>
+                <div class="project-card animate">
+                    <div class="project-number" style="color: var(--color-accent);">1st</div>
+                    <h3 class="project-title">Hackfest (T-Hub & ICE Hyderabad)</h3>
                     <p class="project-description">
-                        Crafted a dev-tool suite: code-to-flowchart converter, complexity metrics analyzer, and malicious-commit detection system.
+                        Crafted a dev-tool suite: code-to-flowchart converter, complexity metrics analyzer,
+                        and malicious-commit detection system.
                     </p>
                     <div class="project-tags">
                         <span class="tag">Developer Tools</span>
@@ -132,38 +188,51 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
 
-            <h2 style="margin-top: 4rem;">Industry Experience</h2>
+    <!-- Industry Experience -->
+    <section class="section">
+        <div class="container">
+            <h2 class="animate">
+                <span class="section-number">03</span>
+                Industry Experience
+            </h2>
 
-            <div class="publication-item fade-in-up" style="margin-top: 1.5rem;">
+            <div class="publication-item animate">
                 <div class="publication-title">Multi-Agent Pipeline for Adobe Workfront Fusion</div>
-                <div class="publication-authors">Adobe Inc. • Associate Technical Consultant • Aug 2024 – Apr 2025</div>
-                <p style="margin-top: 0.75rem; font-size: 0.9375rem;">
-                    Architected a multi-agent pipeline on Adobe's orchestration library—sequential agents for requirement extraction, module retrieval, and scenario stitching—automating plaintext-to-Fusion conversion. Advanced to top-24 semifinalists worldwide.
+                <div class="publication-authors">Adobe Inc. · Associate Technical Consultant · Aug 2024 – Apr 2025</div>
+                <p style="margin-top: 0.75rem; font-size: 0.9rem; color: var(--color-text-light);">
+                    Architected a multi-agent pipeline on Adobe's orchestration library—sequential agents for
+                    requirement extraction, module retrieval, and scenario stitching—automating plaintext-to-Fusion
+                    conversion. Advanced to top-24 semifinalists worldwide.
                 </p>
             </div>
 
-            <div class="publication-item fade-in-up">
+            <div class="publication-item animate">
                 <div class="publication-title">Fusion Documentation Automation Tool</div>
-                <div class="publication-authors">Adobe Inc. • Associate Technical Consultant • Aug 2024 – Apr 2025</div>
-                <p style="margin-top: 0.75rem; font-size: 0.9375rem;">
-                    Built a Workfront Fusion documentation tool that parsed scenario JSON to flag orphan nodes and generated AI summaries into an auto-populated Word template, cutting documentation time 70%.
+                <div class="publication-authors">Adobe Inc. · Associate Technical Consultant · Aug 2024 – Apr 2025</div>
+                <p style="margin-top: 0.75rem; font-size: 0.9rem; color: var(--color-text-light);">
+                    Built a Workfront Fusion documentation tool that parsed scenario JSON to flag orphan nodes
+                    and generated AI summaries into an auto-populated Word template, cutting documentation time 70%.
                 </p>
             </div>
 
-            <div class="publication-item fade-in-up">
+            <div class="publication-item animate">
                 <div class="publication-title">AI Agent for Creative Workflows</div>
-                <div class="publication-authors">Adobe Inc. • Technical Consultant Intern • May – Jul 2023</div>
-                <p style="margin-top: 0.75rem; font-size: 0.9375rem;">
-                    Deployed an AI agent natively inside Workfront Fusion with @-mention commands (generate, edit, caption) calling ChatGPT, Photoshop, and Stable Diffusion APIs, reducing campaign turnaround from weeks to hours.
+                <div class="publication-authors">Adobe Inc. · Technical Consultant Intern · May – Jul 2023</div>
+                <p style="margin-top: 0.75rem; font-size: 0.9rem; color: var(--color-text-light);">
+                    Deployed an AI agent natively inside Workfront Fusion with @-mention commands (generate, edit, caption)
+                    calling ChatGPT, Photoshop, and Stable Diffusion APIs, reducing campaign turnaround from weeks to hours.
                 </p>
             </div>
 
-            <div class="publication-item fade-in-up">
+            <div class="publication-item animate">
                 <div class="publication-title">Edge CV Systems for Cooking</div>
-                <div class="publication-authors">Nosh Robotics • Computer Vision Intern • Feb – Jun 2024</div>
-                <p style="margin-top: 0.75rem; font-size: 0.9375rem;">
-                    Trained and quantized ResNet, Inception, and MobileNet classifiers for real-time edge estimation of ingredient cooking levels. Applied zero-shot CLIP for oil/water pan detection.
+                <div class="publication-authors">Nosh Robotics · Computer Vision Intern · Feb – Jun 2024</div>
+                <p style="margin-top: 0.75rem; font-size: 0.9rem; color: var(--color-text-light);">
+                    Trained and quantized ResNet, Inception, and MobileNet classifiers for real-time edge estimation
+                    of ingredient cooking levels. Applied zero-shot CLIP for oil/water pan detection.
                 </p>
             </div>
         </div>
@@ -172,7 +241,7 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>© 2026 Bhuvan Koduru. Built with ❤️ and HTML/CSS.</p>
+            <p>© 2026 Bhuvan Koduru · Built with care</p>
         </div>
     </footer>
 

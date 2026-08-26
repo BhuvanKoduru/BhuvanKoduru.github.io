@@ -1,99 +1,162 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Research & Publications - Bhuvan Koduru">
     <title>Research | Bhuvan Koduru</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
     <!-- Navigation -->
     <nav class="nav">
         <div class="nav-container">
-            <a href="index.html" class="nav-logo">Bhuvan Koduru</a>
+            <a href="index.html" class="nav-logo">bhuvan_koduru</a>
             <ul class="nav-links">
-                <li><a href="index.html">About</a></li>
-                <li><a href="research.html" class="active">Research</a></li>
-                <li><a href="projects.html">Projects</a></li>
-                <li><a href="assets/Bhuvan_Koduru_Resume.pdf" target="_blank">CV</a></li>
+                <li><a href="index.html">~/about</a></li>
+                <li><a href="research.html" class="active">~/research</a></li>
+                <li><a href="projects.html">~/projects</a></li>
+                <li><a href="assets/Bhuvan_Koduru_Resume.pdf" target="_blank">~/cv</a></li>
+                <li>
+                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                        <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <line x1="12" y1="1" x2="12" y2="3"></line>
+                            <line x1="12" y1="21" x2="12" y2="23"></line>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                            <line x1="1" y1="12" x2="3" y2="12"></line>
+                            <line x1="21" y1="12" x2="23" y2="12"></line>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                        </svg>
+                        <svg class="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                    </button>
+                </li>
             </ul>
         </div>
     </nav>
 
-    <!-- Publications Section -->
-    <section class="hero">
-        <div class="container-narrow">
-            <h1 class="fade-in-up">Research & Publications</h1>
-            <p class="fade-in-up" style="font-size: 1.125rem; margin-bottom: 3rem;">
-                My research focuses on <strong>AI safety</strong>, <strong>multimodal learning</strong>, and understanding how foundation models encode and process information. I work on making AI systems more interpretable, controllable, and aligned with human values.
+    <!-- Hero -->
+    <section class="hero" style="min-height: auto; padding-bottom: var(--spacing-lg);">
+        <div class="container">
+            <p class="terminal-prompt animate visible">cat ~/research/README.md</p>
+            <h1 class="animate visible delay-1">Research & Publications</h1>
+            <p class="animate visible delay-2" style="max-width: 600px; margin-top: 1rem;">
+                My research focuses on <strong>AI safety</strong>, <strong>multimodal learning</strong>, and understanding
+                how foundation models encode and process information.
             </p>
+        </div>
+    </section>
 
-            <h2 style="margin-top: 3rem;">2026</h2>
+    <!-- Publications -->
+    <section class="section">
+        <div class="container">
+            <h2 class="animate">
+                <span class="section-number">01</span>
+                2026
+            </h2>
 
-            <div class="publication-item fade-in-up">
+            <div class="publication-item animate">
                 <div class="publication-title">Heard but Not Heeded: Paralinguistic Information Encoding and Loss in Audio-Language Models</div>
                 <div class="publication-authors"><strong>Bhuvan Koduru</strong>, Dalaver Alharthi, Rita Singh, Bhiksha Raj</div>
                 <span class="publication-venue">CoLM 2026</span>
-                <p style="margin-top: 0.75rem; font-size: 0.9375rem;">
-                    We investigate how audio-language models encode and preserve paralinguistic information such as emotion, prosody, and speaker characteristics across their internal representations. Our findings reveal systematic information loss patterns that impact downstream performance.
+                <p style="margin-top: 0.75rem; font-size: 0.9rem; color: var(--color-text-light);">
+                    Investigating how audio-language models encode and preserve paralinguistic information across their internal representations.
                 </p>
             </div>
 
-            <div class="publication-item fade-in-up">
+            <div class="publication-item animate">
                 <div class="publication-title">Subliminal Prosody Learning: Auxiliary Emotion Supervision Redistributes Affective Representations Across ALM Layers</div>
                 <div class="publication-authors"><strong>Bhuvan Koduru</strong>, Dalaver Alharthi, Rita Singh, Bhiksha Raj</div>
                 <span class="publication-venue">ICML MI 2026</span>
-                <span class="tag">Workshop</span>
-                <p style="margin-top: 0.75rem; font-size: 0.9375rem;">
-                    Through mechanistic interpretability techniques, we demonstrate how auxiliary emotion supervision reshapes the distribution of affective representations across audio-language model layers, improving emotional understanding without explicit fine-tuning.
+                <span class="tag">workshop</span>
+                <p style="margin-top: 0.75rem; font-size: 0.9rem; color: var(--color-text-light);">
+                    Demonstrating how auxiliary emotion supervision reshapes affective representation distribution across audio-language model layers.
                 </p>
             </div>
 
-            <div class="publication-item fade-in-up">
+            <div class="publication-item animate">
                 <div class="publication-title">RIVET: Robust Idempotent Voice Attribute Editing</div>
                 <div class="publication-authors">Dalaver Alharthi, <strong>Bhuvan Koduru</strong>, Bhiksha Raj, Rita Singh</div>
                 <span class="publication-venue">INTERSPEECH 2026</span>
-                <p style="margin-top: 0.75rem; font-size: 0.9375rem;">
-                    We present RIVET, a novel approach for robust and idempotent voice attribute editing that maintains speaker identity while enabling precise control over paralinguistic features.
+                <p style="margin-top: 0.75rem; font-size: 0.9rem; color: var(--color-text-light);">
+                    Novel approach for robust and idempotent voice attribute editing while maintaining speaker identity.
                 </p>
             </div>
 
-            <div class="publication-item fade-in-up">
+            <div class="publication-item animate">
                 <div class="publication-title">Computer Use with Evolving Software</div>
                 <div class="publication-authors">Siddharth Agashe, Guillermo Gonzalez-Pumariega, <strong>Bhuvan Koduru</strong>, Jiachen Yang, Ang Li, Xin Eric Wang</div>
                 <span class="publication-venue">CoLM 2026</span>
-                <span class="tag">Workshop</span>
-                <p style="margin-top: 0.75rem; font-size: 0.9375rem;">
-                    We advance AI safety by developing evolving harnesses for computer-use agents, enabling safer and more reliable autonomous systems in dynamic software environments.
+                <span class="tag">workshop</span>
+                <p style="margin-top: 0.75rem; font-size: 0.9rem; color: var(--color-text-light);">
+                    Developing evolving harnesses for computer-use agents to enable safer autonomous systems in dynamic environments.
                 </p>
             </div>
 
-            <div class="publication-item fade-in-up">
+            <div class="publication-item animate">
                 <div class="publication-title">AmongUs-X: Benchmarking Strategic Deception of LLM Agents via Theory-of-Mind Metrics</div>
                 <div class="publication-authors">Kian Mirakhor*, <strong>Bhuvan Koduru*</strong>, Apostolos Kontogiannis, Ryan Zabounidis, Katia Sycara, Wonsuk Kim</div>
                 <span class="publication-venue">NeurIPS 2026</span>
-                <span class="tag">Under Review</span>
-                <span class="tag">*Equal Contribution</span>
-                <p style="margin-top: 0.75rem; font-size: 0.9375rem;">
-                    We introduce AmongUs-X, a novel benchmark for evaluating strategic deception and Theory of Mind capabilities in LLM agents through 8,000+ simulated multi-agent games. Our game-theoretic framework reveals fundamental limitations in current LLMs' ability to model others' mental states and engage in strategic deception.
+                <span class="tag">under review</span>
+                <span class="tag">*equal contribution</span>
+                <p style="margin-top: 0.75rem; font-size: 0.9rem; color: var(--color-text-light);">
+                    Novel benchmark for evaluating strategic deception and Theory of Mind in LLM agents through 8,000+ simulated multi-agent games.
                 </p>
             </div>
+        </div>
+    </section>
 
-            <h2>Research Interests</h2>
+    <!-- Research Interests -->
+    <section class="section section-nature-bg">
+        <div class="container">
+            <h2 class="animate">
+                <span class="section-number">02</span>
+                Research Interests
+            </h2>
 
-            <div style="margin-top: 1.5rem;">
-                <h3 style="font-size: 1.125rem; margin-top: 1.5rem;">AI Safety & Alignment</h3>
-                <p>Developing methods to make AI systems safer, more controllable, and aligned with human values. This includes work on steering mechanisms, safety interventions, and understanding failure modes in agentic systems.</p>
+            <div class="projects-grid">
+                <div class="project-card animate">
+                    <div class="project-number">01</div>
+                    <h3 class="project-title">AI Safety & Alignment</h3>
+                    <p class="project-description">
+                        Developing methods to make AI systems safer, more controllable, and aligned with human values.
+                        Steering mechanisms, safety interventions, and understanding failure modes.
+                    </p>
+                </div>
 
-                <h3 style="font-size: 1.125rem; margin-top: 1.5rem;">Multimodal Learning</h3>
-                <p>Understanding how audio-language models encode and process paralinguistic information across modalities. Investigating information flow and representation learning in vision-language models.</p>
+                <div class="project-card animate">
+                    <div class="project-number">02</div>
+                    <h3 class="project-title">Multimodal Learning</h3>
+                    <p class="project-description">
+                        Understanding how audio-language and vision-language models encode and process information
+                        across modalities. Investigating information flow and representation learning.
+                    </p>
+                </div>
 
-                <h3 style="font-size: 1.125rem; margin-top: 1.5rem;">Mechanistic Interpretability</h3>
-                <p>Reverse-engineering neural networks to understand their internal representations and computational mechanisms. Using interpretability tools to improve model behavior and safety.</p>
+                <div class="project-card animate">
+                    <div class="project-number">03</div>
+                    <h3 class="project-title">Mechanistic Interpretability</h3>
+                    <p class="project-description">
+                        Reverse-engineering neural networks to understand internal representations and computational
+                        mechanisms. Using interpretability to improve model behavior and safety.
+                    </p>
+                </div>
 
-                <h3 style="font-size: 1.125rem; margin-top: 1.5rem;">Multi-Agent Systems</h3>
-                <p>Designing and analyzing multi-agent systems with focus on strategic interaction, deception, and Theory of Mind. Building evaluation frameworks for agent capabilities.</p>
+                <div class="project-card animate">
+                    <div class="project-number">04</div>
+                    <h3 class="project-title">Multi-Agent Systems</h3>
+                    <p class="project-description">
+                        Designing and analyzing multi-agent systems with focus on strategic interaction, deception,
+                        and Theory of Mind. Building evaluation frameworks for agent capabilities.
+                    </p>
+                </div>
             </div>
         </div>
     </section>
@@ -101,7 +164,7 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>© 2026 Bhuvan Koduru. Built with ❤️ and HTML/CSS.</p>
+            <p>© 2026 Bhuvan Koduru · Built with care</p>
         </div>
     </footer>
 
