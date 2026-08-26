@@ -70,6 +70,13 @@ body {
   background: var(--color-bg);
   -webkit-font-smoothing: antialiased;
   transition: background 0.3s ease, color 0.3s ease;
+  position: relative;
+}
+
+/* Content layers above background animations */
+.nav, .hero, .section, .footer, .floating-toc {
+  position: relative;
+  z-index: 10;
 }
 
 /* ============================================
