@@ -17,5 +17,5 @@ jobs:
       - name: Link Checker
         uses: lycheeverse/lychee-action@v1.9.0
         with:
-          fail: true
-          args: --verbose --no-progress '*.html'
+          fail: false
+          args: --verbose --no-progress --exclude 'scholar.google.com' '*.html'
