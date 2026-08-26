@@ -2,13 +2,16 @@
 layout: about
 title: About
 permalink: /
-subtitle: <a href='mailto:bkoduru@andrew.cmu.edu'>bkoduru@andrew.cmu.edu</a>.
+subtitle: <a href='mailto:bkoduru@andrew.cmu.edu'>bkoduru@andrew.cmu.edu</a>
 
 profile:
   align: right
   image: img.JPG
   image_circular: false # crops the image to make it circular
   more_info: >
+    <p>Research Intern @ Simular.ai</p>
+    <p>MS Student @ CMU LTI</p>
+    <p>Pittsburgh, PA</p>
 
 
 selected_papers: true # includes a list of papers marked as "selected={true}"

@@ -1,0 +1,247 @@
+/*******************************************************************************
+ * Custom Design Enhancements
+ * Modern, minimal design improvements inspired by top academic websites 2026
+ ******************************************************************************/
+
+// Enhanced Typography
+body {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  letter-spacing: -0.01em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-top: 1.5em;
+  margin-bottom: 0.75em;
+}
+
+h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+// Enhanced About Page Styling
+.about {
+  strong {
+    color: var(--global-theme-color);
+    font-weight: 600;
+  }
+
+  p {
+    margin-bottom: 1.25rem;
+  }
+}
+
+// Better visual hierarchy for profile section
+.profile {
+  img {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+      transform: scale(1.02);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    }
+  }
+}
+
+// Enhanced Publication Cards
+.publications {
+  .bibliography {
+    li {
+      margin-bottom: 1.5rem;
+      padding: 1.25rem;
+      border-left: 3px solid var(--global-theme-color);
+      background: var(--global-card-bg-color);
+      transition: all 0.3s ease;
+      border-radius: 4px;
+
+      &:hover {
+        transform: translateX(4px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      }
+    }
+
+    .title {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .abbr {
+      margin-right: 0.5rem;
+
+      abbr {
+        background: linear-gradient(135deg, var(--global-theme-color), color.adjust(var(--global-theme-color), $lightness: 15%));
+        color: white;
+        padding: 0.25rem 0.6rem;
+        border-radius: 4px;
+        font-weight: 600;
+        font-size: 0.75rem;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+      }
+    }
+  }
+}
+
+// Enhanced Project Cards
+.projects {
+  .grid-item {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &:hover {
+      transform: translateY(-4px);
+
+      .card {
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+      }
+    }
+  }
+
+  .card {
+    border: none;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+
+    .card-title {
+      font-weight: 600;
+      color: var(--global-theme-color);
+    }
+  }
+}
+
+// Modern News/Announcements
+.news {
+  .table {
+    td {
+      padding: 0.75rem 1rem;
+      border-color: var(--global-divider-color);
+    }
+
+    tr {
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        background-color: rgba(var(--global-theme-color), 0.03);
+      }
+    }
+  }
+}
+
+// Enhanced Links
+a {
+  transition: color 0.2s ease;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+// Smooth Scroll
+html {
+  scroll-behavior: smooth;
+}
+
+// Enhanced Header/Navbar
+.navbar {
+  backdrop-filter: blur(10px);
+  background-color: rgba(var(--global-bg-color), 0.95) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+  .navbar-brand {
+    font-weight: 700;
+    font-size: 1.25rem;
+  }
+
+  .navbar-nav {
+    .nav-link {
+      font-weight: 500;
+      transition: color 0.2s ease;
+      position: relative;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 0;
+        height: 2px;
+        background: var(--global-theme-color);
+        transition: all 0.3s ease;
+        transform: translateX(-50%);
+      }
+
+      &:hover::after,
+      &.active::after {
+        width: 80%;
+      }
+    }
+  }
+}
+
+// Better Social Icons
+.social {
+  a {
+    font-size: 1.25rem;
+    margin: 0 0.5rem;
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      color: var(--global-theme-color);
+    }
+  }
+}
+
+// Accent highlights for important text
+mark, .highlight {
+  background: linear-gradient(120deg, rgba(var(--global-theme-color), 0.2) 0%, rgba(var(--global-theme-color), 0.1) 100%);
+  padding: 0.1em 0.3em;
+  border-radius: 3px;
+}
+
+// Improved code blocks
+code {
+  font-size: 0.9em;
+  padding: 0.15em 0.4em;
+  border-radius: 3px;
+}
+
+// Modern footer styling
+footer {
+  margin-top: 4rem;
+  padding: 2rem 0;
+}
+
+// Responsive enhancements
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2rem;
+  }
+
+  body {
+    font-size: 1rem;
+  }
+}
+
+// Add subtle fade-in animation for page load
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.post,
+.about,
+.publications,
+.projects {
+  animation: fadeIn 0.6s ease-out;
+}
