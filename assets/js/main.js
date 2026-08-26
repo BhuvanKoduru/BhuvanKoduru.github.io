@@ -7,8 +7,8 @@ const html = document.documentElement;
 const sunIcon = document.querySelector('.sun-icon');
 const moonIcon = document.querySelector('.moon-icon');
 
-// Check for saved theme preference or default to light
-const savedTheme = localStorage.getItem('theme') || 'light';
+// Check for saved theme preference or default to dark
+const savedTheme = localStorage.getItem('theme') || 'dark';
 html.setAttribute('data-theme', savedTheme);
 updateThemeIcon(savedTheme);
 
@@ -334,7 +334,7 @@ document.body.prepend(canvas);
 
 const ctx = canvas.getContext('2d');
 let particles = [];
-let mouse = { x: null, y: null, radius: 150 };
+let mouse = { x: -1000, y: -1000, radius: 200 };
 
 function resizeCanvas() {
     canvas.width = window.innerWidth;
@@ -343,14 +343,16 @@ function resizeCanvas() {
 resizeCanvas();
 window.addEventListener('resize', resizeCanvas);
 
-document.addEventListener('mousemove', (e) => {
+window.addEventListener('mousemove', (e) => {
     mouse.x = e.clientX;
     mouse.y = e.clientY;
 });
 
-document.addEventListener('mouseleave', () => {
-    mouse.x = null;
-    mouse.y = null;
+window.addEventListener('mouseout', (e) => {
+    if (!e.relatedTarget) {
+        mouse.x = -1000;
+        mouse.y = -1000;
+    }
 });
 
 class Particle {
@@ -366,35 +368,29 @@ class Particle {
     }
 
     update() {
-        // Mouse interaction
-        if (mouse.x != null && mouse.y != null) {
-            let dx = mouse.x - this.x;
-            let dy = mouse.y - this.y;
-            let distance = Math.sqrt(dx * dx + dy * dy);
-            let forceDirectionX = dx / distance;
-            let forceDirectionY = dy / distance;
-            let maxDistance = mouse.radius;
-            let force = (maxDistance - distance) / maxDistance;
-            let directionX = forceDirectionX * force * this.density;
-            let directionY = forceDirectionY * force * this.density;
+        // Mouse interaction - push particles away
+        let dx = mouse.x - this.x;
+        let dy = mouse.y - this.y;
+        let distance = Math.sqrt(dx * dx + dy * dy);
 
-            if (distance < mouse.radius) {
-                this.x -= directionX;
-                this.y -= directionY;
-            }
+        if (distance < mouse.radius && distance > 0) {
+            let force = (mouse.radius - distance) / mouse.radius;
+            let angle = Math.atan2(dy, dx);
+            let pushX = Math.cos(angle) * force * 8;
+            let pushY = Math.sin(angle) * force * 8;
+            this.x -= pushX;
+            this.y -= pushY;
         }
 
         // Gentle floating motion
         this.x += this.vx;
         this.y += this.vy;
 
-        // Bounce off edges
-        if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
-        if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
-
-        // Keep in bounds
-        this.x = Math.max(0, Math.min(canvas.width, this.x));
-        this.y = Math.max(0, Math.min(canvas.height, this.y));
+        // Bounce off edges with padding
+        if (this.x < 10) { this.x = 10; this.vx *= -1; }
+        if (this.x > canvas.width - 10) { this.x = canvas.width - 10; this.vx *= -1; }
+        if (this.y < 10) { this.y = 10; this.vy *= -1; }
+        if (this.y > canvas.height - 10) { this.y = canvas.height - 10; this.vy *= -1; }
     }
 
     draw() {
