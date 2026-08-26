@@ -32,7 +32,7 @@ ninja.data = [{
           },
         },{id: "nav-resume",
           title: "Resume",
-          description: "Click the icon to download my resume",
+          description: "Download my latest resume",
           section: "Navigation",
           handler: () => {
             window.location.href = "/cv/";
@@ -412,16 +412,20 @@ ninja.data = [{
           description: "",
           section: "Books",handler: () => {
               window.location.href = "/books/the_godfather/";
-            },},{id: "news-a-simple-inline-announcement",
-          title: 'A simple inline announcement.',
+            },},{id: "news-promoted-to-associate-technical-consultant-at-adobe-advanced-to-top-24-semifinalists-worldwide-in-the-innovation-challenge-for-multi-agent-automation-pipeline",
+          title: 'Promoted to Associate Technical Consultant at Adobe! Advanced to top-24 semifinalists worldwide in...',
           description: "",
-          section: "News",},{id: "news-a-long-announcement-with-details",
-          title: 'A long announcement with details',
+          section: "News",},{id: "news-joined-carnegie-mellon-university-s-language-technologies-institute-excited-to-dive-into-multimodal-ml-speech-technology-and-deep-learning",
+          title: 'Joined Carnegie Mellon University’s Language Technologies Institute! Excited to dive into Multimodal ML,...',
           description: "",
-          section: "News",handler: () => {
-              window.location.href = "/news/announcement_2/";
-            },},{id: "news-a-simple-inline-announcement-with-markdown-emoji-sparkles-smile",
-          title: 'A simple inline announcement with Markdown emoji! :sparkles: :smile:',
+          section: "News",},{id: "news-started-as-graduate-research-assistant-at-cmu-s-robotics-institute-building-evaluation-harnesses-for-multi-agent-llm-deception-and-theory-of-mind",
+          title: 'Started as Graduate Research Assistant at CMU’s Robotics Institute! Building evaluation harnesses for...',
+          description: "",
+          section: "News",},{id: "news-four-papers-accepted-heard-but-not-heeded-at-colm-2026-subliminal-prosody-learning-at-icml-mi-workshop-rivet-at-interspeech-2026-and-computer-use-with-evolving-software-at-colm-lifelong-agents-workshop",
+          title: 'Four papers accepted! “Heard but Not Heeded” at CoLM 2026, “Subliminal Prosody Learning”...',
+          description: "",
+          section: "News",},{id: "news-excited-to-join-simular-ai-as-a-research-intern-working-on-ai-safety-and-computer-use-agents-advised-by-xin-eric-wang-jiachen-yang-and-ang-li",
+          title: 'Excited to join Simular.ai as a Research Intern working on AI safety and...',
           description: "",
           section: "News",},{id: "projects-foodiespot-ai-agent",
           title: 'FoodieSpot AI Agent',
@@ -433,9 +437,9 @@ ninja.data = [{
           description: "Implementation of Retrieval-Augmented Generation (RAG) with source citations.",
           section: "Projects",handler: () => {
               window.location.href = "/projects/2_project/";
-            },},{id: "projects-fsil-assignment-rag-with-citations",
-          title: 'FSIL Assignment (RAG with Citations)',
-          description: "Implementation of Retrieval-Augmented Generation (RAG) with source citations.",
+            },},{id: "projects-persona-induced-response-modulation",
+          title: 'Persona-Induced Response Modulation',
+          description: "Activation-steering pipeline inducing confident personas without fine-tuning",
           section: "Projects",handler: () => {
               window.location.href = "/projects/3_project/";
             },},{id: "projects-minesweeper-ai",
@@ -453,14 +457,28 @@ ninja.data = [{
         title: 'email',
         section: 'Socials',
         handler: () => {
-          window.open("mailto:%79%6F%75@%65%78%61%6D%70%6C%65.%63%6F%6D", "_blank");
+          window.open("mailto:%62%6B%6F%64%75%72%75@%61%6E%64%72%65%77.%63%6D%75.%65%64%75", "_blank");
         },
       },{
-        id: 'social-inspire',
-        title: 'Inspire HEP',
+        id: 'social-github',
+        title: 'GitHub',
         section: 'Socials',
         handler: () => {
-          window.open("https://inspirehep.net/authors/1010907", "_blank");
+          window.open("https://github.com/BhuvanKoduru", "_blank");
+        },
+      },{
+        id: 'social-linkedin',
+        title: 'LinkedIn',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://www.linkedin.com/in/bhuvan-koduru", "_blank");
+        },
+      },{
+        id: 'social-scholar',
+        title: 'Google Scholar',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://scholar.google.com/citations?user=", "_blank");
         },
       },{
         id: 'social-rss',
@@ -468,20 +486,6 @@ ninja.data = [{
         section: 'Socials',
         handler: () => {
           window.open("/feed.xml", "_blank");
-        },
-      },{
-        id: 'social-scholar',
-        title: 'Google Scholar',
-        section: 'Socials',
-        handler: () => {
-          window.open("https://scholar.google.com/citations?user=qc6CJjYAAAAJ", "_blank");
-        },
-      },{
-        id: 'social-custom_social',
-        title: 'Custom_social',
-        section: 'Socials',
-        handler: () => {
-          window.open("https://www.alberteinstein.com/", "_blank");
         },
       },{
       id: 'light-theme',
