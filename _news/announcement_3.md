@@ -1,8 +1,8 @@
 ---
 layout: post
-date: 2016-01-15 07:59:00-0400
+date: 2026-01-15
 inline: true
 related_posts: false
 ---
 
-A simple inline announcement with Markdown emoji! :sparkles: :smile:
+Started as Graduate Research Assistant at CMU's Robotics Institute! Building evaluation harnesses for multi-agent LLM deception and Theory of Mind.

@@ -1,86 +1,71 @@
 ---
-img: assets/img/7.jpg
 layout: page
-title: "FSIL Assignment (RAG with Citations)"
-description: Implementation of Retrieval-Augmented Generation (RAG) with source citations.
-img: assets/img/rag.png
-importance: 2
-repo: "RAG-with-citations"
+title: "Persona-Induced Response Modulation"
+description: Activation-steering pipeline inducing confident personas without fine-tuning
+img: assets/img/activation_steering.jpg
+importance: 3
 category: work
 tags:
-  - RAG
-  - NLP
-  - Retrieval
+  - LLMs
+  - Mechanistic Interpretability
+  - Activation Steering
 ---
 
-Every project has a beautiful feature showcase page.
-It's easy to include images in a flexible 3-column grid format.
-Make your photos 1/3, 2/3, or full width.
+# Persona-Induced Response Modulation
 
-To give your project a background in the portfolio page, just add the img tag to the front matter like so:
+**Period:** October - December 2025
+**Models Tested:** Llama 3.1 8B, Gemma 2 2B
 
-    ---
-    layout: page
-    title: project
-    description: a project with a background image
-    img: /assets/img/12.jpg
-    ---
+## Overview
 
-<div class="row">
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/1.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/3.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/5.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-</div>
-<div class="caption">
-    Caption photos easily. On the left, a road goes through a tunnel. Middle, leaves artistically fall in a hipster photoshoot. Right, in another hipster photoshoot, a lumberjack grasps a handful of pine needles.
-</div>
-<div class="row">
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/5.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-</div>
-<div class="caption">
-    This image can also have a caption. It's like magic.
-</div>
+This project explores activation steering as a lightweight alternative to fine-tuning for inducing personality traits in large language models. By manipulating internal activations, we successfully induced confident personas that reduced uncertainty expressions by 95% without requiring parameter updates.
 
-You can also put regular text between your rows of images.
-Say you wanted to write a little bit about your project before you posted the rest of the images.
-You describe how you toiled, sweated, _bled_ for your project, and then... you reveal its glory in the next row of images.
+## Key Achievements
 
-<div class="row justify-content-sm-center">
-    <div class="col-sm-8 mt-3 mt-md-0">
-        {% include figure.liquid path="assets/img/6.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-    <div class="col-sm-4 mt-3 mt-md-0">
-        {% include figure.liquid path="assets/img/11.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-</div>
-<div class="caption">
-    You can also have artistically styled 2/3 + 1/3 images, like these.
-</div>
+- **95% uncertainty reduction** in model outputs when steering toward confident personas
+- Zero fine-tuning required - purely activation-based intervention
+- Comprehensive ablation studies across Llama 3.1 8B and Gemma 2 2B
+- Mechanistic analysis of which layers contribute most to personality expression
 
-The code is simple.
-Just wrap your images with `<div class="col-sm">` and place them inside `<div class="row">` (read more about the <a href="https://getbootstrap.com/docs/4.4/layout/grid/">Bootstrap Grid</a> system).
-To make images responsive, add `img-fluid` class to each; for rounded corners and shadows use `rounded` and `z-depth-1` classes.
-Here's the code for the last row of images above:
+## Methodology
 
-{% raw %}
+### Activation Steering Pipeline
 
-```html
-<div class="row justify-content-sm-center">
-  <div class="col-sm-8 mt-3 mt-md-0">
-    {% include figure.liquid path="assets/img/6.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-  </div>
-  <div class="col-sm-4 mt-3 mt-md-0">
-    {% include figure.liquid path="assets/img/11.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-  </div>
-</div>
-```
+1. **Persona Dataset Construction:** Created paired examples of uncertain vs. confident responses
+2. **Activation Extraction:** Captured intermediate activations from target layers during forward passes
+3. **Steering Vector Computation:** Computed directional vectors representing the "confidence" axis in activation space
+4. **Runtime Intervention:** Added scaled steering vectors to activations during inference
 
-{% endraw %}
+### Evaluation Metrics
+
+- Uncertainty expression frequency (phrases like "I think," "maybe," "possibly")
+- Response confidence scores (human evaluation)
+- Factual accuracy preservation
+- Layer-wise ablation analysis
+
+## Results
+
+The activation steering approach successfully modulated model behavior without fine-tuning:
+
+- **Llama 3.1 8B:** 95% reduction in uncertainty markers while maintaining factual accuracy
+- **Gemma 2 2B:** 92% reduction with similar accuracy preservation
+- **Optimal Layers:** Middle-to-late transformer layers (18-24 for Llama 3.1) showed strongest steering effects
+
+## Implications
+
+This work demonstrates that personality traits in LLMs can be controlled through lightweight activation interventions rather than expensive fine-tuning. This has applications in:
+
+- Personalized AI assistants without per-user model copies
+- Safety research (steering away from harmful behaviors)
+- Interpretability (understanding how personality emerges in neural representations)
+
+## Technical Stack
+
+- PyTorch for activation extraction and manipulation
+- Hugging Face Transformers for model loading
+- Custom steering vector implementation
+- Evaluation harness for automated testing
+
+---
+
+This project was completed as part of coursework at Carnegie Mellon University, exploring the intersection of mechanistic interpretability and controllable generation in large language models.
