@@ -332,7 +332,7 @@ particleStyles.textContent = `
         width: 100%;
         height: 100%;
         pointer-events: none;
-        z-index: 1;
+        z-index: 9990;
         overflow: hidden;
     }
     .particle {
@@ -347,10 +347,10 @@ particleStyles.textContent = `
             opacity: 0;
         }
         10% {
-            opacity: 1;
+            opacity: 0.6;
         }
         90% {
-            opacity: 1;
+            opacity: 0.6;
         }
         100% {
             transform: translateY(-100px) rotate(720deg);
@@ -360,56 +360,57 @@ particleStyles.textContent = `
     .gradient-orb {
         position: fixed;
         border-radius: 50%;
-        filter: blur(80px);
-        opacity: 0.15;
+        filter: blur(100px);
+        opacity: 0.3;
         pointer-events: none;
-        z-index: 1;
-        animation: orbFloat 20s ease-in-out infinite;
+        z-index: 9989;
+        animation: orbFloat 25s ease-in-out infinite;
     }
     .gradient-orb-1 {
-        width: 400px;
-        height: 400px;
+        width: 500px;
+        height: 500px;
         background: var(--color-accent);
-        top: 10%;
-        right: -100px;
+        top: -100px;
+        right: -150px;
         animation-delay: 0s;
     }
     .gradient-orb-2 {
-        width: 300px;
-        height: 300px;
+        width: 400px;
+        height: 400px;
         background: var(--color-accent-light);
-        bottom: 20%;
-        left: -50px;
-        animation-delay: -7s;
+        bottom: -100px;
+        left: -100px;
+        animation-delay: -8s;
     }
     .gradient-orb-3 {
-        width: 250px;
-        height: 250px;
+        width: 350px;
+        height: 350px;
         background: #74c69d;
-        top: 50%;
-        right: 20%;
-        animation-delay: -14s;
+        top: 40%;
+        right: 10%;
+        animation-delay: -16s;
     }
     @keyframes orbFloat {
         0%, 100% {
             transform: translate(0, 0) scale(1);
         }
         25% {
-            transform: translate(30px, -30px) scale(1.1);
+            transform: translate(40px, -40px) scale(1.15);
         }
         50% {
-            transform: translate(-20px, 20px) scale(0.9);
+            transform: translate(-30px, 30px) scale(0.85);
         }
         75% {
-            transform: translate(-30px, -20px) scale(1.05);
+            transform: translate(-40px, -30px) scale(1.1);
         }
     }
     [data-theme="dark"] .gradient-orb {
-        opacity: 0.1;
+        opacity: 0.2;
     }
     @media (max-width: 768px) {
         .gradient-orb {
-            opacity: 0.08;
+            opacity: 0.15;
+            filter: blur(60px);
         }
         .particles-container {
             display: none;
@@ -430,14 +431,14 @@ function createParticle() {
     const particle = document.createElement('div');
     particle.className = 'particle';
 
-    const size = Math.random() * 6 + 2;
-    const duration = Math.random() * 20 + 15;
+    const size = Math.random() * 8 + 4;
+    const duration = Math.random() * 15 + 10;
     const startX = Math.random() * 100;
 
     const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
     const colors = isDark
-        ? ['rgba(64, 145, 108, 0.4)', 'rgba(82, 183, 136, 0.3)', 'rgba(116, 198, 157, 0.3)']
-        : ['rgba(45, 106, 79, 0.3)', 'rgba(64, 145, 108, 0.25)', 'rgba(82, 183, 136, 0.2)'];
+        ? ['rgba(82, 183, 136, 0.7)', 'rgba(116, 198, 157, 0.6)', 'rgba(64, 145, 108, 0.6)']
+        : ['rgba(45, 106, 79, 0.5)', 'rgba(64, 145, 108, 0.4)', 'rgba(82, 183, 136, 0.4)'];
     const color = colors[Math.floor(Math.random() * colors.length)];
 
     particle.style.cssText = `
@@ -446,7 +447,7 @@ function createParticle() {
         left: ${startX}%;
         background: ${color};
         animation-duration: ${duration}s;
-        box-shadow: 0 0 ${size * 2}px ${color};
+        box-shadow: 0 0 ${size * 3}px ${color};
     `;
 
     particleContainer.appendChild(particle);
@@ -456,13 +457,13 @@ function createParticle() {
     }, duration * 1000);
 }
 
-// Initial particles
-for (let i = 0; i < 15; i++) {
-    setTimeout(createParticle, i * 500);
+// Initial burst of particles
+for (let i = 0; i < 20; i++) {
+    setTimeout(createParticle, i * 300);
 }
 
 // Continuously create particles
-setInterval(createParticle, 2000);
+setInterval(createParticle, 1500);
 
 // ============================================
 // Mouse Trail Effect
