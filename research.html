@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Research & Publications - Bhuvan Koduru">
+    <meta name="description" content="Research and publications by Bhuvan Koduru: interpretability of audio-language models, safety and self-evolution of computer-use agents, and deception in multi-agent LLMs.">
+    <meta property="og:title" content="Research | Bhuvan Koduru">
+    <meta property="og:image" content="https://bhuvankoduru.github.io/assets/img/profile.jpg">
     <title>Research | Bhuvan Koduru</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/style.css?v=20261004">
 </head>
 <body>
     <!-- Navigation -->
@@ -43,120 +45,250 @@
     </nav>
 
     <!-- Hero -->
-    <section class="hero" style="min-height: auto; padding-bottom: var(--spacing-lg);">
+    <section class="hero" style="min-height: auto; padding-bottom: var(--spacing-md);">
         <div class="container">
             <p class="terminal-prompt hero-animate" style="--delay: 0">cat ~/research/README.md</p>
             <h1 class="hero-animate" style="--delay: 1">Research & Publications</h1>
-            <p class="hero-animate" style="--delay: 2; max-width: 600px; margin-top: 1rem;">
-                My research focuses on <strong>AI safety</strong>, <strong>multimodal learning</strong>, and understanding
-                how foundation models encode and process information.
+            <p class="hero-animate" style="--delay: 2; max-width: 680px; margin-top: 1rem;">
+                I study the gap between what models <em>represent</em> and what they <em>act on</em>. Audio-language models
+                encode how something is said but lose it before they respond; models that refuse harmful requests in chat
+                mostly stop refusing once they act as computer-use agents. I use <strong>mechanistic interpretability</strong>,
+                <strong>activation steering</strong>, and <strong>large-scale evaluation</strong> to find where these gaps open
+                up, and build agents and benchmarks that account for them.
+            </p>
+            <p class="hero-animate section-note" style="--delay: 3">
+                <a href="https://scholar.google.com/citations?user=pp204vMAAAAJ" target="_blank">Google Scholar</a>
+                &nbsp;·&nbsp;
+                <a href="assets/Bhuvan_Koduru_Resume.pdf" target="_blank">CV</a>
             </p>
         </div>
     </section>
 
-    <!-- Publications -->
-    <section class="section">
+    <!-- Research Themes -->
+    <section class="section section-nature-bg" id="themes">
         <div class="container">
             <h2 class="animate">
                 <span class="section-number">01</span>
-                2026
+                Research Themes
             </h2>
 
-            <div class="publication-item animate">
-                <div class="publication-title">Heard but Not Heeded: Paralinguistic Information Encoding and Loss in Audio-Language Models</div>
-                <div class="publication-authors"><strong>Bhuvan Koduru</strong>, Dalaver Alharthi, Rita Singh, Bhiksha Raj</div>
-                <span class="publication-venue">CoLM 2026</span>
-                <p style="margin-top: 0.75rem; font-size: 0.9rem; color: var(--color-text-light);">
-                    Investigating how audio-language models encode and preserve paralinguistic information across their internal representations.
-                </p>
-            </div>
+            <div class="projects-grid">
+                <div class="project-card theme-card animate">
+                    <div class="project-number">01</div>
+                    <h3 class="project-title">Safety of computer-use agents</h3>
+                    <p class="project-description">
+                        Does safety training survive the move from chatting to acting? Across 8 models and 49 tasks,
+                        refusal fell from 31/47 in chat to 4/47 when the same models acted as agents. Activation steering
+                        that raised chat refusal (0.71 → 0.85) left agent actions unchanged.
+                    </p>
+                    <div class="project-tags">
+                        <a href="#pub-chat-safe" class="tag">Chat-safe is not CUA-safe</a>
+                    </div>
+                </div>
 
-            <div class="publication-item animate">
-                <div class="publication-title">Subliminal Prosody Learning: Auxiliary Emotion Supervision Redistributes Affective Representations Across ALM Layers</div>
-                <div class="publication-authors"><strong>Bhuvan Koduru</strong>, Dalaver Alharthi, Rita Singh, Bhiksha Raj</div>
-                <span class="publication-venue">ICML MI 2026</span>
-                <span class="tag">workshop</span>
-                <p style="margin-top: 0.75rem; font-size: 0.9rem; color: var(--color-text-light);">
-                    Demonstrating how auxiliary emotion supervision reshapes affective representation distribution across audio-language model layers.
-                </p>
-            </div>
+                <div class="project-card theme-card animate">
+                    <div class="project-number">02</div>
+                    <h3 class="project-title">What audio-language models hear</h3>
+                    <p class="project-description">
+                        Audio-language models encode speaking style strongly in the audio encoder, yet it degrades before
+                        the output. I trace where paralinguistic information lives inside these models, how training
+                        objectives move it across layers, and how to edit voice attributes robustly.
+                    </p>
+                    <div class="project-tags">
+                        <a href="#pub-heard" class="tag">Heard but Not Heeded</a>
+                        <a href="#pub-subliminal" class="tag">Subliminal Prosody</a>
+                        <a href="#pub-rivet" class="tag">RIVET</a>
+                    </div>
+                </div>
 
-            <div class="publication-item animate">
-                <div class="publication-title">RIVET: Robust Idempotent Voice Attribute Editing</div>
-                <div class="publication-authors">Dalaver Alharthi, <strong>Bhuvan Koduru</strong>, Bhiksha Raj, Rita Singh</div>
-                <span class="publication-venue">INTERSPEECH 2026</span>
-                <p style="margin-top: 0.75rem; font-size: 0.9rem; color: var(--color-text-light);">
-                    Novel approach for robust and idempotent voice attribute editing while maintaining speaker identity.
-                </p>
-            </div>
+                <div class="project-card theme-card animate">
+                    <div class="project-number">03</div>
+                    <h3 class="project-title">Self-evolving computer-use agents</h3>
+                    <p class="project-description">
+                        Agents that write their own interface in code instead of relying on hand-built scaffolds, matching
+                        specialized scaffolds on OSWorld (361 tasks). An island-based evolutionary loop that grows a reusable
+                        code library from rollouts alone beats Agent S3 on ScienceBoard (Sonnet 40.4% vs. 30.1%, Haiku
+                        30.9% vs. 22.0%) at half the token cost.
+                    </p>
+                    <div class="project-tags">
+                        <a href="#pub-agent-s4" class="tag">Agent S4</a>
+                        <a href="#pub-cues" class="tag">CUES-Evol</a>
+                    </div>
+                </div>
 
-            <div class="publication-item animate">
-                <div class="publication-title">Computer Use with Evolving Software</div>
-                <div class="publication-authors">Siddharth Agashe, Guillermo Gonzalez-Pumariega, <strong>Bhuvan Koduru</strong>, Jiachen Yang, Ang Li, Xin Eric Wang</div>
-                <span class="publication-venue">CoLM 2026</span>
-                <span class="tag">workshop</span>
-                <p style="margin-top: 0.75rem; font-size: 0.9rem; color: var(--color-text-light);">
-                    Developing evolving harnesses for computer-use agents to enable safer autonomous systems in dynamic environments.
-                </p>
-            </div>
-
-            <div class="publication-item animate">
-                <div class="publication-title">AmongUs-X: Benchmarking Strategic Deception of LLM Agents via Theory-of-Mind Metrics</div>
-                <div class="publication-authors">Kian Mirakhor*, <strong>Bhuvan Koduru*</strong>, Apostolos Kontogiannis, Ryan Zabounidis, Katia Sycara, Wonsuk Kim</div>
-                <span class="publication-venue">NeurIPS 2026</span>
-                <span class="tag">under review</span>
-                <span class="tag">*equal contribution</span>
-                <p style="margin-top: 0.75rem; font-size: 0.9rem; color: var(--color-text-light);">
-                    Novel benchmark for evaluating strategic deception and Theory of Mind in LLM agents through 8,000+ simulated multi-agent games.
-                </p>
+                <div class="project-card theme-card animate">
+                    <div class="project-number">04</div>
+                    <h3 class="project-title">Deception & Theory of Mind in LLM agents</h3>
+                    <p class="project-description">
+                        Can LLM agents deceive strategically, and do they model what others believe? AmongUs-X runs 8,000+
+                        simulated Among Us games across 21 LLMs, with a moderator agent grounded in a game-theoretic model
+                        of strategic deception.
+                    </p>
+                    <div class="project-tags">
+                        <a href="#pub-amongus" class="tag">AmongUs-X</a>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Research Interests -->
-    <section class="section section-nature-bg">
+    <!-- Publications -->
+    <section class="section" id="publications">
         <div class="container">
             <h2 class="animate">
                 <span class="section-number">02</span>
-                Research Interests
+                Publications
             </h2>
 
-            <div class="projects-grid">
-                <div class="project-card animate">
-                    <div class="project-number">01</div>
-                    <h3 class="project-title">AI Safety & Alignment</h3>
-                    <p class="project-description">
-                        Developing methods to make AI systems safer, more controllable, and aligned with human values.
-                        Steering mechanisms, safety interventions, and understanding failure modes.
-                    </p>
-                </div>
+            <h3 class="pub-group-title animate">Conference papers</h3>
 
-                <div class="project-card animate">
-                    <div class="project-number">02</div>
-                    <h3 class="project-title">Multimodal Learning</h3>
-                    <p class="project-description">
-                        Understanding how audio-language and vision-language models encode and process information
-                        across modalities. Investigating information flow and representation learning.
-                    </p>
+            <div class="publication-item animate" id="pub-heard">
+                <div class="publication-title">Heard but Not Heeded: Paralinguistic Information Encoding and Loss in Audio-Language Models</div>
+                <div class="publication-authors"><strong>B. Koduru</strong>, D. Alharthi, R. Singh, B. Raj</div>
+                <div class="publication-meta">
+                    <span class="publication-venue">CoLM 2026</span>
                 </div>
+                <p class="publication-summary">
+                    A mechanistic analysis of four audio-language models (Whisper-large-v2, Qwen2-Audio, Qwen2.5-Omni,
+                    Chroma-4B). All of them strongly encode speaking style in the late audio encoder, but that information
+                    consistently degrades before the output; the projector reshapes it rather than discarding it.
+                </p>
+                <div class="publication-links">
+                    <a href="https://arxiv.org/abs/2609.00727">arXiv</a>
+                    <a href="https://arxiv.org/pdf/2609.00727">PDF</a>
+                </div>
+            </div>
 
-                <div class="project-card animate">
-                    <div class="project-number">03</div>
-                    <h3 class="project-title">Mechanistic Interpretability</h3>
-                    <p class="project-description">
-                        Reverse-engineering neural networks to understand internal representations and computational
-                        mechanisms. Using interpretability to improve model behavior and safety.
-                    </p>
+            <div class="publication-item animate" id="pub-rivet">
+                <div class="publication-title">RIVET: Robust Idempotent Voice Attribute Editing</div>
+                <div class="publication-authors">D. Alharthi, <strong>B. Koduru</strong>, R. Singh, B. Raj</div>
+                <div class="publication-meta">
+                    <span class="publication-venue">INTERSPEECH 2026</span>
+                    <span class="tag tag--highlight">oral</span>
                 </div>
+                <p class="publication-summary">
+                    Attribute labels in large speech datasets are noisy, which makes voice editors unstable. Training the
+                    editor to be idempotent (f(f(x)) = f(x)) acts as an implicit regularizer against label noise, improving
+                    edit success and speaker-identity preservation for attributes like age and gender.
+                </p>
+                <div class="publication-links">
+                    <a href="https://arxiv.org/abs/2606.19629">arXiv</a>
+                    <a href="https://arxiv.org/pdf/2606.19629">PDF</a>
+                </div>
+            </div>
 
-                <div class="project-card animate">
-                    <div class="project-number">04</div>
-                    <h3 class="project-title">Multi-Agent Systems</h3>
-                    <p class="project-description">
-                        Designing and analyzing multi-agent systems with focus on strategic interaction, deception,
-                        and Theory of Mind. Building evaluation frameworks for agent capabilities.
-                    </p>
+            <h3 class="pub-group-title animate">Workshop papers</h3>
+
+            <div class="publication-item animate" id="pub-chat-safe">
+                <div class="publication-title">Chat-safe is not CUA-safe: Chat Methods May Not Transfer to Computer Use</div>
+                <div class="publication-authors"><strong>B. Koduru</strong>, J. Yang, A. Li, X. E. Wang</div>
+                <div class="publication-meta">
+                    <span class="publication-venue publication-venue--workshop">NeurIPS 2026 Workshop</span>
+                    <span class="tag">Agents in the Wild · poster</span>
                 </div>
+                <p class="publication-summary">
+                    Across 8 models and 49 tasks, refusal collapses from 31/47 in chat to 4/47 when the same models act as
+                    computer-use agents. Activation steering that raises chat refusal (0.71 → 0.85) leaves agent actions
+                    unchanged, so chat-time safety methods can't be assumed to transfer.
+                </p>
+            </div>
+
+            <div class="publication-item animate" id="pub-subliminal">
+                <div class="publication-title">Subliminal Prosody Learning: Auxiliary Emotion Supervision Redistributes Affective Representations Across ALM Layers</div>
+                <div class="publication-authors"><strong>B. Koduru</strong>, D. Alharthi, R. Singh, B. Raj</div>
+                <div class="publication-meta">
+                    <span class="publication-venue publication-venue--workshop">ICML 2026 Workshop</span>
+                    <span class="tag">Mechanistic Interpretability</span>
+                </div>
+                <p class="publication-summary">
+                    Adding an auxiliary emotion objective changes where affective information is represented across the
+                    layers of an audio-language model.
+                </p>
+            </div>
+
+            <div class="publication-item animate" id="pub-cues">
+                <div class="publication-title">Computer Use with Evolving Software</div>
+                <div class="publication-authors">S. Agashe, G. Gonzalez-Pumariega, <strong>B. Koduru</strong>, J. Yang, A. Li, X. E. Wang</div>
+                <div class="publication-meta">
+                    <span class="publication-venue publication-venue--workshop">CoLM 2026 Workshop</span>
+                    <span class="tag">Lifelong Agents</span>
+                </div>
+                <p class="publication-summary">
+                    CUES-Evol: computer-use agents that generate and evolve their own software interface in code, rather
+                    than depending on hand-engineered scaffolds.
+                </p>
+            </div>
+
+            <h3 class="pub-group-title animate">Under review</h3>
+
+            <div class="publication-item animate" id="pub-agent-s4">
+                <div class="publication-title">Agent S4: Evolutionary Computer Use</div>
+                <div class="publication-authors">S. Agashe, Y. Yang, G. Gonzalez-Pumariega, <strong>B. Koduru</strong>, et al.</div>
+                <div class="publication-meta">
+                    <span class="publication-venue publication-venue--review">ICLR 2027 · under review</span>
+                </div>
+                <p class="publication-summary">
+                    The next Agent S: a computer-use agent that improves itself through evolutionary search over code it
+                    writes from its own rollouts.
+                </p>
+            </div>
+
+            <div class="publication-item animate" id="pub-amongus">
+                <div class="publication-title">AmongUs-X: Benchmarking Strategic Deception of LLM Agents via Theory-of-Mind Metrics</div>
+                <div class="publication-authors">K. Mirakhor*, <strong>B. Koduru*</strong>, A. Kontogiannis, R. Zabounidis, K. Sycara, W. Kim</div>
+                <div class="publication-meta">
+                    <span class="publication-venue publication-venue--review">AAMAS 2027 · under review</span>
+                    <span class="tag">*equal contribution</span>
+                </div>
+                <p class="publication-summary">
+                    A benchmark for strategic deception and Theory of Mind in LLM agents, built from 8,000+ simulated Among
+                    Us games across 21 LLMs, with a moderator agent grounded in a game-theoretic model of strategic deception.
+                </p>
+            </div>
+
+            <h3 class="pub-group-title animate" id="earlier-work">Earlier work · human pose estimation (IIT Hyderabad)</h3>
+
+            <div class="publication-item animate" id="pub-gati">
+                <div class="publication-title">GATI: Gait and Temporal Intelligence — A Large-scale Multi-view Movement Dataset of Daily Activities in the Indian Context</div>
+                <div class="publication-authors">Y. Mandayam Rangayyan, A. K. Singh, J. Chand, …, <strong>B. Koduru</strong>, …, M. Raghavan</div>
+                <div class="publication-meta">
+                    <span class="publication-venue publication-venue--review">SSRN preprint · 2026</span>
+                </div>
+                <p class="publication-summary">
+                    A multi-view movement dataset of 16 subjects performing daily activities, chores, exercises, and yoga,
+                    with motion-capture ground truth and benchmarks of four pose estimators (MotionAGFormer, MHFormer,
+                    PoseFormerV2, MediaPipe) across camera angles.
+                </p>
+                <div class="publication-links">
+                    <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7235718">SSRN</a>
+                </div>
+            </div>
+
+            <div class="publication-item animate" id="pub-sae">
+                <div class="publication-title">Segment Activity Effect (SAE): A Novel Structural Reliability Metric for Markerless Human Pose Estimation Using a Large Multi-View Motion Capture Dataset</div>
+                <div class="publication-authors">Y. Mandayam Rangayyan, A. K. Singh, J. Chand, …, <strong>B. Koduru</strong>, …, M. Raghavan</div>
+                <div class="publication-meta">
+                    <span class="publication-venue publication-venue--review">SSRN preprint</span>
+                </div>
+                <p class="publication-summary">
+                    A metric for activity-specific structural errors in markerless pose estimation, measured against 1000 Hz
+                    motion capture: flexion and abduction systematically lengthen the hip–knee segment by up to 4 cm.
+                </p>
+                <div class="publication-links">
+                    <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7134731">SSRN</a>
+                </div>
+            </div>
+
+            <div class="publication-item animate" id="pub-segment-aware">
+                <div class="publication-title">Segment-Aware Evaluation of 3D Human Pose Estimation under Uncalibrated Multi-View Video Settings</div>
+                <div class="publication-authors">Y. Mandayam Rangayyan, A. K. Singh, J. Chand, …, <strong>B. Koduru</strong>, …, M. Raghavan</div>
+                <div class="publication-meta">
+                    <span class="publication-venue publication-venue--review">Manuscript</span>
+                </div>
+                <p class="publication-summary">
+                    Segment-level evaluation of four 3D pose estimators against high-frequency motion capture across
+                    uncalibrated camera views (14 subjects, 19 activities).
+                </p>
             </div>
         </div>
     </section>
@@ -164,10 +296,10 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>© 2026 Bhuvan Koduru · Built with care</p>
+            <p>© 2026 Bhuvan Koduru · Last updated Oct 2026</p>
         </div>
     </footer>
 
-    <script src="assets/js/main.js"></script>
+    <script src="assets/js/main.js?v=20261004"></script>
 </body>
 </html>

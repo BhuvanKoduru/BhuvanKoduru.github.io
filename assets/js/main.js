@@ -33,6 +33,8 @@ function updateThemeIcon(theme) {
     }
 }
 
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
 // ============================================
 // Custom Cursor Follower
 // ============================================
@@ -80,7 +82,7 @@ cursorStyles.textContent = `
         border-color: var(--color-accent-light);
         background: rgba(45, 106, 79, 0.1);
     }
-    @media (max-width: 768px) {
+    @media (max-width: 768px), (prefers-reduced-motion: reduce) {
         .cursor-follower, .cursor-dot { display: none; }
     }
 `;
@@ -129,21 +131,18 @@ const observerOptions = {
 };
 
 const animationObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-            animationObserver.unobserve(entry.target);
-        }
+    // Stagger only within the batch that enters together, so items far down
+    // the page don't wait seconds after scrolling into view
+    entries.filter(entry => entry.isIntersecting).forEach((entry, i) => {
+        entry.target.style.animationDelay = `${i * 0.08}s`;
+        entry.target.classList.add('visible');
+        animationObserver.unobserve(entry.target);
     });
 }, observerOptions);
 
 document.addEventListener('DOMContentLoaded', () => {
     // Only observe elements that don't already have 'visible' class
-    const animatedElements = document.querySelectorAll('.animate:not(.visible)');
-    animatedElements.forEach((el, index) => {
-        el.style.animationDelay = `${index * 0.1}s`;
-        animationObserver.observe(el);
-    });
+    document.querySelectorAll('.animate:not(.visible)').forEach(el => animationObserver.observe(el));
 });
 
 // ============================================
@@ -218,19 +217,6 @@ document.querySelectorAll('.nav-links a').forEach(link => {
         link.classList.add('active');
     }
 });
-
-// ============================================
-// Typing Animation Enhancement
-// ============================================
-
-const typingElement = document.querySelector('.typing-name');
-if (typingElement) {
-    // Reset animation on page load for consistent experience
-    typingElement.style.width = '0';
-    setTimeout(() => {
-        typingElement.style.width = '100%';
-    }, 300);
-}
 
 // ============================================
 // Project Card 3D Tilt Effect
@@ -449,7 +435,7 @@ function animateParticles() {
     connectParticles();
     requestAnimationFrame(animateParticles);
 }
-animateParticles();
+if (!reduceMotion) animateParticles();
 
 // ============================================
 // Aurora Gradient Background
@@ -554,7 +540,7 @@ auroraStyles.textContent = `
             transparent 50%
         );
     }
-    @media (max-width: 768px) {
+    @media (max-width: 768px), (prefers-reduced-motion: reduce) {
         .aurora-bg { display: none; }
     }
 `;

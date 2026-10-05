@@ -15,6 +15,7 @@
   --color-border: #e0e0e0;
   --color-hover: #f0efe9;
   --color-card: #ffffff;
+  --color-badge: #2d6a4f; /* solid venue badge; dark enough for white text in both themes */
 
   /* Typography */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -233,7 +234,14 @@ strong {
 }
 
 .section {
-  padding: var(--spacing-xl) 0;
+  padding: var(--spacing-md) 0;
+}
+
+/* Keep anchor targets clear of the fixed nav */
+section[id],
+.publication-item[id],
+.pub-group-title[id] {
+  scroll-margin-top: 90px;
 }
 
 .section-dark {
@@ -253,6 +261,11 @@ strong {
   padding-top: 80px;
   position: relative;
   overflow: hidden;
+}
+
+/* Flex child would otherwise shrink to its content and sit off the page grid */
+.hero > .container {
+  width: 100%;
 }
 
 /* Natural element - subtle leaf pattern */
@@ -334,20 +347,35 @@ strong {
 /* Typing animation */
 .typing-name {
   display: inline-block;
+  position: relative;
+  max-width: 100%;
+  padding-right: 10px;
   overflow: hidden;
-  border-right: 3px solid var(--color-accent);
+  vertical-align: bottom;
   white-space: nowrap;
-  animation: typing 2s steps(20, end), blink 0.75s step-end infinite;
+  animation: typing 2s steps(20, end);
+}
+
+/* Caret lives on a pseudo-element: an infinite animation on the span itself
+   stops Chrome repainting the text once the typing animation ends */
+.typing-name::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 12%;
+  bottom: 12%;
+  width: 3px;
+  background: var(--color-accent);
+  animation: blink 0.75s step-end infinite;
 }
 
 @keyframes typing {
-  from { width: 0; }
-  to { width: 100%; }
+  from { max-width: 0; }
+  to { max-width: 100%; }
 }
 
 @keyframes blink {
-  from, to { border-color: transparent; }
-  50% { border-color: var(--color-accent); }
+  50% { opacity: 0; }
 }
 
 .terminal-prompt {
@@ -376,6 +404,40 @@ strong {
   display: flex;
   align-items: center;
   gap: 0.375rem;
+}
+
+/* Job-search callout */
+.availability {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  margin-top: 1.25rem;
+  padding: 0.5rem 0.875rem;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--color-text);
+  border: 1px solid var(--color-accent);
+  border-radius: 999px;
+  background: var(--color-hover);
+}
+
+.availability:hover {
+  color: var(--color-text);
+  background: var(--color-card);
+}
+
+.availability::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--color-accent-light);
+  box-shadow: 0 0 0 3px rgba(82, 183, 136, 0.25);
+}
+
+.availability-cta {
+  color: var(--color-accent);
 }
 
 /* Social Links */
@@ -518,10 +580,75 @@ strong {
   font-size: 0.75rem;
   font-weight: 600;
   color: white;
-  background: var(--color-accent);
+  background: var(--color-badge);
   padding: 0.25rem 0.625rem;
   border-radius: 4px;
-  margin-right: 0.5rem;
+}
+
+/* Workshop papers: outlined badge */
+.publication-venue--workshop {
+  background: transparent;
+  color: var(--color-accent);
+  box-shadow: inset 0 0 0 1px var(--color-accent);
+}
+
+/* Under review: muted badge */
+.publication-venue--review {
+  background: transparent;
+  color: var(--color-text-light);
+  box-shadow: inset 0 0 0 1px var(--color-border);
+}
+
+.publication-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.publication-summary {
+  margin: 0.75rem 0 0;
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  max-width: 70ch;
+}
+
+.publication-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 0.625rem;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+}
+
+.publication-links a::before {
+  content: '[';
+  color: var(--color-text-light);
+}
+
+.publication-links a::after {
+  content: ']';
+  color: var(--color-text-light);
+}
+
+.pub-group-title {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-light);
+  margin: var(--spacing-lg) 0 var(--spacing-sm);
+}
+
+.pub-group-title:first-of-type {
+  margin-top: 0;
+}
+
+.section-note {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
 }
 
 /* ============================================
@@ -607,6 +734,23 @@ strong {
   color: var(--color-accent);
 }
 
+/* Emphasised tag, e.g. "oral" */
+.tag--highlight {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+  font-weight: 600;
+}
+
+/* Research theme cards: paper chips pinned to the bottom */
+.theme-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.theme-card .project-tags {
+  margin-top: auto;
+}
+
 /* ============================================
    News
    ============================================ */
@@ -642,6 +786,39 @@ strong {
 .news-content {
   font-size: 0.9375rem;
   color: var(--color-text-light);
+}
+
+/* ============================================
+   Experience
+   ============================================ */
+
+.experience-item {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: var(--spacing-md);
+  padding: var(--spacing-sm) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.experience-item:last-child {
+  border-bottom: none;
+}
+
+.experience-date {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--color-accent);
+  font-weight: 500;
+}
+
+.experience-role {
+  font-size: 0.9375rem;
+  color: var(--color-text-light);
+}
+
+.experience-desc {
+  font-size: 0.9375rem;
+  margin: 0.25rem 0 0;
 }
 
 /* ============================================
@@ -790,41 +967,108 @@ strong {
     font-size: 2rem;
   }
 
+  /* Let the name wrap on narrow screens instead of being clipped */
+  .typing-name {
+    white-space: normal;
+    padding-right: 0;
+    animation: none;
+  }
+
+  .typing-name::after {
+    display: none;
+  }
+
   .profile-grid {
     grid-template-columns: 1fr;
-    text-align: center;
+    gap: var(--spacing-md);
+  }
+
+  /* Photo above the bio */
+  /* The whole pill is a mailto link, so the CTA text can go on phones */
+  .availability {
+    font-size: 0.75rem;
+  }
+
+  .availability-cta {
+    display: none;
   }
 
   .profile-image-wrapper {
-    margin: 0 auto var(--spacing-md);
+    order: -1;
+    justify-self: start;
+    margin-left: 8px;
   }
 
   .profile-image {
-    width: 180px;
-    height: 180px;
+    display: block;
+    width: 140px;
+    height: 140px;
   }
 
-  .profile-meta {
-    justify-content: center;
-  }
-
-  .social-links {
-    justify-content: center;
+  /* Two-row nav so every link stays on screen */
+  .nav-container {
+    flex-wrap: wrap;
+    row-gap: 0.5rem;
+    padding: 0.75rem var(--spacing-sm);
   }
 
   .nav-links {
-    gap: var(--spacing-sm);
+    width: 100%;
+    justify-content: space-between;
+    gap: var(--spacing-xs);
   }
 
-  .news-item {
+  .container {
+    padding: var(--spacing-md) var(--spacing-sm);
+  }
+
+  .section {
+    padding: var(--spacing-sm) 0;
+  }
+
+  .news-item,
+  .experience-item {
     grid-template-columns: 1fr;
     gap: 0.25rem;
   }
 
+  .publication-item {
+    padding: var(--spacing-sm) 0 var(--spacing-sm) var(--spacing-sm);
+  }
+
+  .publication-item::before {
+    top: var(--spacing-sm);
+  }
+
   .hero {
     min-height: auto;
-    padding-top: 100px;
-    padding-bottom: var(--spacing-lg);
+    padding-top: 120px;
+    padding-bottom: var(--spacing-md);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .animate,
+  .hero-animate,
+  .hero-animate-right {
+    opacity: 1;
+    transform: none;
+    animation: none !important;
+  }
+
+  .typing-name,
+  .typing-name::after {
+    animation: none;
+  }
+}
+
+@media (max-width: 400px) {
+  .nav-links a {
+    font-size: 0.8125rem;
   }
 }
 
