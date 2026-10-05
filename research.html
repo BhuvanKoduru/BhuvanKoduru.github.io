@@ -8,13 +8,17 @@
     <meta property="og:title" content="Research | Bhuvan Koduru">
     <meta property="og:image" content="https://bhuvankoduru.github.io/assets/img/profile.jpg">
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
-    <script>try { if (localStorage.getItem('theme-v2') === 'dark') document.documentElement.dataset.theme = 'dark'; } catch (e) {}</script>
+    <script>
+        try { if (localStorage.getItem('theme-v2') === 'dark') document.documentElement.dataset.theme = 'dark'; } catch (e) {}
+        if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('js-motion');
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/style.css?v=20261005b">
+    <link rel="stylesheet" href="assets/css/style.css?v=20261005c">
 </head>
 <body>
+    <div class="masthead">
     <header class="site-header">
         <div class="wrap">
             <a href="index.html" class="wordmark">Bhuvan Koduru</a>
@@ -51,6 +55,8 @@
             </div>
         </div>
     </section>
+    </div>
+    <div class="temple-border" aria-hidden="true"></div>
 
     <main class="wrap layout">
         <details class="toc" open>
@@ -192,6 +198,40 @@
                     </table>
                 </figure>
 
+                <figure class="figure">
+                    <p class="fig-label">Figure 3 · Figure 5 in the paper</p>
+                    <h3 class="fig-title">How speaking styles separate, layer by layer</h3>
+                    <div class="tabs" role="tablist" aria-label="Model">
+                        <button type="button" role="tab" id="tab-cka-whisper" aria-controls="cka-whisper" aria-selected="true">Whisper-large-v2</button>
+                        <button type="button" role="tab" id="tab-cka-qwen2" aria-controls="cka-qwen2" aria-selected="false" tabindex="-1">Qwen2-Audio</button>
+                        <button type="button" role="tab" id="tab-cka-omni" aria-controls="cka-omni" aria-selected="false" tabindex="-1">Qwen2.5-Omni</button>
+                        <button type="button" role="tab" id="tab-cka-chroma" aria-controls="cka-chroma" aria-selected="false" tabindex="-1">Chroma-4B</button>
+                    </div>
+                    <div class="plate" role="tabpanel" id="cka-whisper" aria-labelledby="tab-cka-whisper">
+                        <img src="assets/img/papers/heard/cka-whisper.webp" width="1600" height="793" loading="lazy"
+                             alt="CKA by layer for all 21 style pairs in Whisper-large-v2: every pair stays between about 0.92 and 1.0 across all 32 encoder layers.">
+                    </div>
+                    <div class="plate" role="tabpanel" id="cka-qwen2" aria-labelledby="tab-cka-qwen2" hidden>
+                        <img src="assets/img/papers/heard/cka-qwen2-audio.webp" width="1600" height="793" loading="lazy"
+                             alt="CKA by layer for all 21 style pairs in Qwen2-Audio: similarity falls in the late encoder as styles separate, consistently across pairs.">
+                    </div>
+                    <div class="plate" role="tabpanel" id="cka-omni" aria-labelledby="tab-cka-omni" hidden>
+                        <img src="assets/img/papers/heard/cka-qwen25-omni.webp" width="1600" height="793" loading="lazy"
+                             alt="CKA by layer for all 21 style pairs in Qwen2.5-Omni: similarity drops in the late encoder as styles separate, consistently across pairs.">
+                    </div>
+                    <div class="plate" role="tabpanel" id="cka-chroma" aria-labelledby="tab-cka-chroma" hidden>
+                        <img src="assets/img/papers/heard/cka-chroma.webp" width="1600" height="677" loading="lazy"
+                             alt="CKA by layer for all 21 style pairs in Chroma-4B: styles separate in the late encoder, then every pair collapses to a CKA of 1.0 at the backbone boundary at layer 32.">
+                    </div>
+                    <p class="fig-caption">
+                        CKA similarity by layer for all 21 pairs of speaking styles, one line per pair; lower means the two
+                        styles are represented more differently. The red dashed line marks the projector boundary. Whisper
+                        keeps every pair geometrically similar. All three audio-language models separate styles in the late
+                        encoder, consistently across pairs, and Chroma collapses every style difference at the backbone
+                        boundary (layer 32). <a href="https://arxiv.org/html/2609.00727v1#A6.F5">View in the paper</a>
+                    </p>
+                </figure>
+
                 <p class="label">Papers</p>
                 <ol class="pubs">
                     <li class="pub" id="pub-heard">
@@ -234,7 +274,7 @@
                 </p>
 
                 <figure class="figure">
-                    <p class="fig-label">Figure 3</p>
+                    <p class="fig-label">Figure 4</p>
                     <h3 class="fig-title">ScienceBoard success rate</h3>
                     <ul class="legend">
                         <li><span class="swatch" style="background: var(--mark-base)"></span>Agent S3</li>
@@ -382,6 +422,6 @@
         </div>
     </footer>
 
-    <script src="assets/js/main.js?v=20261005b"></script>
+    <script src="assets/js/main.js?v=20261005c"></script>
 </body>
 </html>

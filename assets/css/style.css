@@ -1,26 +1,39 @@
 /* ============================================
-   Bhuvan Koduru — editorial research site
-   Warm paper, serif display, quiet sans body
+   Bhuvan Koduru — research site
+   Kanchipuram palette: peacock silk, zari gold,
+   kumkum red, jasmine paper, filter-coffee ink
    ============================================ */
 
 :root {
-  --paper: #f3f2ed;
-  --band: #e6eadc;
-  --surface: #faf9f5;
-  --ink: #2c3327;
-  --text: #3b3d37;
-  --muted: #68645d;
-  --faint: #86827a;      /* decorative only — below text contrast */
-  --rule: #dcdad2;
-  --rule-strong: #c9c6bc;
-  --link: #8f4a31;
-  --sage: #4f6845;
-  --tint-mark: #efe3dc;
-  --tint-sage: #e6eadc;
+  --paper: #faf6ee;          /* jasmine */
+  --surface: #fffdf8;
+  --ink: #2b1d17;            /* filter coffee */
+  --text: #3e3029;
+  --muted: #6f6056;
+  --faint: #9a8b7f;          /* decorative only — below text contrast */
+  --rule: #e8dece;
+  --rule-strong: #d8cab4;
+  --heading: #5a1a24;        /* deep kumkum */
+  --link: #9b2335;           /* kumkum */
+  --sage: #0f5c63;           /* peacock (secondary accent) */
+  --gold: #c9952c;           /* zari — decorative */
+  --tint-mark: #f6e4e1;
+  --tint-sage: #e0eeec;
 
-  /* chart marks (validated: accent vs baseline, light surface) */
-  --mark: #a9553a;
-  --mark-base: #a5a299;
+  /* masthead: peacock silk with a lamp-lit glow */
+  --mast-1: #0a3440;
+  --mast-2: #0d5059;
+  --mast-3: #0f5d56;
+  --mast-text: #f8f1e3;
+  --mast-soft: #efe4cd;
+  --mast-muted: #d5dfd9;
+  --mast-gold: #f0c66a;
+  --border-maroon: #7b1830;
+  --border-gold: #d4a437;
+
+  /* chart marks (validated: accent vs baseline on the light surface) */
+  --mark: #b3261e;
+  --mark-base: #a9a195;
 
   --font-serif: 'Newsreader', Georgia, 'Times New Roman', serif;
   --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
@@ -32,23 +45,28 @@
 }
 
 :root[data-theme="dark"] {
-  --paper: #1a1b18;
-  --band: #20251d;
-  --surface: #24261f;
-  --ink: #eceae2;
-  --text: #d3d1c9;
-  --muted: #a29e95;
-  --faint: #6f6c65;
-  --rule: #2f312b;
-  --rule-strong: #3d3f38;
-  --link: #e3a185;
-  --sage: #a9bf9c;
-  --tint-mark: #33261f;
-  --tint-sage: #20251d;
+  --paper: #16120f;
+  --surface: #201a16;
+  --ink: #f1e8da;
+  --text: #ddd2c3;
+  --muted: #a99b8a;
+  --faint: #6d6156;
+  --rule: #2e2620;
+  --rule-strong: #3d342c;
+  --heading: #f1e8da;
+  --link: #f08c7c;
+  --sage: #6cc4bd;
+  --gold: #d9ad4a;
+  --tint-mark: #3a1d1b;
+  --tint-sage: #12302f;
+
+  --mast-1: #061f26;
+  --mast-2: #093d44;
+  --mast-3: #0b4741;
 
   /* chart marks (validated against the dark surface) */
-  --mark: #c8775b;
-  --mark-base: #5d5b55;
+  --mark: #d96a59;
+  --mark-base: #68615a;
 }
 
 /* ============================================
@@ -129,6 +147,56 @@ p + p {
 }
 
 /* ============================================
+   Masthead: header + hero on one silk gradient
+   ============================================ */
+
+.masthead {
+  position: relative;
+  overflow: hidden;
+  color: var(--mast-text);
+  background:
+    /* lamp glow behind the portrait */
+    radial-gradient(ellipse 45% 65% at 76% 52%, rgba(240, 198, 106, 0.20), transparent 70%),
+    /* kumkum bloom in the corner, like a silk's shot weave */
+    radial-gradient(ellipse 55% 75% at 0% 0%, rgba(155, 35, 53, 0.30), transparent 70%),
+    linear-gradient(120deg, var(--mast-1) 0%, var(--mast-2) 55%, var(--mast-3) 100%);
+}
+
+/* pulli-kolam dot grid, barely there */
+.masthead::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(248, 241, 227, 0.07) 1px, transparent 1.4px);
+  background-size: 22px 22px;
+  pointer-events: none;
+}
+
+.masthead > :not(.dots-canvas) {
+  position: relative;
+  z-index: 1;
+}
+
+.dots-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Kanchipuram temple border: zari spires on maroon */
+.temple-border {
+  height: 20px;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='16'%3E%3Cpath d='M1 16 L11 3 L21 16 Z' fill='%23d4a437'/%3E%3Cpath d='M6 16 L11 9.5 L16 16 Z' fill='%237b1830'/%3E%3C/svg%3E") repeat-x left bottom / 22px 16px,
+    var(--border-maroon);
+  border-top: 2px solid var(--border-gold);
+  border-bottom: 2px solid var(--border-gold);
+}
+
+/* ============================================
    Header
    ============================================ */
 
@@ -144,7 +212,7 @@ p + p {
   font-family: var(--font-serif);
   font-size: 23px;
   line-height: 1;
-  color: var(--ink);
+  color: var(--mast-text);
   text-decoration: none;
   letter-spacing: -0.01em;
 }
@@ -158,13 +226,19 @@ p + p {
 
 .site-nav a {
   font-size: 15px;
-  color: var(--muted);
+  color: var(--mast-muted);
   text-decoration: none;
 }
 
 .site-nav a:hover,
 .site-nav a[aria-current="page"] {
-  color: var(--ink);
+  color: var(--mast-text);
+}
+
+.site-nav a[aria-current="page"] {
+  text-decoration: underline;
+  text-decoration-color: var(--mast-gold);
+  text-underline-offset: 6px;
 }
 
 .theme-toggle {
@@ -172,49 +246,49 @@ p + p {
   place-items: center;
   width: 34px;
   height: 34px;
-  color: var(--muted);
+  color: var(--mast-muted);
   background: none;
-  border: 1px solid var(--rule);
+  border: 1px solid rgba(248, 241, 227, 0.3);
   border-radius: 999px;
   cursor: pointer;
   transition: color 0.15s ease, border-color 0.15s ease;
 }
 
 .theme-toggle:hover {
-  color: var(--ink);
-  border-color: var(--rule-strong);
+  color: var(--mast-text);
+  border-color: rgba(248, 241, 227, 0.6);
 }
 
 .theme-toggle .icon-sun { display: none; }
 :root[data-theme="dark"] .theme-toggle .icon-sun { display: block; }
 :root[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
 
-/* ============================================
-   Hero band
-   ============================================ */
-
-.hero {
-  background: var(--band);
+.masthead :focus-visible {
+  outline-color: var(--mast-gold);
 }
+
+/* ============================================
+   Hero
+   ============================================ */
 
 .hero .wrap {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(260px, 500px);
   align-items: center;
   gap: 48px;
-  padding-top: 64px;
-  padding-bottom: 64px;
+  padding-top: 48px;
+  padding-bottom: 72px;
 }
 
 .hero--text .wrap {
   grid-template-columns: minmax(0, 1fr);
-  padding-top: 56px;
+  padding-top: 40px;
   padding-bottom: 56px;
 }
 
 .eyebrow {
   font-size: 15px;
-  color: var(--ink);
+  color: var(--mast-gold);
   margin-bottom: 14px;
 }
 
@@ -224,14 +298,14 @@ p + p {
   font-size: clamp(44px, 5.4vw, 68px);
   line-height: 1.02;
   letter-spacing: -0.015em;
-  color: var(--ink);
+  color: var(--mast-text);
 }
 
 .lede {
   font-family: var(--font-serif);
   font-size: clamp(20px, 2vw, 25px);
   line-height: 1.4;
-  color: var(--ink);
+  color: var(--mast-soft);
   max-width: 34em;
   margin-top: 24px;
 }
@@ -239,7 +313,7 @@ p + p {
 .byline {
   font-family: var(--font-serif);
   font-size: 17px;
-  color: var(--muted);
+  color: var(--mast-muted);
   margin-top: 24px;
 }
 
@@ -259,22 +333,28 @@ p + p {
   font-size: 15px;
   font-weight: 500;
   color: var(--ink);
-  background: var(--surface);
+  background: var(--mast-text);
   border-radius: 999px;
   text-decoration: none;
-  box-shadow: 0 1px 0 rgba(44, 51, 39, 0.06);
-  transition: background 0.15s ease;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+:root[data-theme="dark"] .pill {
+  color: #2b1d17;
 }
 
 .pill:hover {
-  background: var(--paper);
+  background: #fffaf0;
+  transform: translateY(-1px);
 }
 
 .pill-dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--mark);
+  background: var(--border-gold);
+  box-shadow: 0 0 0 3px rgba(212, 164, 55, 0.25);
   flex-shrink: 0;
 }
 
@@ -302,6 +382,14 @@ p + p {
   transform: translateX(2px) rotate(45deg);
 }
 
+.masthead .chev {
+  color: var(--mast-text);
+}
+
+.masthead .chev::after {
+  border-color: var(--mast-gold);
+}
+
 .chev--small {
   font-size: 14px;
   color: var(--muted);
@@ -311,7 +399,110 @@ p + p {
   color: var(--ink);
 }
 
+/* ============================================
+   Hero portrait + research-area streams
+   ============================================ */
+
+.hero-art {
+  position: relative;
+}
+
 .hero-art img {
+  width: 100%;
+  height: auto;
+  transition: opacity 0.4s ease;
+}
+
+/* While the dot animation runs, the static image stays in place (for layout
+   and screen readers) but is not painted. */
+.js-motion .hero-art[data-dots]:not(.is-static) img,
+.hero-art.is-animated img {
+  opacity: 0;
+}
+
+.stream-label {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 11px 5px 9px;
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--mast-text);
+  white-space: nowrap;
+  background: rgba(6, 31, 38, 0.62);
+  border: 1px solid rgba(248, 241, 227, 0.14);
+  border-radius: 999px;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  opacity: 0;
+  transform: translate(var(--tx, 0), var(--ty, 0));
+  transition: opacity 0.6s ease, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.stream-label i {
+  display: block;
+  flex-shrink: 0;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--c);
+  box-shadow: 0 0 10px var(--c);
+}
+
+.stream-label--tl { top: -10px; left: 0; --tx: -18px; --ty: -12px; }
+.stream-label--tr { top: -10px; right: 0; --tx: 18px; --ty: -12px; }
+.stream-label--bl { bottom: -34px; left: 0; --tx: -18px; --ty: 12px; }
+.stream-label--br { bottom: -34px; right: 0; --tx: 18px; --ty: 12px; }
+
+.hero-art.is-streaming .stream-label {
+  opacity: 1;
+  transform: none;
+}
+
+/* ============================================
+   Tabs (figure panels)
+   ============================================ */
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.tabs button {
+  padding: 6px 14px;
+  font: 500 13.5px/1.4 var(--font-sans);
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid var(--rule-strong);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+}
+
+.tabs button:hover {
+  color: var(--ink);
+  border-color: var(--muted);
+}
+
+.tabs button[aria-selected="true"] {
+  color: var(--paper);
+  background: var(--heading);
+  border-color: var(--heading);
+}
+
+.plate {
+  padding: 10px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: inset 0 0 0 1px var(--rule);
+}
+
+.plate img {
   width: 100%;
   height: auto;
 }
@@ -371,7 +562,7 @@ p + p {
 
 .toc a.is-active {
   color: var(--ink);
-  border-left-color: var(--sage);
+  border-left-color: var(--gold);
 }
 
 .content > section {
@@ -388,7 +579,7 @@ p + p {
   font-size: clamp(32px, 3.4vw, 44px);
   line-height: 1.1;
   letter-spacing: -0.01em;
-  color: var(--ink);
+  color: var(--heading);
   margin-bottom: 24px;
 }
 
@@ -823,7 +1014,8 @@ p + p {
 .callout {
   margin: 32px 0;
   padding: 4px 0 4px 18px;
-  border-left: 2px solid var(--mark);
+  border-left: 3px solid transparent;
+  border-image: linear-gradient(to bottom, var(--link), var(--gold)) 1;
 }
 
 .callout .callout-title {
@@ -939,7 +1131,8 @@ p + p {
    ============================================ */
 
 .site-footer {
-  border-top: 1px solid var(--rule);
+  border-top: 3px solid transparent;
+  border-image: linear-gradient(90deg, var(--border-maroon), var(--border-gold) 50%, var(--mast-2)) 1;
 }
 
 .site-footer .wrap {
@@ -1099,6 +1292,21 @@ p + p {
   .chart-ticks .minor {
     display: none;
   }
+
+  .stream-label {
+    gap: 6px;
+    padding: 4px 9px 4px 7px;
+    font-size: 11px;
+    letter-spacing: 0;
+  }
+
+  .stream-label i {
+    width: 7px;
+    height: 7px;
+  }
+
+  .stream-label--tl, .stream-label--bl { left: -14px; }
+  .stream-label--tr, .stream-label--br { right: -14px; }
 
   .dot {
     width: 11px;

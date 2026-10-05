@@ -8,13 +8,17 @@
     <meta property="og:title" content="Projects | Bhuvan Koduru">
     <meta property="og:image" content="https://bhuvankoduru.github.io/assets/img/profile.jpg">
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
-    <script>try { if (localStorage.getItem('theme-v2') === 'dark') document.documentElement.dataset.theme = 'dark'; } catch (e) {}</script>
+    <script>
+        try { if (localStorage.getItem('theme-v2') === 'dark') document.documentElement.dataset.theme = 'dark'; } catch (e) {}
+        if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('js-motion');
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/style.css?v=20261005b">
+    <link rel="stylesheet" href="assets/css/style.css?v=20261005c">
 </head>
 <body>
+    <div class="masthead">
     <header class="site-header">
         <div class="wrap">
             <a href="index.html" class="wordmark">Bhuvan Koduru</a>
@@ -47,6 +51,8 @@
             </div>
         </div>
     </section>
+    </div>
+    <div class="temple-border" aria-hidden="true"></div>
 
     <main class="wrap layout">
         <details class="toc" open>
@@ -142,6 +148,6 @@
         </div>
     </footer>
 
-    <script src="assets/js/main.js?v=20261005b"></script>
+    <script src="assets/js/main.js?v=20261005c"></script>
 </body>
 </html>

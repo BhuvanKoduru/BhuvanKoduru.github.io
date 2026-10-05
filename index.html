@@ -10,13 +10,17 @@
     <meta property="og:image" content="https://bhuvankoduru.github.io/assets/img/profile.jpg">
     <meta property="og:url" content="https://bhuvankoduru.github.io/">
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
-    <script>try { if (localStorage.getItem('theme-v2') === 'dark') document.documentElement.dataset.theme = 'dark'; } catch (e) {}</script>
+    <script>
+        try { if (localStorage.getItem('theme-v2') === 'dark') document.documentElement.dataset.theme = 'dark'; } catch (e) {}
+        if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('js-motion');
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/style.css?v=20261005b">
+    <link rel="stylesheet" href="assets/css/style.css?v=20261005c">
 </head>
 <body>
+    <div class="masthead">
     <header class="site-header">
         <div class="wrap">
             <a href="index.html" class="wordmark">Bhuvan Koduru</a>
@@ -53,11 +57,18 @@
                     <a class="chev" href="https://github.com/BhuvanKoduru">GitHub</a>
                 </div>
             </div>
-            <div class="hero-art">
+            <div class="hero-art" data-dots="assets/img/portrait-dots.svg">
                 <img src="assets/img/portrait-dots.svg" alt="Pointillist portrait of Bhuvan Koduru" width="930" height="863">
+                <!-- Each research area streams its dots in from one direction -->
+                <span class="stream-label stream-label--tl" data-angle="225" data-color="#f2b73a" style="--c: #f2b73a" aria-hidden="true"><i></i>Audio-language models</span>
+                <span class="stream-label stream-label--tr" data-angle="315" data-color="#ef6a4c" style="--c: #ef6a4c" aria-hidden="true"><i></i>Computer-use safety</span>
+                <span class="stream-label stream-label--bl" data-angle="135" data-color="#e8559a" style="--c: #e8559a" aria-hidden="true"><i></i>Deception &amp; Theory of Mind</span>
+                <span class="stream-label stream-label--br" data-angle="45" data-color="#f6eedc" style="--c: #f6eedc" aria-hidden="true"><i></i>Self-evolving agents</span>
             </div>
         </div>
     </section>
+    </div>
+    <div class="temple-border" aria-hidden="true"></div>
 
     <main class="wrap layout">
         <details class="toc" open>
@@ -213,6 +224,6 @@
         </div>
     </footer>
 
-    <script src="assets/js/main.js?v=20261005b"></script>
+    <script src="assets/js/main.js?v=20261005c"></script>
 </body>
 </html>
