@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -2 640 52">
+  <!-- Pulli kolam divider: a dot grid looped by petals, with hairlines fading out to the sides.
+       Used as a mask, so only its alpha matters; the colour comes from CSS. -->
+  <defs>
+    <linearGradient id="fade-l" x1="0" x2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity="0"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="1"/>
+    </linearGradient>
+    <linearGradient id="fade-r" x1="0" x2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity="1"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect x="40" y="23.4" width="222" height="1.2" fill="url(#fade-l)"/>
+  <rect x="378" y="23.4" width="222" height="1.2" fill="url(#fade-r)"/>
+  <g fill="none" stroke="#fff" stroke-width="1.4">
+    <!-- four petals looping the inner dots -->
+    <circle cx="306" cy="24" r="10"/>
+    <circle cx="334" cy="24" r="10"/>
+    <circle cx="320" cy="10" r="10"/>
+    <circle cx="320" cy="38" r="10"/>
+    <!-- outer loops -->
+    <circle cx="287" cy="24" r="5"/>
+    <circle cx="353" cy="24" r="5"/>
+  </g>
+  <g fill="#fff">
+    <circle cx="320" cy="24" r="2.2"/>
+    <circle cx="306" cy="24" r="2"/>
+    <circle cx="334" cy="24" r="2"/>
+    <circle cx="320" cy="10" r="2"/>
+    <circle cx="320" cy="38" r="2"/>
+    <circle cx="287" cy="24" r="1.6"/>
+    <circle cx="353" cy="24" r="1.6"/>
+    <circle cx="273" cy="24" r="1.3"/>
+    <circle cx="367" cy="24" r="1.3"/>
+  </g>
+</svg>

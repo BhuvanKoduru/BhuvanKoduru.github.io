@@ -574,6 +574,16 @@ p + p {
   height: auto;
 }
 
+:root[data-theme="dark"] .plate,
+:root[data-theme="dark"] .poster-link {
+  background: #e8e2d6;
+}
+
+:root[data-theme="dark"] .plate img,
+:root[data-theme="dark"] .poster-link img {
+  filter: brightness(0.88) contrast(1.02);
+}
+
 /* ============================================
    Article layout: sticky contents + reading column
    ============================================ */
@@ -668,6 +678,99 @@ p + p {
 }
 
 /* ============================================
+   Research themes: each carries its colour from the portrait, quietly
+   (small dot, short rule, contents dot, hover wash; never text colour)
+   ============================================ */
+
+#audio, .toc a[href="#audio"] { --tc: #d99a1e; }
+#safety, .toc a[href="#safety"] { --tc: #d9573c; }
+#evolving, .toc a[href="#evolving"] { --tc: #6fa33a; }
+#deception, .toc a[href="#deception"] { --tc: #cc4485; }
+#earlier-work, .toc a[href="#earlier-work"] { --tc: #b59f80; }
+
+:root[data-theme="dark"] #audio, :root[data-theme="dark"] .toc a[href="#audio"] { --tc: #f2b73a; }
+:root[data-theme="dark"] #safety, :root[data-theme="dark"] .toc a[href="#safety"] { --tc: #ef6a4c; }
+:root[data-theme="dark"] #evolving, :root[data-theme="dark"] .toc a[href="#evolving"] { --tc: #9fcf63; }
+:root[data-theme="dark"] #deception, :root[data-theme="dark"] .toc a[href="#deception"] { --tc: #e8559a; }
+:root[data-theme="dark"] #earlier-work, :root[data-theme="dark"] .toc a[href="#earlier-work"] { --tc: #8f8170; }
+
+.theme-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.theme-eyebrow i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--tc);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--tc) 16%, transparent);
+}
+
+.theme-eyebrow::after {
+  content: '';
+  width: 28px;
+  height: 1.5px;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--tc) 60%, transparent), transparent);
+}
+
+/* contents: a small dot per theme; the active one takes the theme colour */
+.toc--themes a {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+}
+
+.toc--themes a::before {
+  content: '';
+  flex-shrink: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--tc);
+  opacity: 0.55;
+  transform: translateY(-1px);
+  transition: opacity 0.15s ease;
+}
+
+.toc--themes a.is-active {
+  border-left-color: var(--tc);
+}
+
+.toc--themes a.is-active::before,
+.toc--themes a:hover::before {
+  opacity: 1;
+}
+
+/* kolam dividers between themes, semi-transparent zari gold */
+.content--themes > section + section {
+  margin-top: 0;
+}
+
+.content--themes > section + section::before {
+  content: '';
+  display: block;
+  height: 52px;
+  margin: 56px 0 48px;
+  background: var(--gold);
+  opacity: 0.45;
+  /* fixed height keeps the motif's proportions; narrow screens crop the faded side lines */
+  -webkit-mask: url("../img/kolam.svg") center / auto 52px no-repeat;
+  mask: url("../img/kolam.svg") center / auto 52px no-repeat;
+}
+
+:root[data-theme="dark"] .content--themes > section + section::before {
+  opacity: 0.38;
+}
+
+/* ============================================
    News
    ============================================ */
 
@@ -701,15 +804,34 @@ p + p {
   list-style: none;
 }
 
+/* The hover wash reaches 14px past the text; the divider lines stay aligned with it */
 .pub {
-  padding: 22px 0;
-  border-top: 1px solid var(--rule);
+  position: relative;
+  margin: 0 -14px;
+  padding: 22px 14px;
+  border-radius: 2px;
   scroll-margin-top: 24px;
+  transition: background 0.25s ease;
 }
 
-.pubs .pub:last-child {
-  border-bottom: 1px solid var(--rule);
+.pub::before,
+.pubs .pub:last-child::after {
+  content: '';
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  height: 1px;
+  background: var(--rule);
 }
+
+.pub::before { top: 0; }
+.pubs .pub:last-child::after { bottom: 0; }
+
+.pub:hover {
+  background: linear-gradient(90deg, color-mix(in srgb, var(--tc, var(--gold)) 9%, transparent), transparent 70%);
+}
+
+
 
 .pub-title {
   font-size: 17.5px;
@@ -1058,6 +1180,19 @@ p + p {
   border-top: 1px solid var(--rule);
 }
 
+/* Wide figures: on large screens they extend into the space right of the text */
+@media (min-width: 1180px) {
+  .content .figure { margin-right: -80px; }
+}
+
+@media (min-width: 1280px) {
+  .content .figure { margin-right: -140px; }
+}
+
+@media (min-width: 1440px) {
+  .content .figure { margin-right: -200px; }
+}
+
 /* After a paper list, the list's own bottom rule already separates the figure */
 .pubs + .figure {
   margin-top: 44px;
@@ -1309,6 +1444,36 @@ p + p {
 .legend .swatch--accent {
   background: var(--mark);
 }
+
+/* Charts draw in when they scroll into view */
+.charts-armed .figure .bar {
+  transition: width 0.9s cubic-bezier(0.16, 1, 0.3, 1), filter 0.15s ease;
+  transition-delay: calc(var(--row, 0) * 90ms);
+}
+
+.charts-armed .figure .dot {
+  transition: left 1s cubic-bezier(0.16, 1, 0.3, 1), filter 0.15s ease;
+  transition-delay: calc(var(--row, 0) * 90ms);
+}
+
+.charts-armed .figure .dot-span {
+  transition: left 1s cubic-bezier(0.16, 1, 0.3, 1), width 1s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: calc(var(--row, 0) * 90ms);
+}
+
+.charts-armed .figure .bar-value,
+.charts-armed .figure .dot-label,
+.charts-armed .figure .series-tag {
+  transition: opacity 0.4s ease;
+  transition-delay: calc(0.6s + var(--row, 0) * 90ms);
+}
+
+.charts-armed .figure:not(.is-in) .bar { width: 0; min-width: 0; }
+.charts-armed .figure:not(.is-in) .dot { left: 0; }
+.charts-armed .figure:not(.is-in) .dot-span { left: 0; width: 0; }
+.charts-armed .figure:not(.is-in) .bar-value,
+.charts-armed .figure:not(.is-in) .dot-label,
+.charts-armed .figure:not(.is-in) .series-tag { opacity: 0; }
 
 .fig-caption {
   margin-top: 16px;

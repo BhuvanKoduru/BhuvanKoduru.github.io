@@ -21,7 +21,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/style.css?v=20261005k">
+    <link rel="stylesheet" href="assets/css/style.css?v=20261005l">
 </head>
 <body>
     <div class="masthead">
@@ -65,7 +65,7 @@
     <div class="mast-fade" aria-hidden="true"></div>
 
     <main class="wrap layout">
-        <details class="toc" open>
+        <details class="toc toc--themes" open>
             <summary><span class="toc-label">Themes</span></summary>
             <p class="toc-label toc-label--desktop">Themes</p>
             <ol>
@@ -77,9 +77,10 @@
             </ol>
         </details>
 
-        <article class="content">
+        <article class="content content--themes">
             <!-- 1. Audio -->
-            <section id="audio">
+            <section id="audio" class="theme">
+                <p class="theme-eyebrow"><i aria-hidden="true"></i>Theme 01</p>
                 <h2>What audio-language models hear</h2>
                 <p>
                     Audio-language models are meant to understand <em>how</em> something is said, not just what. I trace
@@ -229,7 +230,8 @@
             </section>
 
             <!-- 2. Safety -->
-            <section id="safety">
+            <section id="safety" class="theme">
+                <p class="theme-eyebrow"><i aria-hidden="true"></i>Theme 02</p>
                 <h2>Safety of computer-use agents</h2>
                 <p>
                     Does safety training survive the move from chatting to acting? I gave the same harmful requests to
@@ -286,7 +288,8 @@
             </section>
 
             <!-- 3. Self-evolving agents -->
-            <section id="evolving">
+            <section id="evolving" class="theme">
+                <p class="theme-eyebrow"><i aria-hidden="true"></i>Theme 03</p>
                 <h2>Self-evolving computer-use agents</h2>
                 <p>
                     Instead of hand-engineering a scaffold for every environment, can an agent write its own interface in
@@ -367,7 +370,8 @@
             </section>
 
             <!-- 4. Deception -->
-            <section id="deception">
+            <section id="deception" class="theme">
+                <p class="theme-eyebrow"><i aria-hidden="true"></i>Theme 04</p>
                 <h2>Deception &amp; Theory of Mind</h2>
                 <p>
                     Can LLM agents deceive strategically, and do they track what other players believe? AmongUs-X uses the
@@ -398,7 +402,8 @@
             </section>
 
             <!-- 5. Earlier work -->
-            <section id="earlier-work">
+            <section id="earlier-work" class="theme">
+                <p class="theme-eyebrow"><i aria-hidden="true"></i>Before CMU</p>
                 <h2>Earlier: human pose estimation</h2>
                 <p>
                     Before CMU, at IIT Hyderabad's Spinal Cord Lab, I benchmarked markerless pose estimation from phone
@@ -444,6 +449,6 @@
         </div>
     </footer>
 
-    <script src="assets/js/main.js?v=20261005j"></script>
+    <script src="assets/js/main.js?v=20261005l"></script>
 </body>
 </html>

@@ -442,3 +442,22 @@ document.querySelectorAll('[data-copy]').forEach(btn => {
         setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('is-done'); }, 1800);
     });
 });
+
+// ============================================
+// Charts draw in when they scroll into view
+// ============================================
+
+if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window) {
+    const figures = document.querySelectorAll('.figure');
+    if (figures.length) {
+        // stagger rows a little
+        figures.forEach(fig => fig.querySelectorAll('.chart-row').forEach((row, i) => row.style.setProperty('--row', i)));
+        document.documentElement.classList.add('charts-armed');
+        const reveal = new IntersectionObserver(entries => entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add('is-in');
+            reveal.unobserve(entry.target);
+        }), { rootMargin: '0px 0px -15% 0px' });
+        figures.forEach(fig => reveal.observe(fig));
+    }
+}
