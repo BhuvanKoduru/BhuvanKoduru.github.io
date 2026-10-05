@@ -368,3 +368,77 @@ function angularDistance(a, b) {
     const d = Math.abs(a - b) % (Math.PI * 2);
     return d > Math.PI ? Math.PI * 2 - d : d;
 }
+
+// ============================================
+// Paper page: hear a style, see what each model said
+// ============================================
+
+document.querySelectorAll('[data-tryit]').forEach(box => {
+    const buttons = [...box.querySelectorAll('.style-picker button')];
+    const play = box.querySelector('.play');
+    const audio = box.querySelector('audio');
+    const spoken = box.querySelector('[data-spoken]');
+    const answers = [...box.querySelectorAll('[data-answer]')];
+    let current = buttons.find(b => b.getAttribute('aria-pressed') === 'true') || buttons[0];
+    let loaded = null;  // the style whose clip is in the <audio> element
+
+    const setPlaying = on => play.classList.toggle('is-playing', on);
+    audio.addEventListener('play', () => setPlaying(true));
+    audio.addEventListener('pause', () => setPlaying(false));
+    audio.addEventListener('ended', () => setPlaying(false));
+
+    const show = btn => {
+        current = btn;
+        buttons.forEach(b => b.setAttribute('aria-pressed', String(b === btn)));
+        spoken.textContent = btn.dataset.style;
+        play.setAttribute('aria-label', `Play the ${btn.dataset.style} recording`);
+        answers.forEach(card => {
+            const k = card.dataset.answer;
+            const said = btn.dataset['a' + k];
+            card.querySelector('.answer-said').textContent = said;
+            card.querySelector('.answer-note').textContent = btn.dataset['n' + k] || '';
+            card.classList.toggle('is-neutral', said === 'neutral');
+            card.classList.toggle('is-match', ('m' + k) in btn.dataset);
+        });
+    };
+
+    const playCurrent = () => {
+        if (loaded !== current) {
+            audio.src = current.dataset.audio;
+            loaded = current;
+        }
+        audio.currentTime = 0;
+        audio.play().catch(() => setPlaying(false));
+    };
+
+    // Choosing a style plays it straight away (the click counts as the user gesture)
+    buttons.forEach(btn => btn.addEventListener('click', () => { show(btn); playCurrent(); }));
+    play.addEventListener('click', () => {
+        if (!audio.paused && loaded === current) audio.pause();
+        else playCurrent();
+    });
+    show(current);
+});
+
+// ============================================
+// Copy buttons (BibTeX)
+// ============================================
+
+document.querySelectorAll('[data-copy]').forEach(btn => {
+    btn.addEventListener('click', async () => {
+        const text = document.querySelector(btn.dataset.copy).textContent;
+        try {
+            await navigator.clipboard.writeText(text);
+        } catch (e) {
+            // Fallback: select the text so the visitor can copy it manually
+            const range = document.createRange();
+            range.selectNodeContents(document.querySelector(btn.dataset.copy));
+            const sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(range);
+        }
+        btn.textContent = 'Copied';
+        btn.classList.add('is-done');
+        setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('is-done'); }, 1800);
+    });
+});

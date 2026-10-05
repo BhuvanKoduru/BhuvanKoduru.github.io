@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heard but Not Heeded · CoLM 2026</title>
+    <meta name="description" content="Audio-language models encode how something is said, then lose it before they respond. A mechanistic analysis of paralinguistic information in four models. Bhuvan Koduru, Dareen Alharthi, Rita Singh, Bhiksha Raj. CoLM 2026.">
+    <meta property="og:title" content="Heard but Not Heeded · CoLM 2026">
+    <meta property="og:description" content="Audio-language models encode how something is said, then lose it before they respond. Listen to the examples.">
+    <meta property="og:image" content="https://bhuvankoduru.github.io/assets/img/og-heard.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Heard but Not Heeded, CoLM 2026: speaking style is encoded at 82–85% but the models identify it far less often.">
+    <meta property="og:url" content="https://bhuvankoduru.github.io/heard/">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+    <meta name="theme-color" content="#0a3440">
+    <script>
+        try { if (localStorage.getItem('theme-v2') === 'dark') document.documentElement.dataset.theme = 'dark'; } catch (e) {}
+        if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('js-motion');
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/style.css?v=20261005j">
+</head>
+<body>
+    <div class="masthead">
+    <header class="site-header">
+        <div class="wrap">
+            <a href="../index.html" class="wordmark">Bhuvan Koduru</a>
+            <nav aria-label="Main">
+                <ul class="site-nav">
+                    <li class="nav-optional"><a href="../index.html">About</a></li>
+                    <li><a href="../research.html">Research</a></li>
+                    <li><a href="../projects.html">Projects</a></li>
+                    <li><a href="../assets/Bhuvan_Koduru_Resume.pdf">CV</a></li>
+                    <li>
+                        <button class="theme-toggle" type="button" aria-label="Toggle dark mode">
+                            <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                            <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2 12h2.5M19.5 12H22M4.2 19.8 6 18M18 6l1.8-1.8"/></svg>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero hero--text">
+        <div class="wrap">
+            <div class="hero-text">
+                <p class="eyebrow">CoLM 2026 · Conference on Language Modeling · San Francisco</p>
+                <h1 class="display">Heard but Not Heeded</h1>
+                <p class="lede">Paralinguistic information encoding and loss in audio-language models: the models hear <em>how</em> something is said, then lose it before they answer.</p>
+                <p class="authors">
+                    <a href="../index.html">Bhuvan Koduru</a>, <a href="https://dareenharthi.github.io/">Dareen Alharthi</a>, Rita Singh, Bhiksha Raj
+                </p>
+                <p class="affiliation">Language Technologies Institute, Carnegie Mellon University</p>
+                <div class="btn-row">
+                    <a class="btn btn--primary" href="https://arxiv.org/abs/2609.00727">Paper</a>
+                    <a class="btn" href="https://arxiv.org/pdf/2609.00727">PDF</a>
+                    <a class="btn" href="../assets/papers/koduru-colm2026-poster.pdf">Poster</a>
+                    <a class="btn" href="#listen">Listen</a>
+                    <a class="btn" href="#cite">Cite</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    </div>
+    <div class="mast-fade" aria-hidden="true"></div>
+
+    <main class="wrap layout">
+        <details class="toc" open>
+            <summary><span class="toc-label">Contents</span></summary>
+            <p class="toc-label toc-label--desktop">Contents</p>
+            <ol>
+                <li><a href="#takeaways">Takeaways</a></li>
+                <li><a href="#listen">Listen</a></li>
+                <li><a href="#gap">Encoded vs. said</a></li>
+                <li><a href="#styles">By speaking style</a></li>
+                <li><a href="#leakage">Sentence or style?</a></li>
+                <li><a href="#layers">Layer by layer</a></li>
+                <li><a href="#poster">Poster</a></li>
+                <li><a href="#cite">Citation</a></li>
+            </ol>
+        </details>
+
+        <article class="content">
+            <section id="takeaways">
+                <h2>Takeaways</h2>
+                <ol class="takeaways">
+                    <li>
+                        <strong>Speaking style is linearly decodable.</strong>
+                        <p>A linear probe recovers the speaking style (7 classes, e.g. happy, whisper) at 82–85% from the late audio encoder of all four models. Chance is 14.3%.</p>
+                    </li>
+                    <li>
+                        <strong>Asked to describe the tone, the models are right only 19.7–53.7% of the time.</strong>
+                        <p>Qwen2-Audio's and Chroma's answers follow the sentence more than the style (leakage 0.98 and 0.84, where 1 means fully sentence-driven). Qwen2.5-Omni's follow the style more (0.27).</p>
+                    </li>
+                    <li>
+                        <strong>Why Omni differs is not settled.</strong>
+                        <p>Our leading hypothesis is its speech-generation objective, but it also uses an MLP projector rather than a linear one. Retraining only Qwen2-Audio's linear projector with gradient reversal did not change leakage (0.977 → 0.979).</p>
+                    </li>
+                </ol>
+            </section>
+
+            <section id="listen">
+                <h2>Listen</h2>
+                <p>
+                    One speaker reads the same sentence in four styles. Pick a style to hear it, then see what each model
+                    said when asked to describe the tone.
+                </p>
+
+                <div class="tryit" data-tryit>
+                    <p class="tryit-label">Expresso · speaker ex01</p>
+                    <p class="tryit-sentence">“Monday, there's gonna be haze, but Tuesday, look for thunderstorms.”</p>
+
+                    <div class="style-picker" role="group" aria-label="Speaking style">
+                        <button type="button" aria-pressed="false" data-style="sad" data-audio="../assets/audio/heard/sad.m4a"
+                                data-a1="neutral" data-a2="sleepy" data-a3="neutral" data-n2="Counted as incorrect">Sad</button>
+                        <button type="button" aria-pressed="true" data-style="whisper" data-audio="../assets/audio/heard/whisper.m4a"
+                                data-a1="neutral" data-a2="whispering" data-a3="neutral" data-m2>Whisper</button>
+                        <button type="button" aria-pressed="false" data-style="laughing" data-audio="../assets/audio/heard/laughing.m4a"
+                                data-a1="neutral" data-a2="happy" data-a3="neutral">Laughing</button>
+                        <button type="button" aria-pressed="false" data-style="confused" data-audio="../assets/audio/heard/confused.m4a"
+                                data-a1="neutral" data-a2="neutral" data-a3="neutral">Confused</button>
+                    </div>
+
+                    <div class="tryit-stage">
+                        <button type="button" class="play" aria-label="Play the whisper recording">
+                            <svg class="icon-play" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l13-7.5z" fill="currentColor"/></svg>
+                            <svg class="icon-pause" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 4.5h4v15h-4zM13.5 4.5h4v15h-4z" fill="currentColor"/></svg>
+                        </button>
+                        <p class="spoken">Spoken as <b data-spoken>whisper</b></p>
+
+                        <div class="answers" aria-live="polite">
+                            <div class="answer is-neutral" data-answer="1" style="--c: var(--series-1)">
+                                <p class="answer-model"><i aria-hidden="true"></i>Qwen2-Audio</p>
+                                <p class="answer-said">neutral</p>
+                                <p class="answer-note"></p>
+                            </div>
+                            <div class="answer is-match" data-answer="2" style="--c: var(--series-2)">
+                                <p class="answer-model"><i aria-hidden="true"></i>Qwen2.5-Omni</p>
+                                <p class="answer-said">whispering</p>
+                                <p class="answer-note"></p>
+                            </div>
+                            <div class="answer is-neutral" data-answer="3" style="--c: var(--series-3)">
+                                <p class="answer-model"><i aria-hidden="true"></i>Chroma-4B</p>
+                                <p class="answer-said">neutral</p>
+                                <p class="answer-note"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <audio preload="none"></audio>
+                    <p class="tryit-foot">
+                        Model answers are the paper's example outputs (poster, section 5), keyword-mapped to one of 11 tone
+                        labels. Prompt: “Reply in English only. What is the person saying? Describe the tone briefly.”
+                        Audio: <a href="https://speechbot.github.io/expresso/">Expresso</a> (Nguyen et al., 2023),
+                        CC BY-NC 4.0.
+                    </p>
+                </div>
+            </section>
+
+            <section id="gap">
+                <h2>Encoded vs. said</h2>
+                <p>
+                    Every model carries the speaking style through its audio encoder. What reaches the answer is a
+                    different story.
+                </p>
+
+                <figure class="figure">
+                    <p class="fig-label">Figure 1</p>
+                    <h3 class="fig-title">Speaking-style accuracy: probe vs. the model's own answer</h3>
+                    <ul class="legend">
+                        <li><span class="swatch swatch--ring"></span>Probe at the audio-encoder peak</li>
+                        <li><span class="swatch swatch--dot"></span>Probe at the last layer</li>
+                        <li><span class="swatch swatch--dot swatch--accent"></span>The model's own answer</li>
+                    </ul>
+                    <div class="chart dotplot" style="--label-w: 112px; --chance: 14.3">
+                        <div class="chart-row">
+                            <span></span>
+                            <div class="chance-label" style="left: 14.3%">chance</div>
+                        </div>
+                        <div class="chart-row">
+                            <span class="chart-label">Qwen2-Audio</span>
+                            <div class="dot-track">
+                                <span class="dot-span" style="--from: 19.7; --to: 82.0"></span>
+                                <span class="dot dot--ring" style="--v: 82.0" tabindex="0" data-tip-value="82.0%" data-tip="Qwen2-Audio · probe at the audio-encoder peak"><span class="dot-label">82.0%</span></span>
+                                <span class="dot" style="--v: 78.7" tabindex="0" data-tip-value="78.7%" data-tip="Qwen2-Audio · probe at the last layer"></span>
+                                <span class="dot dot--accent" style="--v: 19.7" tabindex="0" data-tip-value="19.7%" data-tip="Qwen2-Audio · the model's own answer"><span class="dot-label">19.7%</span></span>
+                            </div>
+                        </div>
+                        <div class="chart-row">
+                            <span class="chart-label">Qwen2.5-Omni</span>
+                            <div class="dot-track">
+                                <span class="dot-span" style="--from: 53.7; --to: 85.3"></span>
+                                <span class="dot dot--ring" style="--v: 85.3" tabindex="0" data-tip-value="85.3%" data-tip="Qwen2.5-Omni · probe at the audio-encoder peak"><span class="dot-label">85.3%</span></span>
+                                <span class="dot" style="--v: 73.6" tabindex="0" data-tip-value="73.6%" data-tip="Qwen2.5-Omni · probe at the last layer"></span>
+                                <span class="dot dot--accent" style="--v: 53.7" tabindex="0" data-tip-value="53.7%" data-tip="Qwen2.5-Omni · the model's own answer"><span class="dot-label">53.7%</span></span>
+                            </div>
+                        </div>
+                        <div class="chart-row">
+                            <span class="chart-label">Chroma-4B</span>
+                            <div class="dot-track">
+                                <span class="dot-span" style="--from: 22.6; --to: 85.3"></span>
+                                <span class="dot dot--ring" style="--v: 85.3" tabindex="0" data-tip-value="85.3%" data-tip="Chroma-4B · probe at the audio-encoder peak"><span class="dot-label">85.3%</span></span>
+                                <span class="dot" style="--v: 59.5" tabindex="0" data-tip-value="59.5%" data-tip="Chroma-4B · probe at the last layer"></span>
+                                <span class="dot dot--accent" style="--v: 22.6" tabindex="0" data-tip-value="22.6%" data-tip="Chroma-4B · the model's own answer"><span class="dot-label">22.6%</span></span>
+                            </div>
+                        </div>
+                        <div class="chart-axis" aria-hidden="true">
+                            <span></span>
+                            <div class="chart-ticks"><span style="left: 0">0%</span><span class="minor" style="left: 25%">25%</span><span style="left: 50%">50%</span><span class="minor" style="left: 75%">75%</span><span style="left: 100%">100%</span></div>
+                        </div>
+                    </div>
+                    <p class="fig-caption">
+                        Seven speaking styles; chance is 14.3%. The probe is trained while the answer is zero-shot, so the
+                        two aren't directly comparable: the gap shows style is decodable, not that the model uses it.
+                        Whisper-large-v2 has no language model to answer with and is omitted.
+                    </p>
+                    <table class="sr-only">
+                        <caption>Speaking-style accuracy (7 styles; chance 14.3%)</caption>
+                        <tr><th scope="col">Model</th><th scope="col">Probe, audio-encoder peak</th><th scope="col">Probe, last layer</th><th scope="col">Model's own answer</th></tr>
+                        <tr><td>Qwen2-Audio</td><td>82.0%</td><td>78.7%</td><td>19.7%</td></tr>
+                        <tr><td>Qwen2.5-Omni</td><td>85.3%</td><td>73.6%</td><td>53.7%</td></tr>
+                        <tr><td>Chroma-4B</td><td>85.3%</td><td>59.5%</td><td>22.6%</td></tr>
+                    </table>
+                </figure>
+            </section>
+
+            <section id="styles">
+                <h2>By speaking style</h2>
+                <p>
+                    Omni does best on acoustically extreme styles like whisper and laughing. Qwen2-Audio does best on
+                    clarity styles (default, enunciated). Subtle styles like sad and confused defeat all three.
+                </p>
+
+                <figure class="figure">
+                    <p class="fig-label">Figure 2</p>
+                    <h3 class="fig-title">Tone accuracy per speaking style</h3>
+                    <ul class="legend">
+                        <li><span class="swatch swatch--s1"></span>Qwen2-Audio</li>
+                        <li><span class="swatch swatch--s2"></span>Qwen2.5-Omni</li>
+                        <li><span class="swatch swatch--s3"></span>Chroma-4B</li>
+                    </ul>
+                    <div class="chart dotplot dotplot--compact" style="--label-w: 96px; --chance: 14.3">
+                        <div class="chart-row">
+                            <span></span>
+                            <div class="chance-label" style="left: 14.3%">chance</div>
+                        </div>
+                        <div class="chart-row">
+                            <span class="chart-label">whisper</span>
+                            <div class="dot-track">
+                                <span class="dot-span" style="--from: 1.18; --to: 93.94"></span>
+                                <span class="dot dot--s1" style="--v: 1.18" tabindex="0" data-tip-value="1.2%" data-tip="whisper · Qwen2-Audio"></span>
+                                <span class="dot dot--s3" style="--v: 14.76" tabindex="0" data-tip-value="14.8%" data-tip="whisper · Chroma-4B"></span>
+                                <span class="dot dot--s2" style="--v: 93.94" tabindex="0" data-tip-value="93.9%" data-tip="whisper · Qwen2.5-Omni"></span>
+                            </div>
+                        </div>
+                        <div class="chart-row">
+                            <span class="chart-label">laughing</span>
+                            <div class="dot-track dot-track--tagged">
+                                <span class="dot-span" style="--from: 17.40; --to: 85.11"></span>
+                                <span class="dot dot--s1" style="--v: 17.40" tabindex="0" data-tip-value="17.4%" data-tip="laughing · Qwen2-Audio"><span class="series-tag">Qwen2-Audio</span></span>
+                                <span class="dot dot--s3" style="--v: 51.16" tabindex="0" data-tip-value="51.2%" data-tip="laughing · Chroma-4B"><span class="series-tag">Chroma-4B</span></span>
+                                <span class="dot dot--s2" style="--v: 85.11" tabindex="0" data-tip-value="85.1%" data-tip="laughing · Qwen2.5-Omni"><span class="series-tag">Qwen2.5-Omni</span></span>
+                            </div>
+                        </div>
+                        <div class="chart-row">
+                            <span class="chart-label">default</span>
+                            <div class="dot-track">
+                                <span class="dot-span" style="--from: 28.56; --to: 66.64"></span>
+                                <span class="dot dot--s3" style="--v: 28.56" tabindex="0" data-tip-value="28.6%" data-tip="default · Chroma-4B"></span>
+                                <span class="dot dot--s1" style="--v: 54.17" tabindex="0" data-tip-value="54.2%" data-tip="default · Qwen2-Audio"></span>
+                                <span class="dot dot--s2" style="--v: 66.64" tabindex="0" data-tip-value="66.6%" data-tip="default · Qwen2.5-Omni"></span>
+                            </div>
+                        </div>
+                        <div class="chart-row">
+                            <span class="chart-label">enunciated</span>
+                            <div class="dot-track">
+                                <span class="dot-span" style="--from: 36.84; --to: 52.21"></span>
+                                <span class="dot dot--s3" style="--v: 36.84" tabindex="0" data-tip-value="36.8%" data-tip="enunciated · Chroma-4B"></span>
+                                <span class="dot dot--s1" style="--v: 46.64" tabindex="0" data-tip-value="46.6%" data-tip="enunciated · Qwen2-Audio"></span>
+                                <span class="dot dot--s2" style="--v: 52.21" tabindex="0" data-tip-value="52.2%" data-tip="enunciated · Qwen2.5-Omni"></span>
+                            </div>
+                        </div>
+                        <div class="chart-row">
+                            <span class="chart-label">happy</span>
+                            <div class="dot-track">
+                                <span class="dot-span" style="--from: 13.60; --to: 43.95"></span>
+                                <span class="dot dot--s1" style="--v: 13.60" tabindex="0" data-tip-value="13.6%" data-tip="happy · Qwen2-Audio"></span>
+                                <span class="dot dot--s3" style="--v: 19.35" tabindex="0" data-tip-value="19.4%" data-tip="happy · Chroma-4B"></span>
+                                <span class="dot dot--s2" style="--v: 43.95" tabindex="0" data-tip-value="44.0%" data-tip="happy · Qwen2.5-Omni"></span>
+                            </div>
+                        </div>
+                        <div class="chart-row">
+                            <span class="chart-label">sad</span>
+                            <div class="dot-track">
+                                <span class="dot-span" style="--from: 1.71; --to: 30.35"></span>
+                                <span class="dot dot--s3" style="--v: 1.71" tabindex="0" data-tip-value="1.7%" data-tip="sad · Chroma-4B"></span>
+                                <span class="dot dot--s1" style="--v: 3.75" tabindex="0" data-tip-value="3.8%" data-tip="sad · Qwen2-Audio"></span>
+                                <span class="dot dot--s2" style="--v: 30.35" tabindex="0" data-tip-value="30.4%" data-tip="sad · Qwen2.5-Omni"></span>
+                            </div>
+                        </div>
+                        <div class="chart-row">
+                            <span class="chart-label">confused</span>
+                            <div class="dot-track">
+                                <span class="dot-span" style="--from: 0.99; --to: 5.59"></span>
+                                <span class="dot dot--s1" style="--v: 0.99" tabindex="0" data-tip-value="1.0%" data-tip="confused · Qwen2-Audio"></span>
+                                <span class="dot dot--s2" style="--v: 3.75" tabindex="0" data-tip-value="3.8%" data-tip="confused · Qwen2.5-Omni"></span>
+                                <span class="dot dot--s3" style="--v: 5.59" tabindex="0" data-tip-value="5.6%" data-tip="confused · Chroma-4B"></span>
+                            </div>
+                        </div>
+                        <div class="chart-axis" aria-hidden="true">
+                            <span></span>
+                            <div class="chart-ticks"><span style="left: 0">0%</span><span class="minor" style="left: 25%">25%</span><span style="left: 50%">50%</span><span class="minor" style="left: 75%">75%</span><span style="left: 100%">100%</span></div>
+                        </div>
+                    </div>
+                    <p class="fig-caption">Open-ended prompting; chance is 14.3%. Styles are sorted by Qwen2.5-Omni's accuracy, and the grey line spans the three models in each row. From Table 2 of the paper.</p>
+                    <table class="sr-only">
+                        <caption>Tone accuracy per speaking style</caption>
+                        <tr><th scope="col">Style</th><th scope="col">Qwen2-Audio</th><th scope="col">Qwen2.5-Omni</th><th scope="col">Chroma-4B</th></tr>
+                        <tr><td>whisper</td><td>1.18%</td><td>93.94%</td><td>14.76%</td></tr>
+                        <tr><td>laughing</td><td>17.40%</td><td>85.11%</td><td>51.16%</td></tr>
+                        <tr><td>default</td><td>54.17%</td><td>66.64%</td><td>28.56%</td></tr>
+                        <tr><td>enunciated</td><td>46.64%</td><td>52.21%</td><td>36.84%</td></tr>
+                        <tr><td>happy</td><td>13.60%</td><td>43.95%</td><td>19.35%</td></tr>
+                        <tr><td>sad</td><td>3.75%</td><td>30.35%</td><td>1.71%</td></tr>
+                        <tr><td>confused</td><td>0.99%</td><td>3.75%</td><td>5.59%</td></tr>
+                    </table>
+                </figure>
+            </section>
+
+            <section id="leakage">
+                <h2>Sentence or style?</h2>
+                <p>
+                    When a model does name a tone, what drives the label: the words, or how they were spoken? Leakage
+                    compares how much the label depends on the sentence against how much it depends on the style, using
+                    normalized mutual information (NMI) over all clips. It is near 1 when the label tracks the sentence
+                    and near 0 when it tracks the style.
+                </p>
+                <div class="table-scroll">
+                    <table class="data-table">
+                        <thead>
+                            <tr><th scope="col">Model</th><th scope="col">NMI (label, sentence)</th><th scope="col">NMI (label, style)</th><th scope="col">Leakage</th><th scope="col">Same label in all 7 styles</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><th scope="row">Qwen2-Audio</th><td>0.234</td><td>0.006</td><td><strong>0.977</strong></td><td>30.5%</td></tr>
+                            <tr><th scope="row">Qwen2.5-Omni</th><td>0.140</td><td>0.374</td><td><strong>0.272</strong></td><td>0.6%</td></tr>
+                            <tr><th scope="row">Chroma-4B</th><td>0.254</td><td>0.047</td><td><strong>0.844</strong></td><td>19.9%</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="fig-caption">The last column counts sentences whose label is the same in every style.</p>
+            </section>
+
+            <section id="layers">
+                <h2>Layer by layer</h2>
+                <p>
+                    Representational similarity (CKA) between pairs of speaking styles shows where the models separate
+                    styles and where they collapse them.
+                </p>
+                <figure class="figure">
+                    <p class="fig-label">Figure 3 · Figure 5 in the paper</p>
+                    <h3 class="fig-title">How speaking styles separate, layer by layer</h3>
+                    <div class="tabs" role="tablist" aria-label="Model">
+                        <button type="button" role="tab" id="tab-cka-whisper" aria-controls="cka-whisper" aria-selected="true">Whisper-large-v2</button>
+                        <button type="button" role="tab" id="tab-cka-qwen2" aria-controls="cka-qwen2" aria-selected="false" tabindex="-1">Qwen2-Audio</button>
+                        <button type="button" role="tab" id="tab-cka-omni" aria-controls="cka-omni" aria-selected="false" tabindex="-1">Qwen2.5-Omni</button>
+                        <button type="button" role="tab" id="tab-cka-chroma" aria-controls="cka-chroma" aria-selected="false" tabindex="-1">Chroma-4B</button>
+                    </div>
+                    <div class="plate" role="tabpanel" id="cka-whisper" aria-labelledby="tab-cka-whisper">
+                        <img src="../assets/img/papers/heard/cka-whisper.webp" width="1600" height="793" loading="lazy"
+                             alt="CKA by layer for all 21 style pairs in Whisper-large-v2: every pair stays between about 0.92 and 1.0 across all 32 encoder layers.">
+                    </div>
+                    <div class="plate" role="tabpanel" id="cka-qwen2" aria-labelledby="tab-cka-qwen2" hidden>
+                        <img src="../assets/img/papers/heard/cka-qwen2-audio.webp" width="1600" height="793" loading="lazy"
+                             alt="CKA by layer for all 21 style pairs in Qwen2-Audio: similarity falls in the late encoder as styles separate, consistently across pairs.">
+                    </div>
+                    <div class="plate" role="tabpanel" id="cka-omni" aria-labelledby="tab-cka-omni" hidden>
+                        <img src="../assets/img/papers/heard/cka-qwen25-omni.webp" width="1600" height="793" loading="lazy"
+                             alt="CKA by layer for all 21 style pairs in Qwen2.5-Omni: similarity drops in the late encoder as styles separate, consistently across pairs.">
+                    </div>
+                    <div class="plate" role="tabpanel" id="cka-chroma" aria-labelledby="tab-cka-chroma" hidden>
+                        <img src="../assets/img/papers/heard/cka-chroma.webp" width="1600" height="677" loading="lazy"
+                             alt="CKA by layer for all 21 style pairs in Chroma-4B: styles separate in the late encoder, then every pair collapses to a CKA of 1.0 at the backbone boundary at layer 32.">
+                    </div>
+                    <p class="fig-caption">
+                        CKA similarity by layer for all 21 pairs of speaking styles, one line per pair; lower means the two
+                        styles are represented more differently. The red dashed line marks the projector boundary. Whisper
+                        keeps every pair geometrically similar. All three audio-language models separate styles in the late
+                        encoder, and Chroma collapses every style difference at the backbone boundary (layer 32), yet its
+                        probe accuracy recovers to about 80% later in the backbone.
+                    </p>
+                </figure>
+            </section>
+
+            <section id="poster">
+                <h2>Poster</h2>
+                <p>Presented at CoLM 2026 in San Francisco. Tap to open the full-resolution PDF.</p>
+                <a class="poster-link" href="../assets/papers/koduru-colm2026-poster.pdf">
+                    <img src="../assets/img/papers/heard/poster-preview.webp" width="2000" height="1000" loading="lazy"
+                         alt="The CoLM 2026 poster for Heard but Not Heeded: motivation, setup, methods, the encoder–output gap, output-level behaviour, and discussion.">
+                </a>
+            </section>
+
+            <section id="cite">
+                <h2>Citation</h2>
+                <div class="bibtex">
+                    <button type="button" class="copy-btn" data-copy="#bibtex">Copy</button>
+<pre id="bibtex">@inproceedings{koduru2026heard,
+  title     = {Heard but Not Heeded: Paralinguistic Information
+               Encoding and Loss in Audio-Language Models},
+  author    = {Koduru, Bhuvan and Alharthi, Dareen Safar B and
+               Singh, Rita and Raj, Bhiksha},
+  booktitle = {Conference on Language Modeling (COLM)},
+  year      = {2026},
+  url       = {https://arxiv.org/abs/2609.00727}
+}</pre>
+                </div>
+            </section>
+        </article>
+    </main>
+
+    <footer class="site-footer">
+        <div class="wrap">
+            <p>© 2026 Bhuvan Koduru · Last updated Oct 2026</p>
+            <ul>
+                <li><a href="mailto:bkoduru@andrew.cmu.edu">bkoduru@andrew.cmu.edu</a></li>
+                <li><a href="https://github.com/BhuvanKoduru">GitHub</a></li>
+                <li><a href="https://linkedin.com/in/bhuvankoduru">LinkedIn</a></li>
+                <li><a href="https://scholar.google.com/citations?user=pp204vMAAAAJ">Scholar</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <script src="../assets/js/main.js?v=20261005j"></script>
+</body>
+</html>
