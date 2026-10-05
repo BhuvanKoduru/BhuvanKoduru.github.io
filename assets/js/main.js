@@ -302,6 +302,63 @@ document.querySelectorAll('.projects-grid').forEach(grid => {
 });
 
 // ============================================
+// Research Page: Theme Rail (scroll-spy + filter)
+// ============================================
+
+const themeRail = document.querySelector('.theme-rail');
+if (themeRail) {
+    const themeButtons = themeRail.querySelectorAll('.theme-item');
+    const resetButton = themeRail.querySelector('.theme-reset');
+    const pubList = document.querySelector('.pub-list');
+    const pubs = pubList.querySelectorAll('.publication-item[data-themes]');
+    const groupTitles = [...pubList.querySelectorAll('.pub-group-title')];
+    const themesOf = pub => pub.dataset.themes.split(' ');
+    let activeFilter = null;
+
+    // Light up the theme of the paper crossing the upper part of the viewport
+    const spy = new IntersectionObserver((entries) => {
+        entries.filter(entry => entry.isIntersecting).forEach(entry => {
+            const themes = themesOf(entry.target);
+            themeButtons.forEach(btn => btn.classList.toggle('is-current', themes.includes(btn.dataset.theme)));
+        });
+    }, { rootMargin: '-30% 0px -65% 0px' });
+    pubs.forEach(pub => spy.observe(pub));
+
+    function applyFilter(theme) {
+        activeFilter = theme;
+        pubs.forEach(pub => {
+            pub.hidden = theme !== null && !themesOf(pub).includes(theme);
+        });
+
+        // Hide group headings that are left with no visible papers
+        groupTitles.forEach(title => {
+            let el = title.nextElementSibling;
+            let hasVisible = false;
+            while (el && !el.classList.contains('pub-group-title')) {
+                if (el.classList.contains('publication-item') && !el.hidden) hasVisible = true;
+                el = el.nextElementSibling;
+            }
+            title.hidden = !hasVisible;
+        });
+        const firstVisible = groupTitles.find(title => !title.hidden);
+        groupTitles.forEach(title => title.classList.toggle('is-first', title === firstVisible));
+
+        themeButtons.forEach(btn => btn.setAttribute('aria-pressed', String(btn.dataset.theme === theme)));
+        resetButton.hidden = theme === null;
+
+        // If we've scrolled past the top of the list, bring it back into view
+        if (pubList.getBoundingClientRect().top < 0) {
+            pubList.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+        }
+    }
+
+    themeButtons.forEach(btn => btn.addEventListener('click', () => {
+        applyFilter(activeFilter === btn.dataset.theme ? null : btn.dataset.theme);
+    }));
+    resetButton.addEventListener('click', () => applyFilter(null));
+}
+
+// ============================================
 // Interactive Particle Network Canvas
 // ============================================
 
