@@ -372,6 +372,35 @@ p + p {
   transform: translateY(-1px);
 }
 
+/* Two-line pill: availability on top, the roles spelled out beneath */
+.pill--roles {
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 22px 12px 18px;
+  border-radius: 18px;
+  text-align: left;
+}
+
+.pill--roles .pill-dot {
+  margin-top: 7px;
+}
+
+.pill-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.pill-head {
+  font-weight: 600;
+}
+
+.pill-roles {
+  font-size: 13.5px;
+  font-weight: 400;
+  color: #5c4a3f;
+}
+
 .pill-dot {
   width: 8px;
   height: 8px;
