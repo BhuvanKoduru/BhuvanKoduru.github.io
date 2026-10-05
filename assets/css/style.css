@@ -31,6 +31,11 @@
   --border-maroon: #7b1830;
   --border-gold: #d4a437;
 
+  /* maroon-to-zari wash where the silk meets the page */
+  --fade-h: 240px;
+  --wash: rgba(123, 24, 48, 0.7) 0%, rgba(176, 74, 46, 0.45) 14%, rgba(212, 164, 55, 0.3) 30%,
+          rgba(240, 198, 106, 0.14) 56%, rgba(250, 246, 238, 0) 100%;
+
   /* chart marks (validated: accent vs baseline on the light surface) */
   --mark: #b3261e;
   --mark-base: #a9a195;
@@ -63,6 +68,10 @@
   --mast-1: #061f26;
   --mast-2: #093d44;
   --mast-3: #0b4741;
+
+  /* gold over near-black reads olive, so the dark wash is a kumkum glow only */
+  --wash: rgba(123, 24, 48, 0.6) 0%, rgba(140, 30, 50, 0.32) 18%, rgba(150, 45, 50, 0.14) 42%,
+          rgba(22, 18, 15, 0) 100%;
 
   /* chart marks (validated against the dark surface) */
   --mark: #d96a59;
@@ -186,14 +195,19 @@ p + p {
   z-index: 0;
 }
 
-/* Kanchipuram temple border: zari spires on maroon */
-.temple-border {
-  height: 20px;
-  background:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='16'%3E%3Cpath d='M1 16 L11 3 L21 16 Z' fill='%23d4a437'/%3E%3Cpath d='M6 16 L11 9.5 L16 16 Z' fill='%237b1830'/%3E%3C/svg%3E") repeat-x left bottom / 22px 16px,
-    var(--border-maroon);
+/* The border colours, maroon into zari gold, melt from the masthead into the page:
+   a gold thread at the seam, then an ombre wash that fades out under the content */
+.mast-fade {
+  position: relative;
+  height: var(--fade-h);
+  margin-bottom: calc(-1 * var(--fade-h));
   border-top: 2px solid var(--border-gold);
-  border-bottom: 2px solid var(--border-gold);
+  background: linear-gradient(to bottom, var(--wash));
+  pointer-events: none;
+}
+
+.mast-fade + * {
+  position: relative;  /* content sits above the wash */
 }
 
 /* ============================================
@@ -1158,9 +1172,27 @@ p + p {
    Footer
    ============================================ */
 
+/* Footer mirrors the masthead: the wash rises out of a peacock band,
+   so the page sits between two silk borders */
 .site-footer {
-  border-top: 3px solid transparent;
-  border-image: linear-gradient(90deg, var(--border-maroon), var(--border-gold) 50%, var(--mast-2)) 1;
+  position: relative;
+  color: var(--mast-muted);
+  border-top: 2px solid var(--border-gold);
+  background:
+    radial-gradient(ellipse 45% 140% at 100% 100%, rgba(155, 35, 53, 0.3), transparent 70%),
+    linear-gradient(120deg, var(--mast-1) 0%, var(--mast-2) 55%, var(--mast-3) 100%);
+}
+
+.site-footer::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(100% + 2px);
+  height: var(--fade-h);
+  background: linear-gradient(to top, var(--wash));
+  pointer-events: none;
+  z-index: -1;  /* behind the page content */
 }
 
 .site-footer .wrap {
@@ -1171,7 +1203,7 @@ p + p {
   padding-top: 32px;
   padding-bottom: 40px;
   font-size: 14px;
-  color: var(--muted);
+  color: var(--mast-muted);
 }
 
 .site-footer ul {
@@ -1182,12 +1214,12 @@ p + p {
 }
 
 .site-footer a {
-  color: var(--muted);
+  color: var(--mast-muted);
   text-decoration: none;
 }
 
 .site-footer a:hover {
-  color: var(--ink);
+  color: var(--mast-text);
 }
 
 /* ============================================
