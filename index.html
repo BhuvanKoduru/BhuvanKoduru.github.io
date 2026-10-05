@@ -4,12 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bhuvan Koduru</title>
-    <meta name="description" content="Bhuvan Koduru — M.S. student in AI/NLP at Carnegie Mellon's Language Technologies Institute, working on interpretability, audio-language models and computer-use agents. Open to full-time roles from 2027.">
+    <meta name="description" content="Bhuvan Koduru — M.S. student in AI/NLP at Carnegie Mellon's Language Technologies Institute, working on interpretability, audio-language models and AI agents. Open to research scientist, research engineer and ML engineer roles from 2027.">
     <meta property="og:title" content="Bhuvan Koduru">
-    <meta property="og:description" content="M.S. AI/NLP at CMU LTI · interpretability, audio-language models and computer-use agents · open to full-time roles starting 2027.">
-    <meta property="og:image" content="https://bhuvankoduru.github.io/assets/img/profile.jpg">
+    <meta property="og:description" content="M.S. AI/NLP at CMU LTI · audio-language models, AI safety, self-evolving agents · open to research scientist, research engineer and ML engineer roles from 2027.">
+    <meta property="og:image" content="https://bhuvankoduru.github.io/assets/img/og-card.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Bhuvan Koduru: AI/NLP researcher at Carnegie Mellon, open to research scientist, research engineer and ML engineer roles from 2027">
+    <meta name="twitter:card" content="summary_large_image">
     <meta property="og:url" content="https://bhuvankoduru.github.io/">
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+    <meta name="theme-color" content="#0a3440">
     <script>
         try { if (localStorage.getItem('theme-v2') === 'dark') document.documentElement.dataset.theme = 'dark'; } catch (e) {}
         if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('js-motion');
@@ -17,7 +23,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/style.css?v=20261005g">
+    <link rel="stylesheet" href="assets/css/style.css?v=20261005h">
 </head>
 <body>
     <div class="masthead">
@@ -46,15 +52,17 @@
             <div class="hero-text">
                 <p class="eyebrow">AI/NLP researcher · Carnegie Mellon University</p>
                 <h1 class="display">Bhuvan Koduru</h1>
-                <p class="lede">I study the gap between what models <em>represent</em> and what they <em>act on</em>, in audio-language models, computer-use agents, and multi-agent systems.</p>
+                <p class="lede">I study the gap between what models <em>represent</em> and what they <em>act on</em>, across audio-language models, AI safety, self-evolving agents, and deception &amp; Theory of Mind.</p>
                 <p class="byline">M.S., Language Technologies Institute · Dec&nbsp;2026 · Pittsburgh</p>
                 <div class="actions">
-                    <a class="pill" href="mailto:bkoduru@andrew.cmu.edu" title="Email bkoduru@andrew.cmu.edu">
-                        <span class="pill-dot" aria-hidden="true"></span>Open to full-time roles from 2027
+                    <a class="pill" href="mailto:bkoduru@andrew.cmu.edu" title="Research scientist, research engineer and machine learning engineer roles · email bkoduru@andrew.cmu.edu">
+                        <span class="pill-dot" aria-hidden="true"></span>Open to RS, RE &amp; MLE roles from 2027
                     </a>
-                    <a class="chev" href="assets/Bhuvan_Koduru_Resume.pdf">CV</a>
-                    <a class="chev" href="https://scholar.google.com/citations?user=pp204vMAAAAJ">Scholar</a>
-                    <a class="chev" href="https://github.com/BhuvanKoduru">GitHub</a>
+                    <span class="action-links">
+                        <a class="chev" href="assets/Bhuvan_Koduru_Resume.pdf">CV</a>
+                        <a class="chev" href="https://scholar.google.com/citations?user=pp204vMAAAAJ">Scholar</a>
+                        <a class="chev" href="https://github.com/BhuvanKoduru">GitHub</a>
+                    </span>
                 </div>
             </div>
             <div class="hero-art" data-dots="assets/img/portrait-dots.svg">
@@ -88,7 +96,7 @@
                 <h2>About</h2>
                 <p>
                     I'm a Master's student in AI/NLP at <strong>Carnegie Mellon University's Language Technologies Institute</strong>,
-                    graduating in December 2026. I'm looking for full-time roles starting in 2027.
+                    graduating in December 2026. I'm looking for full-time <strong>research scientist</strong>, <strong>research engineer</strong>, and <strong>machine learning engineer</strong> roles starting in 2027.
                 </p>
                 <p>
                     My research asks where the gap opens between what a model represents and what it acts on. Audio-language
@@ -122,37 +130,69 @@
             <section id="publications">
                 <h2>Selected publications</h2>
                 <ol class="pubs">
-                    <li class="pub">
-                        <p class="pub-title">Heard but Not Heeded: Paralinguistic Information Encoding and Loss in Audio-Language Models</p>
-                        <p class="pub-authors"><strong>B. Koduru</strong>, D. Alharthi, R. Singh, B. Raj</p>
-                        <div class="pub-meta"><span class="venue">CoLM 2026</span></div>
-                        <p class="pub-summary">Speaking style is strongly encoded in the audio encoder of four audio-language models, but degrades before it reaches the output.</p>
-                        <div class="pub-links">
-                            <a class="chev chev--small" href="https://arxiv.org/abs/2609.00727">arXiv</a>
-                            <a class="chev chev--small" href="https://arxiv.org/pdf/2609.00727">PDF</a>
+                    <li class="pub pub--thumb">
+                        <a class="pub-thumb" href="research.html#pub-heard" aria-label="Heard but Not Heeded on the research page">
+                            <span class="mini-plot" aria-hidden="true">
+                                <span class="mini-row"><i class="mini-span" style="--a: 19.7; --b: 82"></i><i class="mini-ring" style="--v: 82"></i><i class="mini-dot" style="--v: 19.7"></i></span>
+                                <span class="mini-row"><i class="mini-span" style="--a: 53.7; --b: 85.3"></i><i class="mini-ring" style="--v: 85.3"></i><i class="mini-dot" style="--v: 53.7"></i></span>
+                                <span class="mini-row"><i class="mini-span" style="--a: 22.6; --b: 85.3"></i><i class="mini-ring" style="--v: 85.3"></i><i class="mini-dot" style="--v: 22.6"></i></span>
+                            </span>
+                            <span class="thumb-caption" aria-hidden="true">encoded <span class="mini-key mini-key--ring"></span> vs. said <span class="mini-key"></span></span>
+                        </a>
+                        <div class="pub-body">
+                            <p class="pub-title">Heard but Not Heeded: Paralinguistic Information Encoding and Loss in Audio-Language Models</p>
+                            <p class="pub-authors"><strong>B. Koduru</strong>, D. Alharthi, R. Singh, B. Raj</p>
+                            <div class="pub-meta"><span class="venue">CoLM 2026</span></div>
+                            <p class="pub-summary">Speaking style is strongly encoded in the audio encoder of four audio-language models, but degrades before it reaches the output.</p>
+                            <div class="pub-links">
+                                <a class="chev chev--small" href="https://arxiv.org/abs/2609.00727">arXiv</a>
+                                <a class="chev chev--small" href="https://arxiv.org/pdf/2609.00727">PDF</a>
+                                <a class="chev chev--small" href="assets/papers/koduru-colm2026-poster.pdf">Poster</a>
+                            </div>
                         </div>
                     </li>
-                    <li class="pub">
-                        <p class="pub-title">Chat-safe is not CUA-safe: Chat Methods May Not Transfer to Computer Use</p>
-                        <p class="pub-authors"><strong>B. Koduru</strong>, J. Yang, A. Li, X. E. Wang</p>
-                        <div class="pub-meta"><span class="venue venue--workshop">NeurIPS 2026 Workshop</span><span class="venue-note">Agents in the Wild · poster</span></div>
-                        <p class="pub-summary">Refusal drops from 31/47 in chat to 4/47 when the same models act as computer-use agents; activation steering that raises chat refusal leaves agent actions unchanged.</p>
-                    </li>
-                    <li class="pub">
-                        <p class="pub-title">RIVET: Robust Idempotent Voice Attribute Editing</p>
-                        <p class="pub-authors">D. Alharthi, <strong>B. Koduru</strong>, R. Singh, B. Raj</p>
-                        <div class="pub-meta"><span class="venue">INTERSPEECH 2026</span><span class="venue-note venue-note--oral">Oral</span></div>
-                        <p class="pub-summary">Training voice editors to be idempotent makes them robust to noisy attribute labels, improving edit success and speaker-identity preservation.</p>
-                        <div class="pub-links">
-                            <a class="chev chev--small" href="https://arxiv.org/abs/2606.19629">arXiv</a>
-                            <a class="chev chev--small" href="https://arxiv.org/pdf/2606.19629">PDF</a>
+                    <li class="pub pub--thumb">
+                        <a class="pub-thumb" href="research.html#pub-chat-safe" aria-label="Chat-safe is not CUA-safe on the research page">
+                            <span class="mini-bars" aria-hidden="true">
+                                <span class="mini-bar-row"><span class="mini-label">chat</span><span class="mini-track"><i class="mini-bar" style="--v: 66"></i><b>31/47</b></span></span>
+                                <span class="mini-bar-row"><span class="mini-label">agent</span><span class="mini-track"><i class="mini-bar mini-bar--accent" style="--v: 8.5"></i><b>4/47</b></span></span>
+                            </span>
+                            <span class="thumb-caption" aria-hidden="true">refusals</span>
+                        </a>
+                        <div class="pub-body">
+                            <p class="pub-title">Chat-safe is not CUA-safe: Chat Methods May Not Transfer to Computer Use</p>
+                            <p class="pub-authors"><strong>B. Koduru</strong>, J. Yang, A. Li, X. E. Wang</p>
+                            <div class="pub-meta"><span class="venue venue--workshop">NeurIPS 2026 Workshop</span><span class="venue-note">Agents in the Wild · poster</span></div>
+                            <p class="pub-summary">Refusal drops from 31/47 in chat to 4/47 when the same models act as computer-use agents; activation steering that raises chat refusal leaves agent actions unchanged.</p>
                         </div>
                     </li>
-                    <li class="pub">
-                        <p class="pub-title">AmongUs-X: Benchmarking Strategic Deception of LLM Agents via Theory-of-Mind Metrics</p>
-                        <p class="pub-authors">K. Mirakhor*, <strong>B. Koduru*</strong>, A. Kontogiannis, R. Zabounidis, K. Sycara, W. Kim</p>
-                        <div class="pub-meta"><span class="venue venue--review">AAMAS 2027 · under review</span><span class="venue-note">*equal contribution</span></div>
-                        <p class="pub-summary">8,000+ simulated Among Us games across 21 LLMs, measuring whether agents deceive and how well they model each other's beliefs.</p>
+                    <li class="pub pub--thumb">
+                        <a class="pub-thumb pub-thumb--type" href="research.html#pub-rivet" aria-label="RIVET on the research page">
+                            <span class="thumb-equation" aria-hidden="true"><em>f</em>(<em>f</em>(<em>x</em>)) = <em>f</em>(<em>x</em>)</span>
+                            <span class="thumb-caption" aria-hidden="true">idempotent edits</span>
+                        </a>
+                        <div class="pub-body">
+                            <p class="pub-title">RIVET: Robust Idempotent Voice Attribute Editing</p>
+                            <p class="pub-authors">D. Alharthi, <strong>B. Koduru</strong>, R. Singh, B. Raj</p>
+                            <div class="pub-meta"><span class="venue">INTERSPEECH 2026</span><span class="venue-note venue-note--oral">Oral</span></div>
+                            <p class="pub-summary">Training voice editors to be idempotent makes them robust to noisy attribute labels, improving edit success and speaker-identity preservation.</p>
+                            <div class="pub-links">
+                                <a class="chev chev--small" href="https://arxiv.org/abs/2606.19629">arXiv</a>
+                                <a class="chev chev--small" href="https://arxiv.org/pdf/2606.19629">PDF</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="pub pub--thumb">
+                        <a class="pub-thumb pub-thumb--type" href="research.html#pub-amongus" aria-label="AmongUs-X on the research page">
+                            <span class="thumb-stat" aria-hidden="true">8,000+</span>
+                            <span class="thumb-caption" aria-hidden="true">games · 21 LLMs</span>
+                        </a>
+                        <div class="pub-body">
+                            <p class="pub-title">AmongUs-X: Benchmarking Strategic Deception of LLM Agents via Theory-of-Mind Metrics</p>
+                            <p class="pub-authors">K. Mirakhor*, <strong>B. Koduru*</strong>, A. Kontogiannis, R. Zabounidis, K. Sycara, W. Kim</p>
+                            <div class="pub-meta"><span class="venue venue--review">AAMAS 2027 · under review</span><span class="venue-note">*equal contribution</span></div>
+                            <p class="pub-summary">8,000+ simulated Among Us games across 21 LLMs, measuring whether agents deceive and how well they model each other's beliefs.</p>
+                        </div>
                     </li>
                 </ol>
                 <p class="more"><a class="chev" href="research.html">All publications and research themes</a></p>
@@ -224,6 +264,6 @@
         </div>
     </footer>
 
-    <script src="assets/js/main.js?v=20261005g"></script>
+    <script src="assets/js/main.js?v=20261005h"></script>
 </body>
 </html>

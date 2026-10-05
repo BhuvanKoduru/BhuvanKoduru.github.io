@@ -339,6 +339,15 @@ p + p {
   margin-top: 28px;
 }
 
+/* links travel as one group: beside the pill when they fit, else a row below */
+.action-links {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: inherit;
+  gap: 12px 28px;
+}
+
 .pill {
   display: inline-flex;
   align-items: center;
@@ -738,6 +747,166 @@ p + p {
   flex-wrap: wrap;
   gap: 6px 20px;
   margin-top: 10px;
+}
+
+/* Publication thumbnails: tiny visual summaries in the site's own style */
+.pub--thumb {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+  column-gap: 24px;
+  align-items: start;
+}
+
+.pub-thumb {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  aspect-ratio: 4 / 3;
+  margin-top: 4px;
+  padding: 14px 14px 12px;
+  color: var(--text);
+  text-decoration: none;
+  background: var(--surface);
+  border-radius: 10px;
+  box-shadow: inset 0 0 0 1px var(--rule);
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.pub-thumb:hover {
+  transform: translateY(-1px);
+  box-shadow: inset 0 0 0 1px var(--rule-strong), 0 8px 20px rgba(43, 29, 23, 0.08);
+}
+
+.pub-thumb--type {
+  align-items: center;
+  text-align: center;
+}
+
+.thumb-caption {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-size: 11px;
+  line-height: 1.2;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* mini dot plot: probe (ring) vs. the model's answer (dot) */
+.mini-plot {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding: 0 4px;
+}
+
+.mini-row {
+  position: relative;
+  height: 9px;
+  background: linear-gradient(to right, var(--rule) 1px, transparent 1px) 0 0 / 25% 100%;
+}
+
+.mini-span,
+.mini-ring,
+.mini-dot {
+  position: absolute;
+  top: 50%;
+}
+
+.mini-span {
+  left: calc(var(--a) * 1%);
+  width: calc((var(--b) - var(--a)) * 1%);
+  height: 2px;
+  background: var(--rule-strong);
+  transform: translateY(-50%);
+}
+
+.mini-ring,
+.mini-dot,
+.mini-key {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+}
+
+.mini-ring,
+.mini-dot {
+  left: calc(var(--v) * 1%);
+  transform: translate(-50%, -50%);
+}
+
+.mini-ring,
+.mini-key--ring {
+  background: var(--surface);
+  box-shadow: inset 0 0 0 2px var(--mark-base);
+}
+
+.mini-dot,
+.mini-key {
+  display: inline-block;
+  background: var(--mark);
+}
+
+/* mini bars: refusals in chat vs. as an agent */
+.mini-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.mini-bar-row {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  align-items: center;
+  column-gap: 6px;
+}
+
+.mini-label {
+  font-size: 10.5px;
+  color: var(--muted);
+}
+
+.mini-track {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.mini-track b {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.mini-bar {
+  display: block;
+  height: 10px;
+  width: calc(var(--v) * 0.7%);
+  min-width: 3px;
+  background: var(--mark-base);
+  border-radius: 0 3px 3px 0;
+}
+
+.mini-bar--accent {
+  background: var(--mark);
+}
+
+.thumb-equation {
+  font-family: var(--font-serif);
+  font-size: 19px;
+  line-height: 1.1;
+  color: var(--heading);
+  white-space: nowrap;
+}
+
+.thumb-stat {
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--ink);
 }
 
 /* ============================================
@@ -1329,6 +1498,22 @@ p + p {
 
   .chart-ticks .minor {
     display: none;
+  }
+
+  .pub--thumb {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 14px;
+  }
+
+  .pub-thumb {
+    aspect-ratio: auto;
+    min-height: 86px;
+    margin-top: 0;
+  }
+
+  .mini-plot,
+  .mini-bars {
+    padding: 0 8px;
   }
 
   .stream-label {
