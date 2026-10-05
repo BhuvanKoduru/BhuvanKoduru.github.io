@@ -680,6 +680,110 @@ p + p {
   transform: translateX(-100%);
 }
 
+/* Dot plot: several measurements per row on one 0–100% scale */
+.dot-track {
+  position: relative;
+  height: 46px;
+}
+
+/* chance reference line (a threshold, so dotted) */
+.dot-track::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(var(--chance) * 1%);
+  border-left: 1.5px dotted var(--muted);
+}
+
+.chance-label {
+  position: relative;
+  width: max-content;
+  height: 18px;
+  font-size: 12px;
+  color: var(--muted);
+  transform: translateX(-50%);
+}
+
+.dot-span {
+  position: absolute;
+  top: 30px;
+  left: calc(var(--from) * 1%);
+  width: calc((var(--to) - var(--from)) * 1%);
+  height: 2px;
+  background: var(--rule-strong);
+  transform: translateY(-50%);
+}
+
+.dot {
+  position: absolute;
+  z-index: 1;
+  top: 30px;
+  left: calc(var(--v) * 1%);
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--mark-base);
+  box-shadow: 0 0 0 2px var(--paper);  /* surface ring keeps overlaps legible */
+  transform: translate(-50%, -50%);
+  transition: filter 0.15s ease;
+}
+
+/* hit area well beyond the painted dot */
+.dot::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+}
+
+.dot--ring {
+  background: var(--paper);
+  border: 2.5px solid var(--mark-base);
+}
+
+.dot--accent {
+  z-index: 2;
+  background: var(--mark);
+}
+
+.dot:hover,
+.dot:focus-visible {
+  filter: brightness(1.12);
+}
+
+.dot-label {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0 3px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  background: var(--paper);  /* reference lines pass behind the label */
+  border-radius: 3px;
+}
+
+.legend .swatch--ring,
+.legend .swatch--dot {
+  border-radius: 50%;
+}
+
+.legend .swatch--ring {
+  background: transparent;
+  box-shadow: inset 0 0 0 2.5px var(--mark-base);
+}
+
+.legend .swatch--dot {
+  background: var(--mark-base);
+}
+
+.legend .swatch--accent {
+  background: var(--mark);
+}
+
 .fig-caption {
   margin-top: 16px;
   font-size: 13.5px;
@@ -994,6 +1098,11 @@ p + p {
 
   .chart-ticks .minor {
     display: none;
+  }
+
+  .dot {
+    width: 11px;
+    height: 11px;
   }
 
   .content > section + section {

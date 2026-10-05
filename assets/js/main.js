@@ -69,7 +69,7 @@ if (toc) {
 // Chart tooltips (hover + keyboard focus)
 // ============================================
 
-const bars = document.querySelectorAll('.bar[data-tip]');
+const bars = document.querySelectorAll('[data-tip]');
 if (bars.length) {
     const tip = document.createElement('div');
     tip.className = 'chart-tip';
@@ -89,8 +89,9 @@ if (bars.length) {
     const hide = () => tip.classList.remove('is-visible');
 
     bars.forEach(bar => {
-        // The whole row is the hit target, so short bars are easy to hover
-        const row = bar.closest('.chart-track') || bar;
+        // Bars: the whole row is the hit target, so short bars are easy to hover.
+        // Dots carry their own enlarged hit area.
+        const row = bar.classList.contains('bar') ? bar.closest('.chart-track') : bar;
         row.addEventListener('pointermove', e => show(bar, e.clientX, e.clientY));
         row.addEventListener('pointerleave', hide);
         bar.addEventListener('focus', () => {
