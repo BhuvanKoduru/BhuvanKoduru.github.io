@@ -1,325 +1,218 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Bhuvan Koduru — M.S. student in AI/NLP at Carnegie Mellon's Language Technologies Institute, working on interpretability, audio-language models and computer-use agents.">
+    <title>Bhuvan Koduru</title>
+    <meta name="description" content="Bhuvan Koduru — M.S. student in AI/NLP at Carnegie Mellon's Language Technologies Institute, working on interpretability, audio-language models and computer-use agents. Open to full-time roles from 2027.">
     <meta property="og:title" content="Bhuvan Koduru">
     <meta property="og:description" content="M.S. AI/NLP at CMU LTI · interpretability, audio-language models and computer-use agents · open to full-time roles starting 2027.">
     <meta property="og:image" content="https://bhuvankoduru.github.io/assets/img/profile.jpg">
     <meta property="og:url" content="https://bhuvankoduru.github.io/">
-    <title>Bhuvan Koduru</title>
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <script>try { if (localStorage.getItem('theme-v2') === 'dark') document.documentElement.dataset.theme = 'dark'; } catch (e) {}</script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/style.css?v=20261004b">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css?v=20261005">
 </head>
 <body>
-    <!-- Floating Table of Contents -->
-    <nav class="floating-toc">
-        <ul>
-            <li><a href="#about" class="active">About</a></li>
-            <li><a href="#news">News</a></li>
-            <li><a href="#publications">Publications</a></li>
-            <li><a href="#experience">Experience</a></li>
-        </ul>
-    </nav>
-
-    <!-- Navigation -->
-    <nav class="nav">
-        <div class="nav-container">
-            <a href="index.html" class="nav-logo">bhuvan_koduru</a>
-            <ul class="nav-links">
-                <li><a href="index.html" class="active">~/about</a></li>
-                <li><a href="research.html">~/research</a></li>
-                <li><a href="projects.html">~/projects</a></li>
-                <li><a href="assets/Bhuvan_Koduru_Resume.pdf" target="_blank">~/cv</a></li>
-                <li>
-                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
-                        <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="12" r="5"></circle>
-                            <line x1="12" y1="1" x2="12" y2="3"></line>
-                            <line x1="12" y1="21" x2="12" y2="23"></line>
-                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                            <line x1="1" y1="12" x2="3" y2="12"></line>
-                            <line x1="21" y1="12" x2="23" y2="12"></line>
-                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                        </svg>
-                        <svg class="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;">
-                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                        </svg>
-                    </button>
-                </li>
-            </ul>
+    <header class="site-header">
+        <div class="wrap">
+            <a href="index.html" class="wordmark">Bhuvan Koduru</a>
+            <nav aria-label="Main">
+                <ul class="site-nav">
+                    <li class="nav-optional"><a href="index.html" aria-current="page">About</a></li>
+                    <li><a href="research.html">Research</a></li>
+                    <li><a href="projects.html">Projects</a></li>
+                    <li><a href="assets/Bhuvan_Koduru_Resume.pdf">CV</a></li>
+                    <li>
+                        <button class="theme-toggle" type="button" aria-label="Toggle dark mode">
+                            <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                            <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2 12h2.5M19.5 12H22M4.2 19.8 6 18M18 6l1.8-1.8"/></svg>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
         </div>
-    </nav>
+    </header>
 
-    <!-- Hero Section -->
-    <section class="hero" id="about">
-        <div class="container">
-            <div class="profile-grid">
-                <div>
-                    <p class="terminal-prompt hero-animate" style="--delay: 0">whoami</p>
-                    <h1 class="hero-animate" style="--delay: 1">
-                        <span class="typing-name">Bhuvan Chandra Koduru</span>
-                    </h1>
-
-                    <div class="profile-meta hero-animate" style="--delay: 2">
-                        <span class="meta-item">Pittsburgh, PA</span>
-                        <span class="meta-item">CMU LTI</span>
-                        <span class="meta-item">prev. Simular.ai</span>
-                    </div>
-
-                    <div class="hero-animate" style="--delay: 3">
-                        <a href="mailto:bkoduru@andrew.cmu.edu" class="availability">
-                            Open to full-time roles starting 2027 <span class="availability-cta">→ get in touch</span>
-                        </a>
-                    </div>
-
-                    <p class="hero-animate" style="--delay: 4; margin-top: 1.5rem;">
-                        I'm a Master's student in AI/NLP at <strong>Carnegie Mellon University's Language Technologies Institute</strong>,
-                        graduating in December 2026. I study the gap between what models <em>represent</em> and what they <em>act on</em>,
-                        using <strong>mechanistic interpretability</strong>, <strong>activation steering</strong>, and large-scale evaluation.
-                    </p>
-
-                    <p class="hero-animate" style="--delay: 5">
-                        Two examples: audio-language models that encode <em>how</em> something is said but lose it before they respond
-                        (<a href="research.html#pub-heard">CoLM 2026</a>), and computer-use agents whose chat-time safety doesn't carry
-                        over to their actions (<a href="research.html#pub-chat-safe">NeurIPS 2026 workshop</a>).
-                    </p>
-
-                    <p class="hero-animate" style="--delay: 6">
-                        This summer I was a research intern at <strong>Simular.ai</strong>, working on self-evolving computer-use agents
-                        and agent safety. Before that I built <strong>AmongUs-X</strong> at CMU's Robotics Institute, a benchmark of
-                        8,000+ Among Us games measuring deception and Theory of Mind in 21 LLMs. Before CMU, I built multi-agent
-                        systems at <strong>Adobe</strong>.
-                    </p>
-
-                    <div class="social-links hero-animate" style="--delay: 7">
-                        <a href="mailto:bkoduru@andrew.cmu.edu" class="social-link" title="Email">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                                <polyline points="22,6 12,13 2,6"></polyline>
-                            </svg>
-                        </a>
-                        <a href="https://github.com/BhuvanKoduru" class="social-link" title="GitHub" target="_blank">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
-                            </svg>
-                        </a>
-                        <a href="https://linkedin.com/in/bhuvankoduru" class="social-link" title="LinkedIn" target="_blank">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                            </svg>
-                        </a>
-                        <a href="https://scholar.google.com/citations?user=pp204vMAAAAJ" class="social-link" title="Google Scholar" target="_blank">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 9a8 8 0 0 1 7.162 4.44L24 9.5z"/>
-                            </svg>
-                        </a>
-                    </div>
+    <section class="hero">
+        <div class="wrap">
+            <div class="hero-text">
+                <p class="eyebrow">AI/NLP researcher · Carnegie Mellon University</p>
+                <h1 class="display">Bhuvan Koduru</h1>
+                <p class="lede">I study the gap between what models <em>represent</em> and what they <em>act on</em>, in audio-language models, computer-use agents, and multi-agent systems.</p>
+                <p class="byline">M.S., Language Technologies Institute · Dec&nbsp;2026 · Pittsburgh</p>
+                <div class="actions">
+                    <a class="pill" href="mailto:bkoduru@andrew.cmu.edu" title="Email bkoduru@andrew.cmu.edu">
+                        <span class="pill-dot" aria-hidden="true"></span>Open to full-time roles from 2027
+                    </a>
+                    <a class="chev" href="assets/Bhuvan_Koduru_Resume.pdf">CV</a>
+                    <a class="chev" href="https://scholar.google.com/citations?user=pp204vMAAAAJ">Scholar</a>
+                    <a class="chev" href="https://github.com/BhuvanKoduru">GitHub</a>
                 </div>
-
-                <div class="profile-image-wrapper hero-animate-right" style="--delay: 2">
-                    <img src="assets/img/profile.jpg" alt="Bhuvan Koduru" class="profile-image" width="220" height="220">
-                </div>
+            </div>
+            <div class="hero-art">
+                <img src="assets/img/portrait-dots.svg" alt="Pointillist portrait of Bhuvan Koduru" width="930" height="863">
             </div>
         </div>
     </section>
 
-    <!-- News Section -->
-    <section class="section section-nature-bg" id="news">
-        <div class="container">
-            <h2 class="animate">
-                <span class="section-number">01</span>
-                Recent News
-            </h2>
+    <main class="wrap layout">
+        <details class="toc" open>
+            <summary><span class="toc-label">Contents</span></summary>
+            <p class="toc-label toc-label--desktop">Contents</p>
+            <ol>
+                <li><a href="#about">About</a></li>
+                <li><a href="#news">News</a></li>
+                <li><a href="#publications">Selected publications</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#education">Education</a></li>
+            </ol>
+        </details>
 
-            <div class="news-item animate">
-                <div class="news-date">Oct 2026</div>
-                <div class="news-content">
-                    Two papers under review: <strong>Agent S4</strong> at ICLR 2027 and <strong>AmongUs-X</strong> at AAMAS 2027.
-                </div>
-            </div>
+        <article class="content">
+            <section id="about">
+                <h2>About</h2>
+                <p>
+                    I'm a Master's student in AI/NLP at <strong>Carnegie Mellon University's Language Technologies Institute</strong>,
+                    graduating in December 2026. I'm looking for full-time roles starting in 2027.
+                </p>
+                <p>
+                    My research asks where the gap opens between what a model represents and what it acts on. Audio-language
+                    models encode <em>how</em> something is said but lose it before they respond
+                    (<a href="research.html#pub-heard">CoLM 2026</a>). Models that refuse harmful requests in chat mostly
+                    stop refusing once they act as computer-use agents
+                    (<a href="research.html#pub-chat-safe">NeurIPS 2026 workshop</a>). I work with mechanistic
+                    interpretability, activation steering, and large-scale evaluation.
+                </p>
+                <p>
+                    This summer I was a research intern at <strong>Simular.ai</strong>, working on self-evolving computer-use
+                    agents and agent safety. Before that I built <strong>AmongUs-X</strong> at CMU's Robotics Institute, a
+                    benchmark of 8,000+ Among Us games measuring deception and Theory of Mind in 21 LLMs. Before CMU, I built
+                    multi-agent systems at <strong>Adobe</strong> and edge computer-vision models at Nosh Robotics.
+                </p>
+            </section>
 
-            <div class="news-item animate">
-                <div class="news-date">Sep 2026</div>
-                <div class="news-content">
-                    <a href="research.html#pub-chat-safe">Chat-safe is not CUA-safe</a> accepted as a poster at the Agents in the Wild workshop @ NeurIPS 2026.
-                </div>
-            </div>
+            <section id="news">
+                <h2>News</h2>
+                <ul class="news">
+                    <li><time datetime="2026-10">Oct 2026</time><span>Two papers under review: <strong>Agent S4</strong> at ICLR 2027 and <strong>AmongUs-X</strong> at AAMAS 2027.</span></li>
+                    <li><time datetime="2026-09">Sep 2026</time><span><a href="research.html#pub-chat-safe">Chat-safe is not CUA-safe</a> accepted as a poster at the Agents in the Wild workshop at NeurIPS 2026.</span></li>
+                    <li><time datetime="2026-09">Sep 2026</time><span><a href="https://arxiv.org/abs/2609.00727">Heard but Not Heeded</a> (CoLM 2026) is on arXiv.</span></li>
+                    <li><time datetime="2026-06">Jun 2026</time><span>Joined <a href="https://simular.ai">Simular.ai</a> as a research intern, working on AI safety and computer-use agents with Xin Eric Wang, Jiachen Yang, and Ang Li.</span></li>
+                    <li><time datetime="2026-05">May 2026</time><span>Four papers accepted: CoLM 2026, the ICML Mechanistic Interpretability Workshop, INTERSPEECH 2026, and the CoLM Lifelong Agents Workshop.</span></li>
+                    <li><time datetime="2026-01">Jan 2026</time><span>Started as a graduate research assistant at CMU's Robotics Institute, building evaluation harnesses for multi-agent LLM deception.</span></li>
+                    <li><time datetime="2025-08">Aug 2025</time><span>Started my M.S. in AI/NLP at Carnegie Mellon's Language Technologies Institute.</span></li>
+                </ul>
+            </section>
 
-            <div class="news-item animate">
-                <div class="news-date">Sep 2026</div>
-                <div class="news-content">
-                    <a href="https://arxiv.org/abs/2609.00727">Heard but Not Heeded</a> (CoLM 2026) is now on arXiv.
-                </div>
-            </div>
+            <section id="publications">
+                <h2>Selected publications</h2>
+                <ol class="pubs">
+                    <li class="pub">
+                        <p class="pub-title">Heard but Not Heeded: Paralinguistic Information Encoding and Loss in Audio-Language Models</p>
+                        <p class="pub-authors"><strong>B. Koduru</strong>, D. Alharthi, R. Singh, B. Raj</p>
+                        <div class="pub-meta"><span class="venue">CoLM 2026</span></div>
+                        <p class="pub-summary">Speaking style is strongly encoded in the audio encoder of four audio-language models, but degrades before it reaches the output.</p>
+                        <div class="pub-links">
+                            <a class="chev chev--small" href="https://arxiv.org/abs/2609.00727">arXiv</a>
+                            <a class="chev chev--small" href="https://arxiv.org/pdf/2609.00727">PDF</a>
+                        </div>
+                    </li>
+                    <li class="pub">
+                        <p class="pub-title">Chat-safe is not CUA-safe: Chat Methods May Not Transfer to Computer Use</p>
+                        <p class="pub-authors"><strong>B. Koduru</strong>, J. Yang, A. Li, X. E. Wang</p>
+                        <div class="pub-meta"><span class="venue venue--workshop">NeurIPS 2026 Workshop</span><span class="venue-note">Agents in the Wild · poster</span></div>
+                        <p class="pub-summary">Refusal drops from 31/47 in chat to 4/47 when the same models act as computer-use agents; activation steering that raises chat refusal leaves agent actions unchanged.</p>
+                    </li>
+                    <li class="pub">
+                        <p class="pub-title">RIVET: Robust Idempotent Voice Attribute Editing</p>
+                        <p class="pub-authors">D. Alharthi, <strong>B. Koduru</strong>, R. Singh, B. Raj</p>
+                        <div class="pub-meta"><span class="venue">INTERSPEECH 2026</span><span class="venue-note venue-note--oral">Oral</span></div>
+                        <p class="pub-summary">Training voice editors to be idempotent makes them robust to noisy attribute labels, improving edit success and speaker-identity preservation.</p>
+                        <div class="pub-links">
+                            <a class="chev chev--small" href="https://arxiv.org/abs/2606.19629">arXiv</a>
+                            <a class="chev chev--small" href="https://arxiv.org/pdf/2606.19629">PDF</a>
+                        </div>
+                    </li>
+                    <li class="pub">
+                        <p class="pub-title">AmongUs-X: Benchmarking Strategic Deception of LLM Agents via Theory-of-Mind Metrics</p>
+                        <p class="pub-authors">K. Mirakhor*, <strong>B. Koduru*</strong>, A. Kontogiannis, R. Zabounidis, K. Sycara, W. Kim</p>
+                        <div class="pub-meta"><span class="venue venue--review">AAMAS 2027 · under review</span><span class="venue-note">*equal contribution</span></div>
+                        <p class="pub-summary">8,000+ simulated Among Us games across 21 LLMs, measuring whether agents deceive and how well they model each other's beliefs.</p>
+                    </li>
+                </ol>
+                <p class="more"><a class="chev" href="research.html">All publications and research themes</a></p>
+            </section>
 
-            <div class="news-item animate">
-                <div class="news-date">Jun 2026</div>
-                <div class="news-content">
-                    Joined <a href="https://simular.ai">Simular.ai</a> as Research Intern—working on AI safety and computer-use agents with Xin Eric Wang, Jiachen Yang, and Ang Li.
-                </div>
-            </div>
+            <section id="experience">
+                <h2>Experience</h2>
+                <ul class="entries">
+                    <li class="entry">
+                        <p class="entry-title">Research Intern <span class="entry-org">· Simular.ai, Palo Alto</span></p>
+                        <p class="entry-when">Jun – Aug 2026</p>
+                        <p class="entry-desc">Self-evolving computer-use agents (CUES-Evol, Agent S4) and the safety of computer-use agents.</p>
+                    </li>
+                    <li class="entry">
+                        <p class="entry-title">Graduate Research Assistant <span class="entry-org">· CMU Robotics Institute</span></p>
+                        <p class="entry-when">Jan – May 2026</p>
+                        <p class="entry-desc">Built AmongUs-X: an evaluation harness and benchmark for strategic deception and Theory of Mind in LLM agents.</p>
+                    </li>
+                    <li class="entry">
+                        <p class="entry-title">Associate Technical Consultant <span class="entry-org">· Adobe, Bengaluru</span></p>
+                        <p class="entry-when">Aug 2024 – Apr 2025</p>
+                        <p class="entry-desc">A multi-agent pipeline turning plain-text requirements into Workfront Fusion workflows (top-24 semifinalist worldwide), and a documentation tool that cut documentation time by 70%.</p>
+                    </li>
+                    <li class="entry">
+                        <p class="entry-title">Computer Vision Intern <span class="entry-org">· Nosh Robotics, Bengaluru</span></p>
+                        <p class="entry-when">Feb – Jun 2024</p>
+                        <p class="entry-desc">Quantized classifiers for real-time cooking-level estimation on edge devices, deployed to production.</p>
+                    </li>
+                    <li class="entry">
+                        <p class="entry-title">Research Intern <span class="entry-org">· Spinal Cord Lab, IIT Hyderabad</span></p>
+                        <p class="entry-when">Oct 2023 – Mar 2024</p>
+                        <p class="entry-desc">Benchmarked phone-camera pose estimation against motion capture across 17 subjects and 23 activities; co-author on <a href="research.html#earlier-work">three papers</a> from the project, including the GATI dataset.</p>
+                    </li>
+                    <li class="entry">
+                        <p class="entry-title">Technical Consultant Intern <span class="entry-org">· Adobe, Bengaluru</span></p>
+                        <p class="entry-when">May – Jul 2023</p>
+                        <p class="entry-desc">An AI agent inside Workfront Fusion calling ChatGPT, Photoshop, and Stable Diffusion, cutting campaign turnaround from weeks to hours.</p>
+                    </li>
+                </ul>
+            </section>
 
-            <div class="news-item animate">
-                <div class="news-date">May 2026</div>
-                <div class="news-content">
-                    <strong>4 papers accepted!</strong> CoLM 2026, ICML MI Workshop, INTERSPEECH 2026, and CoLM Lifelong Agents Workshop.
-                </div>
-            </div>
+            <section id="education">
+                <h2>Education</h2>
+                <ul class="entries">
+                    <li class="entry">
+                        <p class="entry-title">M.S. in AI/NLP (Intelligent Information Systems) <span class="entry-org">· Carnegie Mellon University</span></p>
+                        <p class="entry-when">Dec 2026</p>
+                        <p class="entry-desc">GPA 4.05/4.00. Coursework in multimodal machine learning, speech technology for conversational AI, and deep learning.</p>
+                    </li>
+                    <li class="entry">
+                        <p class="entry-title">B.E. in Information Science &amp; Engineering <span class="entry-org">· JSS Science and Technology University</span></p>
+                        <p class="entry-when">Jun 2024</p>
+                        <p class="entry-desc">GPA 9.44/10.00.</p>
+                    </li>
+                </ul>
+            </section>
+        </article>
+    </main>
 
-            <div class="news-item animate">
-                <div class="news-date">Jan 2026</div>
-                <div class="news-content">
-                    Started as Graduate Research Assistant at CMU Robotics Institute—building evaluation harnesses for multi-agent LLM deception.
-                </div>
-            </div>
-
-            <div class="news-item animate">
-                <div class="news-date">Aug 2025</div>
-                <div class="news-content">
-                    Joined Carnegie Mellon University's Language Technologies Institute for MS in AI/NLP.
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Publications Section -->
-    <section class="section" id="publications">
-        <div class="container">
-            <h2 class="animate">
-                <span class="section-number">02</span>
-                Selected Publications
-            </h2>
-
-            <div class="publication-item animate">
-                <div class="publication-title">Heard but Not Heeded: Paralinguistic Information Encoding and Loss in Audio-Language Models</div>
-                <div class="publication-authors"><strong>B. Koduru</strong>, D. Alharthi, R. Singh, B. Raj</div>
-                <div class="publication-meta">
-                    <span class="publication-venue">CoLM 2026</span>
-                </div>
-                <p class="publication-summary">Speaking style is strongly encoded in the audio encoder of four audio-language models, but degrades before it reaches the output.</p>
-                <div class="publication-links">
-                    <a href="https://arxiv.org/abs/2609.00727">arXiv</a>
-                    <a href="https://arxiv.org/pdf/2609.00727">PDF</a>
-                </div>
-            </div>
-
-            <div class="publication-item animate">
-                <div class="publication-title">Chat-safe is not CUA-safe: Chat Methods May Not Transfer to Computer Use</div>
-                <div class="publication-authors"><strong>B. Koduru</strong>, J. Yang, A. Li, X. E. Wang</div>
-                <div class="publication-meta">
-                    <span class="publication-venue publication-venue--workshop">NeurIPS 2026 Workshop</span>
-                    <span class="tag">Agents in the Wild · poster</span>
-                </div>
-                <p class="publication-summary">Refusal drops from 31/47 in chat to 4/47 when the same models act as computer-use agents; activation steering that raises chat refusal leaves agent actions unchanged.</p>
-            </div>
-
-            <div class="publication-item animate">
-                <div class="publication-title">RIVET: Robust Idempotent Voice Attribute Editing</div>
-                <div class="publication-authors">D. Alharthi, <strong>B. Koduru</strong>, R. Singh, B. Raj</div>
-                <div class="publication-meta">
-                    <span class="publication-venue">INTERSPEECH 2026</span>
-                    <span class="tag tag--highlight">oral</span>
-                </div>
-                <p class="publication-summary">Training voice editors to be idempotent makes them robust to noisy attribute labels, improving edit success and speaker-identity preservation.</p>
-                <div class="publication-links">
-                    <a href="https://arxiv.org/abs/2606.19629">arXiv</a>
-                    <a href="https://arxiv.org/pdf/2606.19629">PDF</a>
-                </div>
-            </div>
-
-            <div class="publication-item animate">
-                <div class="publication-title">AmongUs-X: Benchmarking Strategic Deception of LLM Agents via Theory-of-Mind Metrics</div>
-                <div class="publication-authors">K. Mirakhor*, <strong>B. Koduru*</strong>, A. Kontogiannis, R. Zabounidis, K. Sycara, W. Kim</div>
-                <div class="publication-meta">
-                    <span class="publication-venue publication-venue--review">AAMAS 2027 · under review</span>
-                    <span class="tag">*equal contribution</span>
-                </div>
-                <p class="publication-summary">8,000+ simulated Among Us games across 21 LLMs, measuring whether agents deceive and how well they model each other's beliefs.</p>
-            </div>
-
-            <div style="margin-top: 2rem;" class="animate">
-                <a href="research.html" class="btn btn-secondary">
-                    $ ls ~/publications
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                        <polyline points="12 5 19 12 12 19"></polyline>
-                    </svg>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Experience Section -->
-    <section class="section section-nature-bg" id="experience">
-        <div class="container">
-            <h2 class="animate">
-                <span class="section-number">03</span>
-                Experience
-            </h2>
-
-            <div class="experience-item animate">
-                <div class="experience-date">Jun – Aug 2026</div>
-                <div>
-                    <div class="experience-role"><strong>Research Intern</strong> · <a href="https://simular.ai">Simular.ai</a>, Palo Alto</div>
-                    <p class="experience-desc">Self-evolving computer-use agents (CUES-Evol, Agent S4) and the safety of computer-use agents.</p>
-                </div>
-            </div>
-
-            <div class="experience-item animate">
-                <div class="experience-date">Jan – May 2026</div>
-                <div>
-                    <div class="experience-role"><strong>Graduate Research Assistant</strong> · CMU Robotics Institute</div>
-                    <p class="experience-desc">Built AmongUs-X: an evaluation harness and benchmark for strategic deception and Theory of Mind in LLM agents.</p>
-                </div>
-            </div>
-
-            <div class="experience-item animate">
-                <div class="experience-date">Aug 2024 – Apr 2025</div>
-                <div>
-                    <div class="experience-role"><strong>Associate Technical Consultant</strong> · Adobe, Bengaluru</div>
-                    <p class="experience-desc">Multi-agent pipeline turning plain-text requirements into Workfront Fusion workflows (top-24 semifinalist worldwide); a documentation tool that cut documentation time by 70%.</p>
-                </div>
-            </div>
-
-            <div class="experience-item animate">
-                <div class="experience-date">Feb – Jun 2024</div>
-                <div>
-                    <div class="experience-role"><strong>Computer Vision Intern</strong> · Nosh Robotics, Bengaluru</div>
-                    <p class="experience-desc">Quantized classifiers for real-time cooking-level estimation on edge devices, deployed to production.</p>
-                </div>
-            </div>
-
-            <div class="experience-item animate">
-                <div class="experience-date">Oct 2023 – Mar 2024</div>
-                <div>
-                    <div class="experience-role"><strong>Research Intern</strong> · Spinal Cord Lab, IIT Hyderabad</div>
-                    <p class="experience-desc">Benchmarked phone-camera pose estimation against motion capture across 17 subjects and 23 activities; co-author on <a href="research.html#earlier-work">three papers</a> from the project, including the GATI dataset.</p>
-                </div>
-            </div>
-
-            <div class="experience-item animate">
-                <div class="experience-date">May – Jul 2023</div>
-                <div>
-                    <div class="experience-role"><strong>Technical Consultant Intern</strong> · Adobe, Bengaluru</div>
-                    <p class="experience-desc">An AI agent inside Workfront Fusion calling ChatGPT, Photoshop, and Stable Diffusion, cutting campaign turnaround from weeks to hours.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
+    <footer class="site-footer">
+        <div class="wrap">
             <p>© 2026 Bhuvan Koduru · Last updated Oct 2026</p>
+            <ul>
+                <li><a href="mailto:bkoduru@andrew.cmu.edu">bkoduru@andrew.cmu.edu</a></li>
+                <li><a href="https://github.com/BhuvanKoduru">GitHub</a></li>
+                <li><a href="https://linkedin.com/in/bhuvankoduru">LinkedIn</a></li>
+                <li><a href="https://scholar.google.com/citations?user=pp204vMAAAAJ">Scholar</a></li>
+            </ul>
         </div>
     </footer>
 
-    <script src="assets/js/main.js?v=20261004b"></script>
+    <script src="assets/js/main.js?v=20261005"></script>
 </body>
 </html>

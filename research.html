@@ -1,283 +1,328 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Research and publications by Bhuvan Koduru: interpretability of audio-language models, safety and self-evolution of computer-use agents, and deception in multi-agent LLMs.">
+    <title>Research | Bhuvan Koduru</title>
+    <meta name="description" content="Research and publications by Bhuvan Koduru: safety and self-evolution of computer-use agents, interpretability of audio-language models, and deception in multi-agent LLMs.">
     <meta property="og:title" content="Research | Bhuvan Koduru">
     <meta property="og:image" content="https://bhuvankoduru.github.io/assets/img/profile.jpg">
-    <title>Research | Bhuvan Koduru</title>
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <script>try { if (localStorage.getItem('theme-v2') === 'dark') document.documentElement.dataset.theme = 'dark'; } catch (e) {}</script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/style.css?v=20261004b">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css?v=20261005">
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="nav">
-        <div class="nav-container">
-            <a href="index.html" class="nav-logo">bhuvan_koduru</a>
-            <ul class="nav-links">
-                <li><a href="index.html">~/about</a></li>
-                <li><a href="research.html" class="active">~/research</a></li>
-                <li><a href="projects.html">~/projects</a></li>
-                <li><a href="assets/Bhuvan_Koduru_Resume.pdf" target="_blank">~/cv</a></li>
-                <li>
-                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
-                        <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="12" r="5"></circle>
-                            <line x1="12" y1="1" x2="12" y2="3"></line>
-                            <line x1="12" y1="21" x2="12" y2="23"></line>
-                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                            <line x1="1" y1="12" x2="3" y2="12"></line>
-                            <line x1="21" y1="12" x2="23" y2="12"></line>
-                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                        </svg>
-                        <svg class="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;">
-                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                        </svg>
-                    </button>
-                </li>
-            </ul>
+    <header class="site-header">
+        <div class="wrap">
+            <a href="index.html" class="wordmark">Bhuvan Koduru</a>
+            <nav aria-label="Main">
+                <ul class="site-nav">
+                    <li class="nav-optional"><a href="index.html">About</a></li>
+                    <li><a href="research.html" aria-current="page">Research</a></li>
+                    <li><a href="projects.html">Projects</a></li>
+                    <li><a href="assets/Bhuvan_Koduru_Resume.pdf">CV</a></li>
+                    <li>
+                        <button class="theme-toggle" type="button" aria-label="Toggle dark mode">
+                            <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                            <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2 12h2.5M19.5 12H22M4.2 19.8 6 18M18 6l1.8-1.8"/></svg>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
         </div>
-    </nav>
+    </header>
 
-    <!-- Hero -->
-    <section class="hero" style="min-height: auto; padding-bottom: 0;">
-        <div class="container">
-            <p class="terminal-prompt hero-animate" style="--delay: 0">cat ~/research/README.md</p>
-            <h1 class="hero-animate" style="--delay: 1">Research & Publications</h1>
-            <p class="hero-animate" style="--delay: 2; max-width: 680px; margin-top: 1rem;">
-                I study the gap between what models <em>represent</em> and what they <em>act on</em>. Audio-language models
-                encode how something is said but lose it before they respond; models that refuse harmful requests in chat
-                mostly stop refusing once they act as computer-use agents. I use <strong>mechanistic interpretability</strong>,
-                <strong>activation steering</strong>, and <strong>large-scale evaluation</strong> to find where these gaps open
-                up, and build agents and benchmarks that account for them.
-            </p>
-            <p class="hero-animate section-note" style="--delay: 3">
-                <a href="https://scholar.google.com/citations?user=pp204vMAAAAJ" target="_blank">Google Scholar</a>
-                &nbsp;·&nbsp;
-                <a href="assets/Bhuvan_Koduru_Resume.pdf" target="_blank">CV</a>
-            </p>
-        </div>
-    </section>
-
-    <!-- Publications -->
-    <section class="section" id="publications">
-        <div class="container">
-            <div class="research-layout">
-                <aside class="theme-rail" aria-label="Research themes">
-                    <p class="rail-label">Research themes</p>
-                    <p class="rail-hint">Select a theme to filter papers</p>
-                    <ul class="theme-list">
-                        <li>
-                            <button type="button" class="theme-item" data-theme="safety" aria-pressed="false">
-                                <span class="theme-name">Safety of computer-use agents</span>
-                                <span class="theme-desc">Refusal falls from 31/47 in chat to 4/47 when the same models act as agents.</span>
-                                <span class="theme-count">01 · 1 paper</span>
-                            </button>
-                        </li>
-                        <li>
-                            <button type="button" class="theme-item" data-theme="audio" aria-pressed="false">
-                                <span class="theme-name">What audio-language models hear</span>
-                                <span class="theme-desc">Speaking style is encoded in the audio encoder, then lost before the output.</span>
-                                <span class="theme-count">02 · 3 papers</span>
-                            </button>
-                        </li>
-                        <li>
-                            <button type="button" class="theme-item" data-theme="evolving" aria-pressed="false">
-                                <span class="theme-name">Self-evolving computer-use agents</span>
-                                <span class="theme-desc">Agents that write their own interface in code; beat Agent S3 with half the tokens.</span>
-                                <span class="theme-count">03 · 2 papers</span>
-                            </button>
-                        </li>
-                        <li>
-                            <button type="button" class="theme-item" data-theme="deception" aria-pressed="false">
-                                <span class="theme-name">Deception &amp; Theory of Mind</span>
-                                <span class="theme-desc">8,000+ Among Us games across 21 LLMs, measuring strategic deception.</span>
-                                <span class="theme-count">04 · 1 paper</span>
-                            </button>
-                        </li>
-                        <li>
-                            <button type="button" class="theme-item theme-item--muted" data-theme="pose" aria-pressed="false">
-                                <span class="theme-name">Human pose estimation</span>
-                                <span class="theme-count">earlier work · 3 papers</span>
-                            </button>
-                        </li>
-                    </ul>
-                    <button type="button" class="theme-reset" hidden>× Show all papers</button>
-                </aside>
-
-                <div class="pub-list">
-                    <h2 class="animate">
-                        <span class="section-number">01</span>
-                        Publications
-                    </h2>
-
-                    <h3 class="pub-group-title animate">Conference papers</h3>
-
-                    <div class="publication-item animate" id="pub-heard" data-themes="audio">
-                        <div class="publication-title">Heard but Not Heeded: Paralinguistic Information Encoding and Loss in Audio-Language Models</div>
-                        <div class="publication-authors"><strong>B. Koduru</strong>, D. Alharthi, R. Singh, B. Raj</div>
-                        <div class="publication-meta">
-                            <span class="publication-venue">CoLM 2026</span>
-                        </div>
-                        <p class="publication-summary">
-                            A mechanistic analysis of four audio-language models (Whisper-large-v2, Qwen2-Audio, Qwen2.5-Omni,
-                            Chroma-4B). All of them strongly encode speaking style in the late audio encoder, but that information
-                            consistently degrades before the output; the projector reshapes it rather than discarding it.
-                        </p>
-                        <div class="publication-links">
-                            <a href="https://arxiv.org/abs/2609.00727">arXiv</a>
-                            <a href="https://arxiv.org/pdf/2609.00727">PDF</a>
-                        </div>
-                    </div>
-
-                    <div class="publication-item animate" id="pub-rivet" data-themes="audio">
-                        <div class="publication-title">RIVET: Robust Idempotent Voice Attribute Editing</div>
-                        <div class="publication-authors">D. Alharthi, <strong>B. Koduru</strong>, R. Singh, B. Raj</div>
-                        <div class="publication-meta">
-                            <span class="publication-venue">INTERSPEECH 2026</span>
-                            <span class="tag tag--highlight">oral</span>
-                        </div>
-                        <p class="publication-summary">
-                            Attribute labels in large speech datasets are noisy, which makes voice editors unstable. Training the
-                            editor to be idempotent (f(f(x)) = f(x)) acts as an implicit regularizer against label noise, improving
-                            edit success and speaker-identity preservation for attributes like age and gender.
-                        </p>
-                        <div class="publication-links">
-                            <a href="https://arxiv.org/abs/2606.19629">arXiv</a>
-                            <a href="https://arxiv.org/pdf/2606.19629">PDF</a>
-                        </div>
-                    </div>
-
-                    <h3 class="pub-group-title animate">Workshop papers</h3>
-
-                    <div class="publication-item animate" id="pub-chat-safe" data-themes="safety">
-                        <div class="publication-title">Chat-safe is not CUA-safe: Chat Methods May Not Transfer to Computer Use</div>
-                        <div class="publication-authors"><strong>B. Koduru</strong>, J. Yang, A. Li, X. E. Wang</div>
-                        <div class="publication-meta">
-                            <span class="publication-venue publication-venue--workshop">NeurIPS 2026 Workshop</span>
-                            <span class="tag">Agents in the Wild · poster</span>
-                        </div>
-                        <p class="publication-summary">
-                            Across 8 models and 49 tasks, refusal collapses from 31/47 in chat to 4/47 when the same models act as
-                            computer-use agents. Activation steering that raises chat refusal (0.71 → 0.85) leaves agent actions
-                            unchanged, so chat-time safety methods can't be assumed to transfer.
-                        </p>
-                    </div>
-
-                    <div class="publication-item animate" id="pub-subliminal" data-themes="audio">
-                        <div class="publication-title">Subliminal Prosody Learning: Auxiliary Emotion Supervision Redistributes Affective Representations Across ALM Layers</div>
-                        <div class="publication-authors"><strong>B. Koduru</strong>, D. Alharthi, R. Singh, B. Raj</div>
-                        <div class="publication-meta">
-                            <span class="publication-venue publication-venue--workshop">ICML 2026 Workshop</span>
-                            <span class="tag">Mechanistic Interpretability</span>
-                        </div>
-                        <p class="publication-summary">
-                            Adding an auxiliary emotion objective changes where affective information is represented across the
-                            layers of an audio-language model.
-                        </p>
-                    </div>
-
-                    <div class="publication-item animate" id="pub-cues" data-themes="evolving">
-                        <div class="publication-title">Computer Use with Evolving Software</div>
-                        <div class="publication-authors">S. Agashe, G. Gonzalez-Pumariega, <strong>B. Koduru</strong>, J. Yang, A. Li, X. E. Wang</div>
-                        <div class="publication-meta">
-                            <span class="publication-venue publication-venue--workshop">CoLM 2026 Workshop</span>
-                            <span class="tag">Lifelong Agents</span>
-                        </div>
-                        <p class="publication-summary">
-                            CUES-Evol: computer-use agents that generate and evolve their own software interface in code, rather
-                            than depending on hand-engineered scaffolds.
-                        </p>
-                    </div>
-
-                    <h3 class="pub-group-title animate">Under review</h3>
-
-                    <div class="publication-item animate" id="pub-agent-s4" data-themes="evolving">
-                        <div class="publication-title">Agent S4: Evolutionary Computer Use</div>
-                        <div class="publication-authors">S. Agashe, Y. Yang, G. Gonzalez-Pumariega, <strong>B. Koduru</strong>, et al.</div>
-                        <div class="publication-meta">
-                            <span class="publication-venue publication-venue--review">ICLR 2027 · under review</span>
-                        </div>
-                        <p class="publication-summary">
-                            The next Agent S: a computer-use agent that improves itself through evolutionary search over code it
-                            writes from its own rollouts.
-                        </p>
-                    </div>
-
-                    <div class="publication-item animate" id="pub-amongus" data-themes="deception">
-                        <div class="publication-title">AmongUs-X: Benchmarking Strategic Deception of LLM Agents via Theory-of-Mind Metrics</div>
-                        <div class="publication-authors">K. Mirakhor*, <strong>B. Koduru*</strong>, A. Kontogiannis, R. Zabounidis, K. Sycara, W. Kim</div>
-                        <div class="publication-meta">
-                            <span class="publication-venue publication-venue--review">AAMAS 2027 · under review</span>
-                            <span class="tag">*equal contribution</span>
-                        </div>
-                        <p class="publication-summary">
-                            A benchmark for strategic deception and Theory of Mind in LLM agents, built from 8,000+ simulated Among
-                            Us games across 21 LLMs, with a moderator agent grounded in a game-theoretic model of strategic deception.
-                        </p>
-                    </div>
-
-                    <h3 class="pub-group-title animate" id="earlier-work">Earlier work · human pose estimation (IIT Hyderabad)</h3>
-
-                    <div class="publication-item animate" id="pub-gati" data-themes="pose">
-                        <div class="publication-title">GATI: Gait and Temporal Intelligence — A Large-scale Multi-view Movement Dataset of Daily Activities in the Indian Context</div>
-                        <div class="publication-authors">Y. Mandayam Rangayyan, A. K. Singh, J. Chand, …, <strong>B. Koduru</strong>, …, M. Raghavan</div>
-                        <div class="publication-meta">
-                            <span class="publication-venue publication-venue--review">SSRN preprint · 2026</span>
-                        </div>
-                        <p class="publication-summary">
-                            A multi-view movement dataset of 16 subjects performing daily activities, chores, exercises, and yoga,
-                            with motion-capture ground truth and benchmarks of four pose estimators (MotionAGFormer, MHFormer,
-                            PoseFormerV2, MediaPipe) across camera angles.
-                        </p>
-                        <div class="publication-links">
-                            <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7235718">SSRN</a>
-                        </div>
-                    </div>
-
-                    <div class="publication-item animate" id="pub-sae" data-themes="pose">
-                        <div class="publication-title">Segment Activity Effect (SAE): A Novel Structural Reliability Metric for Markerless Human Pose Estimation Using a Large Multi-View Motion Capture Dataset</div>
-                        <div class="publication-authors">Y. Mandayam Rangayyan, A. K. Singh, J. Chand, …, <strong>B. Koduru</strong>, …, M. Raghavan</div>
-                        <div class="publication-meta">
-                            <span class="publication-venue publication-venue--review">SSRN preprint</span>
-                        </div>
-                        <p class="publication-summary">
-                            A metric for activity-specific structural errors in markerless pose estimation, measured against 1000 Hz
-                            motion capture: flexion and abduction systematically lengthen the hip–knee segment by up to 4 cm.
-                        </p>
-                        <div class="publication-links">
-                            <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7134731">SSRN</a>
-                        </div>
-                    </div>
-
-                    <div class="publication-item animate" id="pub-segment-aware" data-themes="pose">
-                        <div class="publication-title">Segment-Aware Evaluation of 3D Human Pose Estimation under Uncalibrated Multi-View Video Settings</div>
-                        <div class="publication-authors">Y. Mandayam Rangayyan, A. K. Singh, J. Chand, …, <strong>B. Koduru</strong>, …, M. Raghavan</div>
-                        <div class="publication-meta">
-                            <span class="publication-venue publication-venue--review">Manuscript</span>
-                        </div>
-                        <p class="publication-summary">
-                            Segment-level evaluation of four 3D pose estimators against high-frequency motion capture across
-                            uncalibrated camera views (14 subjects, 19 activities).
-                        </p>
-                    </div>
+    <section class="hero hero--text">
+        <div class="wrap">
+            <div class="hero-text">
+                <p class="eyebrow">Research</p>
+                <h1 class="display">Research &amp; publications</h1>
+                <p class="lede">
+                    I study the gap between what models represent and what they act on: audio-language models that encode
+                    tone of voice but don't use it, and models whose chat-time safety largely disappears once they act as agents.
+                </p>
+                <div class="actions">
+                    <a class="chev" href="https://scholar.google.com/citations?user=pp204vMAAAAJ">Google Scholar</a>
+                    <a class="chev" href="assets/Bhuvan_Koduru_Resume.pdf">CV</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
+    <main class="wrap layout">
+        <details class="toc" open>
+            <summary><span class="toc-label">Themes</span></summary>
+            <p class="toc-label toc-label--desktop">Themes</p>
+            <ol>
+                <li><a href="#safety">Safety of computer-use agents</a></li>
+                <li><a href="#audio">What audio-language models hear</a></li>
+                <li><a href="#evolving">Self-evolving computer-use agents</a></li>
+                <li><a href="#deception">Deception &amp; Theory of Mind</a></li>
+                <li><a href="#earlier-work">Earlier: human pose estimation</a></li>
+            </ol>
+        </details>
+
+        <article class="content">
+            <!-- 1. Safety -->
+            <section id="safety">
+                <h2>Safety of computer-use agents</h2>
+                <p>
+                    Does safety training survive the move from chatting to acting? I gave the same harmful requests to
+                    models in chat and to the same models acting as computer-use agents, across 8 models and 49 tasks.
+                    In chat they mostly refused. As agents, they mostly didn't.
+                </p>
+
+                <figure class="figure">
+                    <p class="fig-label">Figure 1</p>
+                    <h3 class="fig-title">Refusals on harmful requests</h3>
+                    <div class="chart" style="--label-w: 124px">
+                        <div class="chart-row">
+                            <span class="chart-label">In chat</span>
+                            <div class="chart-track">
+                                <span class="bar" style="--v: 66" tabindex="0" data-tip-value="31 of 47 refused" data-tip="In chat · 66%"></span>
+                                <span class="bar-value">31/47</span>
+                            </div>
+                        </div>
+                        <div class="chart-row">
+                            <span class="chart-label">As an agent</span>
+                            <div class="chart-track">
+                                <span class="bar bar--accent" style="--v: 8.5" tabindex="0" data-tip-value="4 of 47 refused" data-tip="As a computer-use agent · 9%"></span>
+                                <span class="bar-value">4/47</span>
+                            </div>
+                        </div>
+                        <div class="chart-axis" aria-hidden="true">
+                            <span></span>
+                            <div class="chart-ticks"><span style="left: 0">0%</span><span class="minor" style="left: 25%">25%</span><span style="left: 50%">50%</span><span class="minor" style="left: 75%">75%</span><span style="left: 100%">100%</span></div>
+                        </div>
+                    </div>
+                    <p class="fig-caption">The same harmful requests, posed in chat and to the model acting as a computer-use agent.</p>
+                    <table class="sr-only">
+                        <caption>Refusals on harmful requests</caption>
+                        <tr><th scope="col">Setting</th><th scope="col">Refused</th></tr>
+                        <tr><td>In chat</td><td>31 of 47</td></tr>
+                        <tr><td>As a computer-use agent</td><td>4 of 47</td></tr>
+                    </table>
+                </figure>
+
+                <div class="callout">
+                    <p class="callout-title">Steering moved the words, not the actions.</p>
+                    <p>Activation steering raised chat refusal from 0.71 to 0.85, but agent actions didn't change.</p>
+                </div>
+
+                <p class="label">Paper</p>
+                <ol class="pubs">
+                    <li class="pub" id="pub-chat-safe">
+                        <p class="pub-title">Chat-safe is not CUA-safe: Chat Methods May Not Transfer to Computer Use</p>
+                        <p class="pub-authors"><strong>B. Koduru</strong>, J. Yang, A. Li, X. E. Wang</p>
+                        <div class="pub-meta"><span class="venue venue--workshop">NeurIPS 2026 Workshop</span><span class="venue-note">Agents in the Wild · poster</span></div>
+                        <p class="pub-summary">Chat-time safety methods can't be assumed to transfer to computer use, and need to be evaluated on agent actions directly.</p>
+                    </li>
+                </ol>
+            </section>
+
+            <!-- 2. Audio -->
+            <section id="audio">
+                <h2>What audio-language models hear</h2>
+                <p>
+                    Audio-language models are meant to understand <em>how</em> something is said, not just what. I trace
+                    where that paralinguistic information lives inside these models and where it gets lost. Across four
+                    models, speaking style is strongly encoded in the late audio encoder, then degrades before it reaches
+                    the output: the models hear it but don't heed it.
+                </p>
+
+                <p class="label">Papers</p>
+                <ol class="pubs">
+                    <li class="pub" id="pub-heard">
+                        <p class="pub-title">Heard but Not Heeded: Paralinguistic Information Encoding and Loss in Audio-Language Models</p>
+                        <p class="pub-authors"><strong>B. Koduru</strong>, D. Alharthi, R. Singh, B. Raj</p>
+                        <div class="pub-meta"><span class="venue">CoLM 2026</span></div>
+                        <p class="pub-summary">A mechanistic analysis of Whisper-large-v2, Qwen2-Audio, Qwen2.5-Omni, and Chroma-4B. The projector reshapes the style signal rather than discarding it.</p>
+                        <div class="pub-links">
+                            <a class="chev chev--small" href="https://arxiv.org/abs/2609.00727">arXiv</a>
+                            <a class="chev chev--small" href="https://arxiv.org/pdf/2609.00727">PDF</a>
+                        </div>
+                    </li>
+                    <li class="pub" id="pub-subliminal">
+                        <p class="pub-title">Subliminal Prosody Learning: Auxiliary Emotion Supervision Redistributes Affective Representations Across ALM Layers</p>
+                        <p class="pub-authors"><strong>B. Koduru</strong>, D. Alharthi, R. Singh, B. Raj</p>
+                        <div class="pub-meta"><span class="venue venue--workshop">ICML 2026 Workshop</span><span class="venue-note">Mechanistic Interpretability</span></div>
+                        <p class="pub-summary">Adding an auxiliary emotion objective changes where affective information is represented across the layers of an audio-language model.</p>
+                    </li>
+                    <li class="pub" id="pub-rivet">
+                        <p class="pub-title">RIVET: Robust Idempotent Voice Attribute Editing</p>
+                        <p class="pub-authors">D. Alharthi, <strong>B. Koduru</strong>, R. Singh, B. Raj</p>
+                        <div class="pub-meta"><span class="venue">INTERSPEECH 2026</span><span class="venue-note venue-note--oral">Oral</span></div>
+                        <p class="pub-summary">Training a voice editor to be idempotent (f(f(x)) = f(x)) regularizes it against noisy attribute labels, improving edit success and speaker-identity preservation for attributes like age and gender.</p>
+                        <div class="pub-links">
+                            <a class="chev chev--small" href="https://arxiv.org/abs/2606.19629">arXiv</a>
+                            <a class="chev chev--small" href="https://arxiv.org/pdf/2606.19629">PDF</a>
+                        </div>
+                    </li>
+                </ol>
+            </section>
+
+            <!-- 3. Self-evolving agents -->
+            <section id="evolving">
+                <h2>Self-evolving computer-use agents</h2>
+                <p>
+                    Instead of hand-engineering a scaffold for every environment, can an agent write its own interface in
+                    code and improve it from experience? Our agents match specialized scaffolds on OSWorld (361 tasks) with
+                    no computer-use-specific engineering, and an island-based evolutionary loop that grows a reusable code
+                    library from rollouts alone beats Agent S3 on ScienceBoard.
+                </p>
+
+                <figure class="figure">
+                    <p class="fig-label">Figure 2</p>
+                    <h3 class="fig-title">ScienceBoard success rate</h3>
+                    <ul class="legend">
+                        <li><span class="swatch" style="background: var(--mark-base)"></span>Agent S3</li>
+                        <li><span class="swatch" style="background: var(--mark)"></span>Evolutionary loop (ours)</li>
+                    </ul>
+                    <div class="chart" style="--max: 50; --grid: 20%">
+                        <div class="chart-group">
+                            <div class="chart-row">
+                                <span class="chart-label">Haiku</span>
+                                <div class="chart-track">
+                                    <span class="bar" style="--v: 22.0" tabindex="0" data-tip-value="22.0%" data-tip="Haiku · Agent S3"></span>
+                                    <span class="bar-value">22.0%</span>
+                                </div>
+                            </div>
+                            <div class="chart-row">
+                                <span class="chart-label"></span>
+                                <div class="chart-track">
+                                    <span class="bar bar--accent" style="--v: 30.9" tabindex="0" data-tip-value="30.9%" data-tip="Haiku · Evolutionary loop"></span>
+                                    <span class="bar-value">30.9%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chart-group">
+                            <div class="chart-row">
+                                <span class="chart-label">Sonnet</span>
+                                <div class="chart-track">
+                                    <span class="bar" style="--v: 30.1" tabindex="0" data-tip-value="30.1%" data-tip="Sonnet · Agent S3"></span>
+                                    <span class="bar-value">30.1%</span>
+                                </div>
+                            </div>
+                            <div class="chart-row">
+                                <span class="chart-label"></span>
+                                <div class="chart-track">
+                                    <span class="bar bar--accent" style="--v: 40.4" tabindex="0" data-tip-value="40.4%" data-tip="Sonnet · Evolutionary loop"></span>
+                                    <span class="bar-value">40.4%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chart-axis" aria-hidden="true">
+                            <span></span>
+                            <div class="chart-ticks"><span style="left: 0">0%</span><span style="left: 20%">10%</span><span style="left: 40%">20%</span><span style="left: 60%">30%</span><span style="left: 80%">40%</span><span style="left: 100%">50%</span></div>
+                        </div>
+                    </div>
+                    <p class="fig-caption">Task success with two Claude models (Haiku and Sonnet). The evolutionary loop also uses half Agent S3's tokens.</p>
+                    <table class="sr-only">
+                        <caption>ScienceBoard success rate</caption>
+                        <tr><th scope="col">Model</th><th scope="col">Agent S3</th><th scope="col">Evolutionary loop</th></tr>
+                        <tr><td>Haiku</td><td>22.0%</td><td>30.9%</td></tr>
+                        <tr><td>Sonnet</td><td>30.1%</td><td>40.4%</td></tr>
+                    </table>
+                </figure>
+
+                <p class="label">Papers</p>
+                <ol class="pubs">
+                    <li class="pub" id="pub-agent-s4">
+                        <p class="pub-title">Agent S4: Evolutionary Computer Use</p>
+                        <p class="pub-authors">S. Agashe, Y. Yang, G. Gonzalez-Pumariega, <strong>B. Koduru</strong>, et al.</p>
+                        <div class="pub-meta"><span class="venue venue--review">ICLR 2027 · under review</span></div>
+                        <p class="pub-summary">The next Agent S: a computer-use agent that improves itself through evolutionary search over code it writes from its own rollouts.</p>
+                    </li>
+                    <li class="pub" id="pub-cues">
+                        <p class="pub-title">Computer Use with Evolving Software</p>
+                        <p class="pub-authors">S. Agashe, G. Gonzalez-Pumariega, <strong>B. Koduru</strong>, J. Yang, A. Li, X. E. Wang</p>
+                        <div class="pub-meta"><span class="venue venue--workshop">CoLM 2026 Workshop</span><span class="venue-note">Lifelong Agents</span></div>
+                        <p class="pub-summary">CUES-Evol: computer-use agents that generate and evolve their own software interface in code, rather than depending on hand-engineered scaffolds.</p>
+                    </li>
+                </ol>
+            </section>
+
+            <!-- 4. Deception -->
+            <section id="deception">
+                <h2>Deception &amp; Theory of Mind</h2>
+                <p>
+                    Can LLM agents deceive strategically, and do they track what other players believe? AmongUs-X uses the
+                    social-deduction game Among Us as a testbed, with a moderator agent grounded in a game-theoretic model
+                    of strategic deception.
+                </p>
+
+                <div class="stats">
+                    <div>
+                        <p class="stat-value">8,000+</p>
+                        <p class="stat-label">simulated Among Us games</p>
+                    </div>
+                    <div>
+                        <p class="stat-value">21</p>
+                        <p class="stat-label">LLMs evaluated</p>
+                    </div>
+                </div>
+
+                <p class="label">Paper</p>
+                <ol class="pubs">
+                    <li class="pub" id="pub-amongus">
+                        <p class="pub-title">AmongUs-X: Benchmarking Strategic Deception of LLM Agents via Theory-of-Mind Metrics</p>
+                        <p class="pub-authors">K. Mirakhor*, <strong>B. Koduru*</strong>, A. Kontogiannis, R. Zabounidis, K. Sycara, W. Kim</p>
+                        <div class="pub-meta"><span class="venue venue--review">AAMAS 2027 · under review</span><span class="venue-note">*equal contribution</span></div>
+                        <p class="pub-summary">A benchmark and released dataset for measuring strategic deception and Theory of Mind in LLM agents.</p>
+                    </li>
+                </ol>
+            </section>
+
+            <!-- 5. Earlier work -->
+            <section id="earlier-work">
+                <h2>Earlier: human pose estimation</h2>
+                <p>
+                    Before CMU, at IIT Hyderabad's Spinal Cord Lab, I benchmarked markerless pose estimation from phone
+                    cameras against motion capture. The project led to three papers.
+                </p>
+
+                <p class="label">Papers</p>
+                <ol class="pubs">
+                    <li class="pub" id="pub-gati">
+                        <p class="pub-title">GATI: Gait and Temporal Intelligence — A Large-scale Multi-view Movement Dataset of Daily Activities in the Indian Context</p>
+                        <p class="pub-authors">Y. Mandayam Rangayyan, A. K. Singh, J. Chand, …, <strong>B. Koduru</strong>, …, M. Raghavan</p>
+                        <div class="pub-meta"><span class="venue venue--preprint">SSRN preprint · 2026</span></div>
+                        <p class="pub-summary">A multi-view movement dataset of 16 subjects performing daily activities, chores, exercises, and yoga, with motion-capture ground truth and benchmarks of four pose estimators across camera angles.</p>
+                        <div class="pub-links"><a class="chev chev--small" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7235718">SSRN</a></div>
+                    </li>
+                    <li class="pub" id="pub-sae">
+                        <p class="pub-title">Segment Activity Effect (SAE): A Novel Structural Reliability Metric for Markerless Human Pose Estimation Using a Large Multi-View Motion Capture Dataset</p>
+                        <p class="pub-authors">Y. Mandayam Rangayyan, A. K. Singh, J. Chand, …, <strong>B. Koduru</strong>, …, M. Raghavan</p>
+                        <div class="pub-meta"><span class="venue venue--preprint">SSRN preprint</span></div>
+                        <p class="pub-summary">A metric for activity-specific structural errors, measured against 1000 Hz motion capture: flexion and abduction systematically lengthen the hip–knee segment by up to 4 cm.</p>
+                        <div class="pub-links"><a class="chev chev--small" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7134731">SSRN</a></div>
+                    </li>
+                    <li class="pub" id="pub-segment-aware">
+                        <p class="pub-title">Segment-Aware Evaluation of 3D Human Pose Estimation under Uncalibrated Multi-View Video Settings</p>
+                        <p class="pub-authors">Y. Mandayam Rangayyan, A. K. Singh, J. Chand, …, <strong>B. Koduru</strong>, …, M. Raghavan</p>
+                        <div class="pub-meta"><span class="venue venue--preprint">Manuscript</span></div>
+                        <p class="pub-summary">Segment-level evaluation of four 3D pose estimators against high-frequency motion capture across uncalibrated camera views (14 subjects, 19 activities).</p>
+                    </li>
+                </ol>
+            </section>
+        </article>
+    </main>
+
+    <footer class="site-footer">
+        <div class="wrap">
             <p>© 2026 Bhuvan Koduru · Last updated Oct 2026</p>
+            <ul>
+                <li><a href="mailto:bkoduru@andrew.cmu.edu">bkoduru@andrew.cmu.edu</a></li>
+                <li><a href="https://github.com/BhuvanKoduru">GitHub</a></li>
+                <li><a href="https://linkedin.com/in/bhuvankoduru">LinkedIn</a></li>
+                <li><a href="https://scholar.google.com/citations?user=pp204vMAAAAJ">Scholar</a></li>
+            </ul>
         </div>
     </footer>
 
-    <script src="assets/js/main.js?v=20261004b"></script>
+    <script src="assets/js/main.js?v=20261005"></script>
 </body>
 </html>
