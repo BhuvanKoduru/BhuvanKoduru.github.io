@@ -451,10 +451,7 @@ p + p {
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   text-decoration: none;
-  opacity: 0;
-  transform: translate(var(--tx, 0), var(--ty, 0));
   transition: opacity 0.4s ease, transform 0.9s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.15s ease;
-  pointer-events: none;
 }
 
 .stream-label:hover {
@@ -477,31 +474,12 @@ p + p {
 .stream-label--bl { bottom: -34px; left: 0; --tx: -18px; --ty: 12px; }
 .stream-label--br { bottom: -34px; right: 0; --tx: 18px; --ty: 12px; }
 
-.hero-art.is-streaming .stream-label {
-  opacity: 1;
-  transform: none;
-}
-
-/* After the portrait forms, the labels come back on hover (or keyboard focus)
-   as links. The invisible buffer keeps hover alive between portrait and labels. */
-.hero-art.is-formed::before {
-  content: '';
-  position: absolute;
-  inset: -48px -28px;
-}
-
-@media (hover: hover) {
-  .hero-art.is-formed:hover .stream-label {
-    opacity: 1;
-    transform: none;
-    pointer-events: auto;
-  }
-}
-
-.hero-art.is-formed:focus-within .stream-label {
-  opacity: 1;
-  transform: none;
-  pointer-events: auto;
+/* The labels stay on the page as links to each research area. They are only
+   held back for the moment before the intro starts, then slide in with it. */
+.js-motion .hero-art[data-dots]:not(.is-static):not(.is-streaming):not(.is-formed) .stream-label {
+  opacity: 0;
+  transform: translate(var(--tx, 0), var(--ty, 0));
+  pointer-events: none;
 }
 
 /* ============================================
