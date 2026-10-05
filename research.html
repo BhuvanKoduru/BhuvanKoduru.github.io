@@ -21,7 +21,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/style.css?v=20261005j">
+    <link rel="stylesheet" href="assets/css/style.css?v=20261005k">
 </head>
 <body>
     <div class="masthead">
@@ -69,8 +69,8 @@
             <summary><span class="toc-label">Themes</span></summary>
             <p class="toc-label toc-label--desktop">Themes</p>
             <ol>
-                <li><a href="#safety">Safety of computer-use agents</a></li>
                 <li><a href="#audio">What audio-language models hear</a></li>
+                <li><a href="#safety">Safety of computer-use agents</a></li>
                 <li><a href="#evolving">Self-evolving computer-use agents</a></li>
                 <li><a href="#deception">Deception &amp; Theory of Mind</a></li>
                 <li><a href="#earlier-work">Earlier: human pose estimation</a></li>
@@ -78,64 +78,7 @@
         </details>
 
         <article class="content">
-            <!-- 1. Safety -->
-            <section id="safety">
-                <h2>Safety of computer-use agents</h2>
-                <p>
-                    Does safety training survive the move from chatting to acting? I gave the same harmful requests to
-                    models in chat and to the same models acting as computer-use agents, across 8 models and 49 tasks.
-                    In chat they mostly refused. As agents, they mostly didn't.
-                </p>
-
-                <figure class="figure">
-                    <p class="fig-label">Figure 1</p>
-                    <h3 class="fig-title">Refusals on harmful requests</h3>
-                    <div class="chart" style="--label-w: 124px">
-                        <div class="chart-row">
-                            <span class="chart-label">In chat</span>
-                            <div class="chart-track">
-                                <span class="bar" style="--v: 66" tabindex="0" data-tip-value="31 of 47 refused" data-tip="In chat · 66%"></span>
-                                <span class="bar-value">31/47</span>
-                            </div>
-                        </div>
-                        <div class="chart-row">
-                            <span class="chart-label">As an agent</span>
-                            <div class="chart-track">
-                                <span class="bar bar--accent" style="--v: 8.5" tabindex="0" data-tip-value="4 of 47 refused" data-tip="As a computer-use agent · 9%"></span>
-                                <span class="bar-value">4/47</span>
-                            </div>
-                        </div>
-                        <div class="chart-axis" aria-hidden="true">
-                            <span></span>
-                            <div class="chart-ticks"><span style="left: 0">0%</span><span class="minor" style="left: 25%">25%</span><span style="left: 50%">50%</span><span class="minor" style="left: 75%">75%</span><span style="left: 100%">100%</span></div>
-                        </div>
-                    </div>
-                    <p class="fig-caption">The same harmful requests, posed in chat and to the model acting as a computer-use agent.</p>
-                    <table class="sr-only">
-                        <caption>Refusals on harmful requests</caption>
-                        <tr><th scope="col">Setting</th><th scope="col">Refused</th></tr>
-                        <tr><td>In chat</td><td>31 of 47</td></tr>
-                        <tr><td>As a computer-use agent</td><td>4 of 47</td></tr>
-                    </table>
-                </figure>
-
-                <div class="callout">
-                    <p class="callout-title">Steering moved the words, not the actions.</p>
-                    <p>Activation steering raised chat refusal from 0.71 to 0.85, but agent actions didn't change.</p>
-                </div>
-
-                <p class="label">Paper</p>
-                <ol class="pubs">
-                    <li class="pub" id="pub-chat-safe">
-                        <p class="pub-title">Chat-safe is not CUA-safe: Chat Methods May Not Transfer to Computer Use</p>
-                        <p class="pub-authors"><strong>B. Koduru</strong>, J. Yang, A. Li, X. E. Wang</p>
-                        <div class="pub-meta"><span class="venue venue--workshop">NeurIPS 2026 Workshop</span><span class="venue-note">Agents in the Wild · poster</span></div>
-                        <p class="pub-summary">Chat-time safety methods can't be assumed to transfer to computer use, and need to be evaluated on agent actions directly.</p>
-                    </li>
-                </ol>
-            </section>
-
-            <!-- 2. Audio -->
+            <!-- 1. Audio -->
             <section id="audio">
                 <h2>What audio-language models hear</h2>
                 <p>
@@ -145,8 +88,52 @@
                     the output: the models hear it but don't heed it.
                 </p>
 
+                <a class="feature-card" href="heard/">
+                    <span class="feature-play" aria-hidden="true">
+                        <svg width="22" height="22" viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z" fill="currentColor"/></svg>
+                    </span>
+                    <span class="feature-text">
+                        <span class="feature-eyebrow">Interactive paper page · CoLM&nbsp;2026</span>
+                        <span class="feature-title">Heard but Not Heeded</span>
+                        <span class="feature-desc">Listen to one sentence in four speaking styles, then see what each model said it heard.</span>
+                    </span>
+                    <span class="feature-cta">Open the page</span>
+                </a>
+
+                <p class="label">Papers</p>
+                <ol class="pubs">
+                    <li class="pub" id="pub-heard">
+                        <p class="pub-title"><a class="pub-title-link" href="heard/">Heard but Not Heeded: Paralinguistic Information Encoding and Loss in Audio-Language Models<span class="title-arrow" aria-hidden="true">→</span></a></p>
+                        <p class="pub-authors"><strong>B. Koduru</strong>, D. Alharthi, R. Singh, B. Raj</p>
+                        <div class="pub-meta"><span class="venue">CoLM 2026</span></div>
+                        <p class="pub-summary">A mechanistic analysis of Whisper-large-v2, Qwen2-Audio, Qwen2.5-Omni, and Chroma-4B. The projector reshapes the style signal rather than discarding it.</p>
+                        <div class="pub-links">
+                            <a class="chev chev--small" href="https://arxiv.org/abs/2609.00727">arXiv</a>
+                            <a class="chev chev--small" href="https://arxiv.org/pdf/2609.00727">PDF</a>
+                            <a class="chev chev--small" href="assets/papers/koduru-colm2026-poster.pdf">Poster</a>
+                            <a class="chev chev--small" href="heard/">Project page &amp; audio</a>
+                        </div>
+                    </li>
+                    <li class="pub" id="pub-subliminal">
+                        <p class="pub-title">Subliminal Prosody Learning: Auxiliary Emotion Supervision Redistributes Affective Representations Across ALM Layers</p>
+                        <p class="pub-authors"><strong>B. Koduru</strong>, D. Alharthi, R. Singh, B. Raj</p>
+                        <div class="pub-meta"><span class="venue venue--workshop">ICML 2026 Workshop</span><span class="venue-note">Mechanistic Interpretability</span></div>
+                        <p class="pub-summary">Adding an auxiliary emotion objective changes where affective information is represented across the layers of an audio-language model.</p>
+                    </li>
+                    <li class="pub" id="pub-rivet">
+                        <p class="pub-title">RIVET: Robust Idempotent Voice Attribute Editing</p>
+                        <p class="pub-authors">D. Alharthi, <strong>B. Koduru</strong>, R. Singh, B. Raj</p>
+                        <div class="pub-meta"><span class="venue">INTERSPEECH 2026</span><span class="venue-note venue-note--oral">Oral</span></div>
+                        <p class="pub-summary">Training a voice editor to be idempotent (f(f(x)) = f(x)) regularizes it against noisy attribute labels, improving edit success and speaker-identity preservation for attributes like age and gender.</p>
+                        <div class="pub-links">
+                            <a class="chev chev--small" href="https://arxiv.org/abs/2606.19629">arXiv</a>
+                            <a class="chev chev--small" href="https://arxiv.org/pdf/2606.19629">PDF</a>
+                        </div>
+                    </li>
+                </ol>
+
                 <figure class="figure">
-                    <p class="fig-label">Figure 2</p>
+                    <p class="fig-label">Figure 1</p>
                     <h3 class="fig-title">Heard, but not heeded</h3>
                     <ul class="legend">
                         <li><span class="swatch swatch--ring"></span>Probe at the audio-encoder peak</li>
@@ -207,7 +194,7 @@
                 </figure>
 
                 <figure class="figure">
-                    <p class="fig-label">Figure 3 · Figure 5 in the paper</p>
+                    <p class="fig-label">Figure 2 · Figure 5 in the paper</p>
                     <h3 class="fig-title">How speaking styles separate, layer by layer</h3>
                     <div class="tabs" role="tablist" aria-label="Model">
                         <button type="button" role="tab" id="tab-cka-whisper" aria-controls="cka-whisper" aria-selected="true">Whisper-large-v2</button>
@@ -239,38 +226,63 @@
                         boundary (layer 32). <a href="https://arxiv.org/html/2609.00727v1#A6.F5">View in the paper</a>
                     </p>
                 </figure>
+            </section>
 
-                <p class="label">Papers</p>
+            <!-- 2. Safety -->
+            <section id="safety">
+                <h2>Safety of computer-use agents</h2>
+                <p>
+                    Does safety training survive the move from chatting to acting? I gave the same harmful requests to
+                    models in chat and to the same models acting as computer-use agents, across 8 models and 49 tasks.
+                    In chat they mostly refused. As agents, they mostly didn't.
+                </p>
+
+                <p class="label">Paper</p>
                 <ol class="pubs">
-                    <li class="pub" id="pub-heard">
-                        <p class="pub-title">Heard but Not Heeded: Paralinguistic Information Encoding and Loss in Audio-Language Models</p>
-                        <p class="pub-authors"><strong>B. Koduru</strong>, D. Alharthi, R. Singh, B. Raj</p>
-                        <div class="pub-meta"><span class="venue">CoLM 2026</span></div>
-                        <p class="pub-summary">A mechanistic analysis of Whisper-large-v2, Qwen2-Audio, Qwen2.5-Omni, and Chroma-4B. The projector reshapes the style signal rather than discarding it.</p>
-                        <div class="pub-links">
-                            <a class="chev chev--small" href="https://arxiv.org/abs/2609.00727">arXiv</a>
-                            <a class="chev chev--small" href="https://arxiv.org/pdf/2609.00727">PDF</a>
-                            <a class="chev chev--small" href="assets/papers/koduru-colm2026-poster.pdf">Poster</a>
-                            <a class="chev chev--small" href="heard/">Project page &amp; audio</a>
-                        </div>
-                    </li>
-                    <li class="pub" id="pub-subliminal">
-                        <p class="pub-title">Subliminal Prosody Learning: Auxiliary Emotion Supervision Redistributes Affective Representations Across ALM Layers</p>
-                        <p class="pub-authors"><strong>B. Koduru</strong>, D. Alharthi, R. Singh, B. Raj</p>
-                        <div class="pub-meta"><span class="venue venue--workshop">ICML 2026 Workshop</span><span class="venue-note">Mechanistic Interpretability</span></div>
-                        <p class="pub-summary">Adding an auxiliary emotion objective changes where affective information is represented across the layers of an audio-language model.</p>
-                    </li>
-                    <li class="pub" id="pub-rivet">
-                        <p class="pub-title">RIVET: Robust Idempotent Voice Attribute Editing</p>
-                        <p class="pub-authors">D. Alharthi, <strong>B. Koduru</strong>, R. Singh, B. Raj</p>
-                        <div class="pub-meta"><span class="venue">INTERSPEECH 2026</span><span class="venue-note venue-note--oral">Oral</span></div>
-                        <p class="pub-summary">Training a voice editor to be idempotent (f(f(x)) = f(x)) regularizes it against noisy attribute labels, improving edit success and speaker-identity preservation for attributes like age and gender.</p>
-                        <div class="pub-links">
-                            <a class="chev chev--small" href="https://arxiv.org/abs/2606.19629">arXiv</a>
-                            <a class="chev chev--small" href="https://arxiv.org/pdf/2606.19629">PDF</a>
-                        </div>
+                    <li class="pub" id="pub-chat-safe">
+                        <p class="pub-title">Chat-safe is not CUA-safe: Chat Methods May Not Transfer to Computer Use</p>
+                        <p class="pub-authors"><strong>B. Koduru</strong>, J. Yang, A. Li, X. E. Wang</p>
+                        <div class="pub-meta"><span class="venue venue--workshop">NeurIPS 2026 Workshop</span><span class="venue-note">Agents in the Wild · poster</span></div>
+                        <p class="pub-summary">Chat-time safety methods can't be assumed to transfer to computer use, and need to be evaluated on agent actions directly.</p>
                     </li>
                 </ol>
+
+                <figure class="figure">
+                    <p class="fig-label">Figure 3</p>
+                    <h3 class="fig-title">Refusals on harmful requests</h3>
+                    <div class="chart" style="--label-w: 124px">
+                        <div class="chart-row">
+                            <span class="chart-label">In chat</span>
+                            <div class="chart-track">
+                                <span class="bar" style="--v: 66" tabindex="0" data-tip-value="31 of 47 refused" data-tip="In chat · 66%"></span>
+                                <span class="bar-value">31/47</span>
+                            </div>
+                        </div>
+                        <div class="chart-row">
+                            <span class="chart-label">As an agent</span>
+                            <div class="chart-track">
+                                <span class="bar bar--accent" style="--v: 8.5" tabindex="0" data-tip-value="4 of 47 refused" data-tip="As a computer-use agent · 9%"></span>
+                                <span class="bar-value">4/47</span>
+                            </div>
+                        </div>
+                        <div class="chart-axis" aria-hidden="true">
+                            <span></span>
+                            <div class="chart-ticks"><span style="left: 0">0%</span><span class="minor" style="left: 25%">25%</span><span style="left: 50%">50%</span><span class="minor" style="left: 75%">75%</span><span style="left: 100%">100%</span></div>
+                        </div>
+                    </div>
+                    <p class="fig-caption">The same harmful requests, posed in chat and to the model acting as a computer-use agent.</p>
+                    <table class="sr-only">
+                        <caption>Refusals on harmful requests</caption>
+                        <tr><th scope="col">Setting</th><th scope="col">Refused</th></tr>
+                        <tr><td>In chat</td><td>31 of 47</td></tr>
+                        <tr><td>As a computer-use agent</td><td>4 of 47</td></tr>
+                    </table>
+                </figure>
+
+                <div class="callout">
+                    <p class="callout-title">Steering moved the words, not the actions.</p>
+                    <p>Activation steering raised chat refusal from 0.71 to 0.85, but agent actions didn't change.</p>
+                </div>
             </section>
 
             <!-- 3. Self-evolving agents -->
@@ -282,6 +294,22 @@
                     no computer-use-specific engineering, and an island-based evolutionary loop that grows a reusable code
                     library from rollouts alone beats Agent S3 on ScienceBoard.
                 </p>
+
+                <p class="label">Papers</p>
+                <ol class="pubs">
+                    <li class="pub" id="pub-agent-s4">
+                        <p class="pub-title">Agent S4: Evolutionary Computer Use</p>
+                        <p class="pub-authors">S. Agashe, Y. Yang, G. Gonzalez-Pumariega, <strong>B. Koduru</strong>, et al.</p>
+                        <div class="pub-meta"><span class="venue venue--review">ICLR 2027 · under review</span></div>
+                        <p class="pub-summary">The next Agent S: a computer-use agent that improves itself through evolutionary search over code it writes from its own rollouts.</p>
+                    </li>
+                    <li class="pub" id="pub-cues">
+                        <p class="pub-title">Computer Use with Evolving Software</p>
+                        <p class="pub-authors">S. Agashe, G. Gonzalez-Pumariega, <strong>B. Koduru</strong>, J. Yang, A. Li, X. E. Wang</p>
+                        <div class="pub-meta"><span class="venue venue--workshop">CoLM 2026 Workshop</span><span class="venue-note">Lifelong Agents</span></div>
+                        <p class="pub-summary">CUES-Evol: computer-use agents that generate and evolve their own software interface in code, rather than depending on hand-engineered scaffolds.</p>
+                    </li>
+                </ol>
 
                 <figure class="figure">
                     <p class="fig-label">Figure 4</p>
@@ -336,22 +364,6 @@
                         <tr><td>Sonnet</td><td>30.1%</td><td>40.4%</td></tr>
                     </table>
                 </figure>
-
-                <p class="label">Papers</p>
-                <ol class="pubs">
-                    <li class="pub" id="pub-agent-s4">
-                        <p class="pub-title">Agent S4: Evolutionary Computer Use</p>
-                        <p class="pub-authors">S. Agashe, Y. Yang, G. Gonzalez-Pumariega, <strong>B. Koduru</strong>, et al.</p>
-                        <div class="pub-meta"><span class="venue venue--review">ICLR 2027 · under review</span></div>
-                        <p class="pub-summary">The next Agent S: a computer-use agent that improves itself through evolutionary search over code it writes from its own rollouts.</p>
-                    </li>
-                    <li class="pub" id="pub-cues">
-                        <p class="pub-title">Computer Use with Evolving Software</p>
-                        <p class="pub-authors">S. Agashe, G. Gonzalez-Pumariega, <strong>B. Koduru</strong>, J. Yang, A. Li, X. E. Wang</p>
-                        <div class="pub-meta"><span class="venue venue--workshop">CoLM 2026 Workshop</span><span class="venue-note">Lifelong Agents</span></div>
-                        <p class="pub-summary">CUES-Evol: computer-use agents that generate and evolve their own software interface in code, rather than depending on hand-engineered scaffolds.</p>
-                    </li>
-                </ol>
             </section>
 
             <!-- 4. Deception -->
@@ -363,6 +375,16 @@
                     of strategic deception.
                 </p>
 
+                <p class="label">Paper</p>
+                <ol class="pubs">
+                    <li class="pub" id="pub-amongus">
+                        <p class="pub-title">AmongUs-X: Benchmarking Strategic Deception of LLM Agents via Theory-of-Mind Metrics</p>
+                        <p class="pub-authors">K. Mirakhor*, <strong>B. Koduru*</strong>, A. Kontogiannis, R. Zabounidis, K. Sycara, W. Kim</p>
+                        <div class="pub-meta"><span class="venue venue--review">AAMAS 2027 · under review</span><span class="venue-note">*equal contribution</span></div>
+                        <p class="pub-summary">A benchmark and released dataset for measuring strategic deception and Theory of Mind in LLM agents.</p>
+                    </li>
+                </ol>
+
                 <div class="stats">
                     <div>
                         <p class="stat-value">8,000+</p>
@@ -373,16 +395,6 @@
                         <p class="stat-label">LLMs evaluated</p>
                     </div>
                 </div>
-
-                <p class="label">Paper</p>
-                <ol class="pubs">
-                    <li class="pub" id="pub-amongus">
-                        <p class="pub-title">AmongUs-X: Benchmarking Strategic Deception of LLM Agents via Theory-of-Mind Metrics</p>
-                        <p class="pub-authors">K. Mirakhor*, <strong>B. Koduru*</strong>, A. Kontogiannis, R. Zabounidis, K. Sycara, W. Kim</p>
-                        <div class="pub-meta"><span class="venue venue--review">AAMAS 2027 · under review</span><span class="venue-note">*equal contribution</span></div>
-                        <p class="pub-summary">A benchmark and released dataset for measuring strategic deception and Theory of Mind in LLM agents.</p>
-                    </li>
-                </ol>
             </section>
 
             <!-- 5. Earlier work -->

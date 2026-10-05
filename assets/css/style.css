@@ -787,6 +787,107 @@ p + p {
   margin-top: 10px;
 }
 
+/* A paper title that opens its own page: underlined in zari gold, with an arrow */
+.pub-title-link {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--gold) 75%, transparent);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 4px;
+}
+
+.pub-title-link:hover {
+  color: var(--link);
+  text-decoration-color: var(--link);
+}
+
+.title-arrow {
+  display: inline-block;
+  margin-left: 6px;
+  color: var(--link);
+  text-decoration: none;
+  transition: transform 0.15s ease;
+}
+
+.pub-title-link:hover .title-arrow {
+  transform: translateX(3px);
+}
+
+/* Feature card: points to a paper's interactive page */
+.feature-card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 18px;
+  margin: 28px 0 8px;
+  padding: 20px 22px;
+  color: var(--mast-text);
+  text-decoration: none;
+  background:
+    radial-gradient(ellipse 60% 90% at 100% 0%, rgba(155, 35, 53, 0.3), transparent 70%),
+    linear-gradient(120deg, var(--mast-1), var(--mast-2) 60%, var(--mast-3));
+  border-radius: 16px;
+  box-shadow: 0 14px 32px rgba(10, 52, 64, 0.16);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.feature-card:hover {
+  color: var(--mast-text);
+  transform: translateY(-2px);
+  box-shadow: 0 20px 40px rgba(10, 52, 64, 0.22);
+}
+
+.feature-play {
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  color: #2b1d17;
+  background: var(--mast-gold);
+  border-radius: 50%;
+  box-shadow: 0 0 0 6px rgba(240, 198, 106, 0.18);
+}
+
+.feature-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.feature-eyebrow {
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mast-gold);
+}
+
+.feature-title {
+  font-family: var(--font-serif);
+  font-size: 25px;
+  line-height: 1.2;
+}
+
+.feature-desc {
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: var(--mast-soft);
+}
+
+.feature-cta {
+  padding: 9px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  color: #2b1d17;
+  background: var(--mast-text);
+  border-radius: 999px;
+}
+
+.feature-cta::after {
+  content: ' →';
+}
+
 /* Publication thumbnails: tiny visual summaries in the site's own style */
 .pub--thumb {
   display: grid;
@@ -955,6 +1056,13 @@ p + p {
   margin: 36px 0 40px;
   padding-top: 20px;
   border-top: 1px solid var(--rule);
+}
+
+/* After a paper list, the list's own bottom rule already separates the figure */
+.pubs + .figure {
+  margin-top: 44px;
+  padding-top: 0;
+  border-top: none;
 }
 
 .fig-label {
@@ -2002,6 +2110,23 @@ p + p {
 
   .chart-ticks .minor {
     display: none;
+  }
+
+  .feature-card {
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 14px 16px;
+    padding: 18px;
+  }
+
+  .feature-play {
+    width: 46px;
+    height: 46px;
+    align-self: start;
+  }
+
+  .feature-cta {
+    grid-column: 1 / -1;
+    justify-self: start;
   }
 
   .tryit {
