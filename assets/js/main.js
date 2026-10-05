@@ -183,6 +183,10 @@ async function startPortrait(art) {
         d.p1 = Math.random() * Math.PI * 2;
         d.p2 = Math.random() * Math.PI * 2;
         d.ramp = Array.from({ length: STEPS }, (_, k) => mixRgb(area.rgb, d.rgb, k / (STEPS - 1)));
+        d.hx = 0;                                          // hover push, eased
+        d.hy = 0;
+        d.k = 0.55 + Math.random() * 0.9;                  // per-dot sensitivity: an organic edge
+        d.swirl = (Math.random() < 0.5 ? -1 : 1) * (0.2 + Math.random() * 0.3);
     });
     const introEnd = Math.max(...dots.map(d => d.delay + d.dur)) + 1.2;
 
@@ -209,6 +213,21 @@ async function startPortrait(art) {
     layout();
     new ResizeObserver(layout).observe(masthead);
 
+    // Dots near the pointer are pushed aside and spring back when it leaves
+    const pointer = { x: 0, y: 0, active: false };
+    const track = e => {
+        const m = masthead.getBoundingClientRect();
+        pointer.x = e.clientX - m.left;
+        pointer.y = e.clientY - m.top;
+        pointer.active = true;
+    };
+    const release = () => { pointer.active = false; };
+    masthead.addEventListener('pointermove', track);
+    masthead.addEventListener('pointerdown', track);
+    masthead.addEventListener('pointerleave', release);
+    masthead.addEventListener('pointercancel', release);
+    masthead.addEventListener('pointerup', e => { if (e.pointerType !== 'mouse') release(); });
+
     clearTimeout(fallback);
     art.classList.add('is-animated');
     requestAnimationFrame(() => art.classList.add('is-streaming'));
@@ -218,16 +237,25 @@ async function startPortrait(art) {
     let lastDraw = 0;
     let running = true;
     let labelsHidden = false;
+    let disturbed = false;   // any dot still displaced by the pointer
 
     const draw = now => {
         const t = (now - t0) / 1000;
         const settled = t > introEnd;
-        // Once formed, the drift only needs ~30fps
-        if (settled && now - lastDraw < 30) return;
+        const reach = pw * 0.17;                            // hover radius
+        const reach2 = reach * reach;
+        const push = pw * 0.035;                            // max displacement
+        const near = pointer.active
+            && pointer.x > ox - reach && pointer.x < ox + pw + reach
+            && pointer.y > oy - reach && pointer.y < oy + vh * scale + reach;
+        // Once formed and untouched, the drift only needs ~30fps
+        if (settled && !near && !disturbed && now - lastDraw < 30) return;
         lastDraw = now;
 
-        if (settled) ctx.clearRect(ox - 8, oy - 8, pw + 16, vh * scale + 16);
+        const pad = 8 + push;
+        if (settled) ctx.clearRect(ox - pad, oy - pad, pw + pad * 2, vh * scale + pad * 2);
         else ctx.clearRect(0, 0, W, H);
+        disturbed = false;
 
         for (const d of dots) {
             let p = (t - d.delay) / d.dur;
@@ -242,6 +270,31 @@ async function startPortrait(art) {
             if (drift > 0) {
                 x += Math.sin(t * d.w1 + d.p1) * d.amp * drift;
                 y += Math.cos(t * d.w2 + d.p2) * d.amp * drift;
+            }
+
+            // Hover: ease toward a push away from the pointer, or back to rest
+            let tx = 0, ty = 0;
+            if (near) {
+                const ddx = x - pointer.x, ddy = y - pointer.y;
+                const dd = ddx * ddx + ddy * ddy;
+                if (dd < reach2) {
+                    const dist = Math.sqrt(dd) || 1;
+                    const f = 1 - dist / reach;
+                    const amt = f * f * push * d.k;
+                    const ux = ddx / dist, uy = ddy / dist;
+                    // mostly outward, with a little sideways swirl, like stirring paint
+                    tx = (ux - uy * d.swirl) * amt;
+                    ty = (uy + ux * d.swirl) * amt;
+                }
+            }
+            d.hx += (tx - d.hx) * 0.16;
+            d.hy += (ty - d.hy) * 0.16;
+            if (Math.abs(d.hx) + Math.abs(d.hy) > 0.05) {
+                x += d.hx;
+                y += d.hy;
+                disturbed = true;
+            } else {
+                d.hx = d.hy = 0;
             }
             ctx.globalAlpha = d.a * Math.min(1, p * 4);
             ctx.fillStyle = d.ramp[Math.round(Math.max(0, (p - 0.45) / 0.55) * (STEPS - 1))];
