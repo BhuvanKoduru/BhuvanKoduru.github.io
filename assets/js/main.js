@@ -158,9 +158,9 @@ async function startPortrait(art) {
     if (!dots.length) throw new Error('no dots');
 
     // One research area per direction; each dot comes from the side it sits on
-    const areas = [...art.querySelectorAll('.stream-label')].map(label => {
+    const areas = [...art.querySelectorAll('.stream-label')].map((label, index) => {
         const angle = (+label.dataset.angle * Math.PI) / 180;
-        return { angle, dx: Math.cos(angle), dy: Math.sin(angle), rgb: hexToRgb(label.dataset.color.slice(1)) };
+        return { index, label, angle, dx: Math.cos(angle), dy: Math.sin(angle), rgb: hexToRgb(label.dataset.color.slice(1)) };
     });
     const STEPS = 8;  // colour shift from area colour to true colour
     const cx = vw / 2, cy = vh / 2;
@@ -182,6 +182,10 @@ async function startPortrait(art) {
         d.w2 = 0.6 + Math.random() * 0.8;
         d.p1 = Math.random() * Math.PI * 2;
         d.p2 = Math.random() * Math.PI * 2;
+        d.area = area.index;
+        // Hover tint is strongest along the area's diagonal and fades toward its edges
+        const off = angularDistance(area.angle, angle) / (Math.PI / areas.length);
+        d.tint = Math.min(1, (0.3 + 0.7 * Math.max(0, 1 - off)) * (0.85 + Math.random() * 0.3));
         d.ramp = Array.from({ length: STEPS }, (_, k) => mixRgb(area.rgb, d.rgb, k / (STEPS - 1)));
         d.hx = 0;                                          // hover push, eased
         d.hy = 0;
@@ -228,6 +232,16 @@ async function startPortrait(art) {
     masthead.addEventListener('pointercancel', release);
     masthead.addEventListener('pointerup', e => { if (e.pointerType !== 'mouse') release(); });
 
+    // Hovering (or focusing) an area's label tints its dots back to the area colour
+    const glow = areas.map(() => 0);
+    let glowTarget = -1;
+    areas.forEach(a => {
+        a.label.addEventListener('pointerenter', () => { glowTarget = a.index; });
+        a.label.addEventListener('pointerleave', () => { if (glowTarget === a.index) glowTarget = -1; });
+        a.label.addEventListener('focus', () => { glowTarget = a.index; });
+        a.label.addEventListener('blur', () => { if (glowTarget === a.index) glowTarget = -1; });
+    });
+
     clearTimeout(fallback);
     art.classList.add('is-animated');
     requestAnimationFrame(() => art.classList.add('is-streaming'));
@@ -248,8 +262,14 @@ async function startPortrait(art) {
         const near = pointer.active
             && pointer.x > ox - reach && pointer.x < ox + pw + reach
             && pointer.y > oy - reach && pointer.y < oy + vh * scale + reach;
+        let glowing = false;
+        for (let i = 0; i < glow.length; i++) {
+            glow[i] += ((i === glowTarget ? 1 : 0) - glow[i]) * 0.12;
+            if (glow[i] < 0.005) glow[i] = 0;
+            if (glow[i] > 0) glowing = true;
+        }
         // Once formed and untouched, the drift only needs ~30fps
-        if (settled && !near && !disturbed && now - lastDraw < 30) return;
+        if (settled && !near && !disturbed && !glowing && now - lastDraw < 30) return;
         lastDraw = now;
 
         const pad = 8 + push;
@@ -297,7 +317,9 @@ async function startPortrait(art) {
                 d.hx = d.hy = 0;
             }
             ctx.globalAlpha = d.a * Math.min(1, p * 4);
-            ctx.fillStyle = d.ramp[Math.round(Math.max(0, (p - 0.45) / 0.55) * (STEPS - 1))];
+            const landed = Math.round(Math.max(0, (p - 0.45) / 0.55) * (STEPS - 1));
+            const lit = Math.round((1 - 0.6 * glow[d.area] * d.tint) * (STEPS - 1));
+            ctx.fillStyle = d.ramp[Math.min(landed, lit)];
             ctx.beginPath();
             ctx.arc(x, y, d.r * scale, 0, TAU);
             ctx.fill();
@@ -307,6 +329,7 @@ async function startPortrait(art) {
         if (!labelsHidden && t > introEnd - 0.6) {
             labelsHidden = true;
             art.classList.remove('is-streaming');
+            art.classList.add('is-formed');
         }
     };
 
