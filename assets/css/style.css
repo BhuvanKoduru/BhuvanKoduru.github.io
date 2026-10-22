@@ -2367,6 +2367,17 @@ p + p {
   }
 }
 
+/* On phones the five links no longer fit beside the wordmark: the nav drops to its own row */
+@media (max-width: 480px) {
+  .site-header .wrap {
+    flex-wrap: wrap;
+    height: auto;
+    row-gap: 8px;
+    padding-top: 18px;
+    padding-bottom: 6px;
+  }
+}
+
 @media (max-width: 400px) {
   .site-header .wrap {
     gap: 12px;
