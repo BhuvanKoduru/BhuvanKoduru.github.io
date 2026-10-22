@@ -25,7 +25,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../../assets/css/style.css?v=20261022a">
-    <link rel="stylesheet" href="../../assets/css/blog.css?v=20261022d">
+    <link rel="stylesheet" href="../../assets/css/blog.css?v=20261022e">
 </head>
 <body class="nature">
     <div class="masthead">
@@ -99,7 +99,7 @@
             <section id="screens-between-us">
                 <h2>Screens between us</h2>
                 <p>Unfortunately, the default tendency of using AI leads to autonomy. Autonomous driving, coding, and everything else. This is slowly (rapidly, actually) pushing people away from each other, and away from themselves too. <mark>I want to bet on building for humans. Not to replace us and our thinking, but to enable us and help us bloom.</mark> And this is the world I want to live in, and the world I want to build for us. On a slight tangent, I believe that us AI folk are extremely privileged, and it is our duty to build something of use to the broader community. I believe this deeply about myself too, because I have had the opportunity to study at the best school in the world, CMU. My research keeps telling me that bet is right, and it’s what makes me hopeful for a calmer, gentler, and brighter future. Humans are a social species, and <mark class="leaf">relationships woven together form the fabric which holds us together</mark>. In fact, part of the reason behind actually writing this blog is a conversation with my mother.</p>
-                <p>I hope to choose a job and a company for the mission, not just to make ends meet. <mark class="bloom">I believe in people</mark>, which is what led me to work at <a href="https://www.letsnosh.io/">Nosh Robotics</a> and Simular. Nosh builds robots that cook food for people, and Simular liberates people from their computers.</p>
+                <p>I hope to choose a job and a company for the mission, not just to make ends meet. <mark class="bloom">I believe in people</mark>, which is what led me to work at <a href="https://www.letsnosh.io/">Nosh Robotics</a> and <a href="https://www.simular.ai/">Simular</a>. Nosh builds robots that cook food for people, and Simular liberates people from their computers.</p>
             </section>
 
             <section id="fall-and-rise">
@@ -109,6 +109,24 @@
                     <figcaption>With Nosh, the robot that cooks.</figcaption>
                 </figure>
                 <p>I was in charge of livestreaming the product launch video for Nosh. I had an eight camera setup with three mics. Everything was riding on me, an intern who had never done this before. And my worst fears came true. A few cameras stopped working, and the mics refused to connect. People on the livestream were trashing the company, and at that moment, I just wanted the earth to suck me in. I was the kid who was sinking an entire company. The day after the ordeal, on a Sunday evening, I got a call from one of the founders, Amit. I ran up to my father, to console me if I got fired. To my surprise, he said he was proud of me, and that we all make mistakes. He was proud that I rose to the occasion and did not give up. <mark class="leaf">He was a man I wanted to build with.</mark></p>
+                <div class="clips">
+                    <figure class="snapshot">
+                        <a class="clip" href="https://www.youtube.com/watch?v=LzB5tYzPZX8" data-yt="LzB5tYzPZX8" data-title="Nosh Launch After Movie">
+                            <img src="https://i.ytimg.com/vi/LzB5tYzPZX8/maxresdefault.jpg" width="1280" height="720" alt="" loading="lazy">
+                            <span class="clip-play" aria-hidden="true"></span>
+                            <span class="sr-only">Play the Nosh launch aftermovie</span>
+                        </a>
+                        <figcaption>The launch aftermovie.</figcaption>
+                    </figure>
+                    <figure class="snapshot">
+                        <a class="clip" href="https://www.youtube.com/watch?v=EInRdcW2mvo" data-yt="EInRdcW2mvo" data-title="Nosh Virtual Launch">
+                            <img src="https://i.ytimg.com/vi/EInRdcW2mvo/maxresdefault.jpg" width="1280" height="720" alt="" loading="lazy">
+                            <span class="clip-play" aria-hidden="true"></span>
+                            <span class="sr-only">Play the reshot Nosh launch demo</span>
+                        </a>
+                        <figcaption>The launch demo we reshot. I definitely learnt from my mistakes.</figcaption>
+                    </figure>
+                </div>
             </section>
 
             <section id="sharing-fire">
@@ -147,5 +165,19 @@
     </footer>
 
     <script src="../../assets/js/main.js?v=20261005l"></script>
+    <script>
+        // Swap a video card for the YouTube player only when someone presses play
+        document.querySelectorAll('.clip[data-yt]').forEach(clip => {
+            clip.addEventListener('click', e => {
+                e.preventDefault();
+                const frame = document.createElement('iframe');
+                frame.src = `https://www.youtube-nocookie.com/embed/${clip.dataset.yt}?autoplay=1`;
+                frame.title = clip.dataset.title;
+                frame.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+                frame.allowFullscreen = true;
+                clip.replaceWith(frame);
+            });
+        });
+    </script>
 </body>
 </html>

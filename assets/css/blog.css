@@ -261,6 +261,68 @@ body.nature {
   transform: rotate(1.2deg);
 }
 
+/* two films side by side; each plays in place when pressed */
+.clips {
+  clear: both;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 28px;
+}
+
+.clips .snapshot {
+  max-width: none;
+  margin: 28px 0 8px;
+}
+
+.clips .snapshot:nth-child(2) {
+  transform: rotate(1.2deg);
+}
+
+.clip {
+  position: relative;
+  display: block;
+}
+
+.clip img,
+.clips iframe {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border: 0;
+  border-radius: 2px;
+}
+
+.clip-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 52px;
+  height: 52px;
+  margin: -26px 0 0 -26px;
+  background: #f1cf6e;
+  border-radius: 50%;
+  box-shadow: 0 0 0 6px rgba(241, 207, 110, 0.3);
+  transition: transform 0.15s ease;
+}
+
+.clip-play::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -9px 0 0 -5px;
+  border-left: 15px solid #2b2418;
+  border-top: 9px solid transparent;
+  border-bottom: 9px solid transparent;
+}
+
+.clip:hover .clip-play {
+  transform: scale(1.08);
+}
+
 /* a smaller print set beside the text */
 .snapshot--side {
   float: right;
@@ -374,6 +436,11 @@ body.nature {
     max-width: 300px;
     margin: 28px auto 24px;
     transform: rotate(1deg);
+  }
+
+  .clips {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px;
   }
 
   .essay {
