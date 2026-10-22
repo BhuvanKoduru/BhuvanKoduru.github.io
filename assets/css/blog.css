@@ -217,6 +217,62 @@ body.nature {
 .essay mark.sky { --tone: var(--wash-sky); }
 .essay mark.bloom { --tone: var(--wash-bloom); }
 
+/* an old photo taped into the essay */
+.snapshot {
+  position: relative;
+  max-width: 560px;
+  margin: 40px auto 8px;
+  padding: 10px 10px 4px;
+  background: var(--surface);
+  border-radius: 3px;
+  box-shadow: 0 1px 2px var(--shadow), 0 22px 44px -28px var(--shadow);
+  transform: rotate(-1.5deg);
+}
+
+.snapshot::before {
+  content: '';
+  position: absolute;
+  top: -13px;
+  left: 50%;
+  width: 96px;
+  height: 26px;
+  margin-left: -48px;
+  background: var(--tape);
+  transform: rotate(3deg);
+  pointer-events: none;
+}
+
+.snapshot img {
+  width: 100%;
+  height: auto;
+  border-radius: 2px;
+}
+
+.snapshot figcaption {
+  font-family: var(--font-hand);
+  font-size: 22px;
+  line-height: 1.3;
+  color: var(--muted);
+  text-align: center;
+  padding: 8px 0 4px;
+}
+
+.snapshot--right {
+  transform: rotate(1.2deg);
+}
+
+/* a smaller print set beside the text */
+.snapshot--side {
+  float: right;
+  width: min(44%, 300px);
+  margin: 10px 0 20px 32px;
+  transform: rotate(2deg);
+}
+
+.essay > section {
+  display: flow-root;  /* keep side prints inside their section */
+}
+
 /* a sprig to close */
 .fin {
   width: 80px;
@@ -305,6 +361,19 @@ body.nature {
   .film::before,
   .film::after {
     width: 72px;
+  }
+
+  .snapshot {
+    padding: 6px 6px 2px;
+    transform: rotate(-1deg);
+  }
+
+  .snapshot--side {
+    float: none;
+    width: auto;
+    max-width: 300px;
+    margin: 28px auto 24px;
+    transform: rotate(1deg);
   }
 
   .essay {
