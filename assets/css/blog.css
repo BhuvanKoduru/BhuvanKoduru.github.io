@@ -279,6 +279,12 @@ body.nature {
   transform: rotate(1.2deg);
 }
 
+/* the story moves on after the films, or after a print in the middle of a section */
+.essay .clips + p,
+.essay .snapshot:not(.snapshot--side) + p {
+  margin-top: 36px;
+}
+
 .clip {
   position: relative;
   display: block;
