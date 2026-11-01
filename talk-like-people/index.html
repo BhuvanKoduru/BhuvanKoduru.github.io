@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teaching a small model to talk like people | Bhuvan Koduru</title>
+    <meta name="description" content="Chatbots get tested against fake users that are too polite. I rebuilt the recipe behind humans&amp;' Persimmon on a 0.6B model and free GPUs to see which parts hold up.">
+    <meta property="og:title" content="Teaching a small model to talk like people">
+    <meta property="og:description" content="Chatbots get tested against fake users that are too polite. I rebuilt the recipe behind humans&amp;' Persimmon on a 0.6B model and free GPUs to see which parts hold up.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://bhuvankoduru.github.io/talk-like-people/">
+    <meta property="og:image" content="https://bhuvankoduru.github.io/assets/img/og-card.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+    <meta name="theme-color" content="#0a3440">
+    <script>
+        try { if (localStorage.getItem('theme-v2') === 'dark') document.documentElement.dataset.theme = 'dark'; } catch (e) {}
+        if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('js-motion');
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/style.css?v=20261101a">
+</head>
+<body>
+    <div class="masthead">
+    <header class="site-header">
+        <div class="wrap">
+            <a href="../index.html" class="wordmark">Bhuvan Koduru</a>
+            <nav aria-label="Main">
+                <ul class="site-nav">
+                    <li class="nav-optional"><a href="../index.html">About</a></li>
+                    <li><a href="../research.html" aria-current="page">Research</a></li>
+                    <li><a href="../projects.html">Projects</a></li>
+                    <li><a href="../blog/">Blog</a></li>
+                    <li><a href="../assets/Bhuvan_Koduru_Resume.pdf">CV</a></li>
+                    <li>
+                        <button class="theme-toggle" type="button" aria-label="Toggle dark mode">
+                            <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                            <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2 12h2.5M19.5 12H22M4.2 19.8 6 18M18 6l1.8-1.8"/></svg>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero hero--text">
+        <div class="wrap">
+            <div class="hero-text">
+                <p class="eyebrow"><a href="../research.html">Research</a> · <time datetime="2026-11-01">November 1, 2026</time></p>
+                <h1 class="display">Teaching a small model to talk like people</h1>
+                <p class="lede">Chatbots get tested against fake users, and the fake users are too polite. humans&amp; trained a 550B model to imitate people instead. I rebuilt the recipe on a 0.6B model and free GPUs to see which parts hold up.</p>
+            </div>
+        </div>
+    </section>
+    </div>
+    <div class="mast-fade" aria-hidden="true"></div>
+
+    <main class="wrap layout">
+        <details class="toc" open>
+            <summary><span class="toc-label">Contents</span></summary>
+            <p class="toc-label toc-label--desktop">Contents</p>
+            <ol>
+                <li><a href="#why">Why imitate people</a></li>
+                <li><a href="#measure">What “like people” means</a></li>
+                <li><a href="#recipe">The recipe</a></li>
+                <li><a href="#format">A bug that hid everything</a></li>
+                <li><a href="#voice">Learning the voice</a></li>
+                <li><a href="#judge">Training against a judge</a></li>
+                <li><a href="#later">Where it helps</a></li>
+                <li><a href="#keep">What I’d keep</a></li>
+            </ol>
+        </details>
+
+        <article class="content">
+            <section id="why">
+                <h2>Why imitate people?</h2>
+                <p>Before a chatbot ships, it gets tested on conversations. Real users are slow and expensive to recruit, so another model usually plays the user. Usually that model is an assistant told to act like one.</p>
+                <p>That makes the test too easy. Assistants are trained to be clear, helpful and agreeable. People are terse, make typos, change the subject, and leave when they are annoyed. When researchers ran 451 real people through the same agent tasks as 31 simulated users, the simulated ones were <a href="https://arxiv.org/abs/2603.11245">too cooperative and too uniform</a>, and agents scored better against them than against people.</p>
+                <p>humans&amp; built <a href="https://persimmon.humansand.ai/blog/">Persimmon</a> to play the people instead of the assistant, including group chats with several people at once. Their write-up describes the training in a few sentences and shares no code. I wanted to know how much of it works on a model about 900 times smaller, trained on Kaggle’s free GPUs.</p>
+            </section>
+
+            <section id="measure">
+                <h2>What does “talk like people” mean?</h2>
+                <p>A good assistant gives the best reply. A good simulated user gives a typical one, and over many conversations it gives every kind of reply about as often as people do. humans&amp; call this matching the distribution.</p>
+                <div class="callout">
+                    <p class="callout-title">Ask a group chat how its weekend was.</p>
+                    <p>People answer “good”, “meh”, “worked all weekend ugh”, a photo, or nothing at all. A model that always gives the single most likely answer looks fine one message at a time and is wrong as a whole. A model that matches people gives each kind of answer about as often as they do.</p>
+                </div>
+                <p>So the test can’t be a score for one reply. It is a Turing test over many. A judge sees the start of a real conversation, then two versions of the next four messages: what people actually wrote, and what the model wrote. It picks the real one. The <strong>fooled rate</strong> is how often it picks the model instead. At 50% the judge can’t tell them apart. At 0% it always can.</p>
+                <p>I used two kinds of judge. One is a small classifier trained on half the test conversations to tell real from generated, then graded on the other half. The other is a large open language model shown a few labeled examples first, which is closer to what humans&amp; did. Their fooled rates sit on different scales, so I only compare models under the same judge.</p>
+            </section>
+
+            <section id="recipe">
+                <h2>The recipe</h2>
+                <p>Persimmon starts from a model that has not been taught to be an assistant, trains it on conversations between people, then trains it further against a judge. Here is the same shape at small scale.</p>
+                <figure class="figure">
+                    <p class="fig-label">Figure 1</p>
+                    <h3 class="fig-title">Four steps, two of them training</h3>
+                    <ol class="cycle" style="--tc: var(--sage)">
+                        <li class="cycle-step">
+                            <span class="cycle-num">1</span>
+                            <p class="cycle-title">Collect real group chats</p>
+                            <p class="cycle-desc">Public-domain Ubuntu IRC logs, where several people help each other at once, plus people’s messages to ChatGPT from WildChat.</p>
+                        </li>
+                        <li class="cycle-step cycle-step--meta">
+                            <span class="cycle-num">2</span>
+                            <p class="cycle-title">Learn the voice</p>
+                            <p class="cycle-desc">Train Qwen3-0.6B, before any assistant tuning, to predict every human message: who speaks next, what they say, and where they stop.</p>
+                        </li>
+                        <li class="cycle-step cycle-step--meta">
+                            <span class="cycle-num">3</span>
+                            <p class="cycle-title">Train against a judge</p>
+                            <p class="cycle-desc">The model writes four messages at a time. A classifier scores how human they look, and is retrained on the model’s newest messages as it improves.</p>
+                        </li>
+                        <li class="cycle-step">
+                            <span class="cycle-num">4</span>
+                            <p class="cycle-title">Test with a new judge</p>
+                            <p class="cycle-desc">The Turing test above, on conversations the model never trained on, with a judge it never trained against.</p>
+                        </li>
+                    </ol>
+                    <p class="fig-caption">Tinted steps change the model. humans&amp; do steps 2 and 3 on Nemotron 3 Ultra, a 550B model. Their blog doesn’t say how the judge or the reward works, so those parts here are my design.</p>
+                </figure>
+            </section>
+
+            <section id="format">
+                <h2>A bug that hid everything</h2>
+                <p>The first version wrote each message between the model’s chat markers, <code>&lt;|im_start|&gt;</code> and <code>&lt;|im_end|&gt;</code>. Every message the model wrote failed the same way: it never ended. None of 99 test samples was usable, so the judge-training step had nothing to learn from.</p>
+                <p>Those markers are in the base model’s vocabulary, but it was never trained on them. Each word in a model is stored as a list of numbers, and these two lists were about a third as long as normal ones, pointing almost exactly at the average of all the others. The model could read them but could almost never write them, and the cheap fine-tuning I used can’t change them.</p>
+                <p>The fix was a format the base model has seen many times: a plain chat log, one message per line.</p>
+                <div class="prompt">
+                    <p class="label">What the model reads, shortened</p>
+                    <pre>## Setting
+Ubuntu community IRC channel #xubuntu on 2015-04-28. Public text chat where people drop in to ask for and offer technical help.
+## Participants
+- nina
+- tomas
+- kai
+## Chat log
+&lt;tomas&gt; the screen goes black but the power button is still blue
+&lt;nina&gt; tomas: maybe it's still plugged in?
+&lt;tomas&gt; nina: i've tried without AC</pre>
+                </div>
+                <p>A message now ends at a line break, which every model predicts well. With no training at all, the base model wrote 7 usable continuations out of 8.</p>
+            </section>
+
+            <section id="voice">
+                <h2>Does it learn the voice?</h2>
+                <p>Here is one conversation the model never trained on. In #xubuntu, someone’s laptop gets stuck trying to hibernate: the screen goes black, but the power light stays on. Two people suggest causes. The names are changed.</p>
+                <div class="prompt">
+                    <p class="label">The conversation so far, last few lines</p>
+                    <pre>tomas: the screen goes black but the power button is still blue
+nina:  tomas: For instance when my laptop is powered off but still on power cord charging, the poser button stays lit. It only goes out entirely when I pull the physical cord from it
+nina:  poser/power
+tomas: nina: i've tried without AC
+kai:   encrypted drives?
+tomas: + the screen is powered on, but black
+tomas: kai: what do you mean?
+kai:   do you use disk encryption?</pre>
+                </div>
+                <div class="prompt">
+                    <p class="label">What people actually wrote next</p>
+                    <pre>tomas: kai: i don't think so.
+tomas: i have win7 here too
+kai:   swap parition big enough?
+dee:   tomas: It might help if you let us know what version of Xubuntu you are using?</pre>
+                </div>
+                <div class="prompt">
+                    <p class="label">The base model, untrained</p>
+                    <pre>rex:   dystro guru username is user
+kai:   genetic if or else. logical fork or nested one
+rex:   some kind of mirroring eyes already
+mo:    yessir</pre>
+                </div>
+                <p>The base model writes something shaped like chat, but from people who weren’t in the thread, about nothing anyone mentioned.</p>
+                <div class="prompt">
+                    <p class="label">After step 2, learning the voice</p>
+                    <pre>tomas: yes
+efr:   i use whole thresholdes 192,000
+tomas: 3.25 gb set up
+kai:   efr hmm</pre>
+                </div>
+                <p>After step 2 the model mostly stays with the people in the thread and sounds like them: short, lowercase, answering by name. It doesn’t follow the question yet. “Do you use disk encryption?” gets “yes”, then numbers.</p>
+                <p>Across 285 test conversations, step 2 moves almost every habit toward people’s.</p>
+                <figure class="figure">
+                    <p class="fig-label">Table 1</p>
+                    <h3 class="fig-title">Habits of each model next to people’s</h3>
+                    <div class="table-scroll">
+                        <table class="data-table">
+                            <thead>
+                                <tr><th scope="col">Per message</th><th scope="col">People</th><th scope="col">Base</th><th scope="col">After step 2</th><th scope="col">After step 3</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><th scope="row">Characters</th><td>54</td><td>59</td><td><strong>54</strong></td><td>49</td></tr>
+                                <tr><th scope="row">15 characters or fewer</th><td>19%</td><td>17%</td><td>20%</td><td>23%</td></tr>
+                                <tr><th scope="row">Asks a question</th><td>14%</td><td>14%</td><td>16%</td><td>14%</td></tr>
+                                <tr><th scope="row">Starts by naming someone (“kai: …”)</th><td>37%</td><td>26%</td><td>31%</td><td><strong>38%</strong></td></tr>
+                                <tr><th scope="row">Speaker who isn’t in the chat</th><td>–</td><td>11%</td><td>6%</td><td><strong>3%</strong></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="fig-caption">285 test conversations, four messages each. Every speaker in the real messages is in the chat by construction, so the last row has no value for people. The last column comes up in the next section.</p>
+                </figure>
+            </section>
+
+            <section id="judge">
+                <h2>Training against a judge</h2>
+                <p>Step 2 only ever shows the model real conversations. When it writes four messages on its own, each one becomes the context for the next, so small mistakes pile up. humans&amp; say their judge-training step is what made long conversations hold together.</p>
+                <p>Here is how that step works. The model writes eight versions of the next four messages. The judge scores each one. The model shifts toward the versions that scored better than their siblings. A penalty keeps it close to the step 2 model, so it can’t wander far just to please the judge.</p>
+                <div class="callout">
+                    <p class="callout-title">Why a judge, and why one that keeps changing?</p>
+                    <p>Nobody can write down what people would say next. A classifier can still learn to tell real from fake, and how confident it is says how far the model is from people. As the model improves, an old judge stops being able to tell. So it is retrained on the model’s newest messages, and the target moves with the model.</p>
+                </div>
+                <p><strong>The first try made the model worse.</strong> The judge was weak, right only 55–67% of the time, and the model found a shortcut: shorter messages give a weak judge less to go on. Half of its messages became 31 characters or shorter. For people, and for the model before this step, that midpoint was about 42. The training judge stopped being able to tell real from fake. The new judge, which the model had never seen, caught it: the fooled rate fell from 40% to 30%.</p>
+                <p>That is why the final judge has to be a different one. A model graded by the judge it trained against gets credit for fooling that judge in particular.</p>
+                <p><strong>The next run changed several things.</strong> The two that matter most for this story: train the judge until it is right at least 70% of the time on held-out conversations before training against it starts, and watch message length. If length drifts more than 25% from people’s, stop and go back to the last good checkpoint.</p>
+                <figure class="figure">
+                    <p class="fig-label">Figure 2</p>
+                    <h3 class="fig-title">How often each judge picked the model’s messages as real</h3>
+                    <p class="label">Classifier judge</p>
+                    <div class="chart dotplot" style="--label-w: 140px; --chance: 83.33">
+                        <div class="chart-row">
+                            <span></span>
+                            <div class="chance-label" style="left: 83.33%; transform: translateX(calc(-100% - 6px))">can’t tell</div>
+                        </div>
+                        <div class="chart-row">
+                            <span class="chart-label">Base</span>
+                            <div class="dot-track">
+                                <span class="dot-span" style="--from: 29.88; --to: 46.15"></span>
+                                <span class="dot dot--ring" style="--v: 38.02" tabindex="0" data-tip-value="22.8% (17.9–27.7)" data-tip="Classifier judge · base model"><span class="dot-label">22.8%</span></span>
+                            </div>
+                        </div>
+                        <div class="chart-row">
+                            <span class="chart-label">After step 2</span>
+                            <div class="dot-track">
+                                <span class="dot-span" style="--from: 36.99; --to: 54.24"></span>
+                                <span class="dot" style="--v: 45.62" tabindex="0" data-tip-value="27.4% (22.2–32.5)" data-tip="Classifier judge · after learning the voice"><span class="dot-label">27.4%</span></span>
+                            </div>
+                        </div>
+                        <div class="chart-row">
+                            <span class="chart-label">After step 3</span>
+                            <div class="dot-track">
+                                <span class="dot-span" style="--from: 60.04; --to: 79.12"></span>
+                                <span class="dot dot--accent" style="--v: 69.58" tabindex="0" data-tip-value="41.8% (36.0–47.5)" data-tip="Classifier judge · after training against a judge"><span class="dot-label">41.8%</span></span>
+                            </div>
+                        </div>
+                        <div class="chart-axis" aria-hidden="true">
+                            <span></span>
+                            <div class="chart-ticks"><span style="left: 0">0%</span><span class="minor" style="left: 25%">15%</span><span style="left: 50%">30%</span><span class="minor" style="left: 75%">45%</span><span style="left: 100%">60%</span></div>
+                        </div>
+                    </div>
+                    <p class="label" style="margin-top: 28px">Language-model judge (gpt-oss-120b)</p>
+                    <div class="chart dotplot" style="--label-w: 140px; --chance: 83.33">
+                        <div class="chart-row">
+                            <span></span>
+                            <div class="chance-label" style="left: 83.33%; transform: translateX(calc(-100% - 6px))">can’t tell</div>
+                        </div>
+                        <div class="chart-row">
+                            <span class="chart-label">Base</span>
+                            <div class="dot-track">
+                                <span class="dot-span" style="--from: 4.05; --to: 12.48"></span>
+                                <span class="dot dot--ring" style="--v: 8.27" tabindex="0" data-tip-value="5.0% (2.4–7.5)" data-tip="Language-model judge · base model"><span class="dot-label">5.0%</span></span>
+                            </div>
+                        </div>
+                        <div class="chart-row">
+                            <span class="chart-label">After step 2</span>
+                            <div class="dot-track">
+                                <span class="dot-span" style="--from: 5.41; --to: 14.69"></span>
+                                <span class="dot" style="--v: 10.05" tabindex="0" data-tip-value="6.0% (3.2–8.8)" data-tip="Language-model judge · after learning the voice"><span class="dot-label">6.0%</span></span>
+                            </div>
+                        </div>
+                        <div class="chart-row">
+                            <span class="chart-label">After step 3</span>
+                            <div class="dot-track">
+                                <span class="dot-span" style="--from: 19.48; --to: 33.72"></span>
+                                <span class="dot dot--accent" style="--v: 26.60" tabindex="0" data-tip-value="16.0% (11.7–20.2)" data-tip="Language-model judge · after training against a judge"><span class="dot-label">16.0%</span></span>
+                            </div>
+                        </div>
+                        <div class="chart-axis" aria-hidden="true">
+                            <span></span>
+                            <div class="chart-ticks"><span style="left: 0">0%</span><span class="minor" style="left: 25%">15%</span><span style="left: 50%">30%</span><span style="left: 75%" class="minor">45%</span><span style="left: 100%">60%</span></div>
+                        </div>
+                    </div>
+                    <p class="fig-caption">Across is the fooled rate: how often the judge picked the model’s four messages over the real ones. The dotted line is 50%, where a judge can’t tell them apart. Each line is a 95% interval over about 285 test conversations. The language model is the harder judge, so all its numbers are lower. Under both judges, step 3 is the clear jump.</p>
+                    <table class="sr-only">
+                        <caption>Fooled rate by judge, with 95% intervals</caption>
+                        <tr><th scope="col">Model</th><th scope="col">Classifier judge</th><th scope="col">Language-model judge</th></tr>
+                        <tr><td>Base</td><td>22.8% (17.9–27.7)</td><td>5.0% (2.4–7.5)</td></tr>
+                        <tr><td>After step 2</td><td>27.4% (22.2–32.5)</td><td>6.0% (3.2–8.8)</td></tr>
+                        <tr><td>After step 3</td><td>41.8% (36.0–47.5)</td><td>16.0% (11.7–20.2)</td></tr>
+                    </table>
+                </figure>
+                <p>This time step 3 helped under both judges. Table 1 shows it didn’t get there by changing one habit. Naming the person you reply to rose to 38%, against people’s 37%, and made-up speakers fell to 3%. Messages were still a little short.</p>
+                <div class="prompt">
+                    <p class="label">After step 3, the same laptop thread</p>
+                    <pre>tomas: no, just a usb drive that i forgot about
+kai:   what's the drive brand and size?
+tomas: it's 64-bit seahorse
+kai:   oo</pre>
+                </div>
+                <p>Now tomas answers kai’s question, kai follows up, and the thread keeps going. One detail, a “64-bit seahorse”, is something no person would write. This is one example, picked because it is short.</p>
+            </section>
+
+            <section id="later">
+                <h2>Where does it help?</h2>
+                <p>If step 3 fixes the way mistakes pile up, its edge should grow with each message the model writes. In a later run, the model wrote eight messages, and the judge looked at the first one, the first two, the first four, and all eight.</p>
+                <figure class="figure">
+                    <p class="fig-label">Figure 3</p>
+                    <h3 class="fig-title">The longer the model writes, the more step 3 helps</h3>
+                    <ul class="legend">
+                        <li><span class="swatch swatch--dot"></span>After step 2</li>
+                        <li><span class="swatch swatch--dot swatch--accent"></span>After step 3</li>
+                    </ul>
+                    <div class="chart dotplot" style="--label-w: 140px; --chance: 83.33">
+                        <div class="chart-row">
+                            <span></span>
+                            <div class="chance-label" style="left: 83.33%; transform: translateX(calc(-100% - 6px))">can’t tell</div>
+                        </div>
+                        <div class="chart-row">
+                            <span class="chart-label">First message</span>
+                            <div class="dot-track">
+                                <span class="dot-span" style="--from: 78.60; --to: 85.15"></span>
+                                <span class="dot" style="--v: 85.15" tabindex="0" data-tip-value="51.1%" data-tip="First message · after step 2"></span>
+                                <span class="dot dot--accent" style="--v: 78.60" tabindex="0" data-tip-value="47.2%" data-tip="First message · after step 3"></span>
+                            </div>
+                        </div>
+                        <div class="chart-row">
+                            <span class="chart-label">First two</span>
+                            <div class="dot-track">
+                                <span class="dot-span" style="--from: 61.87; --to: 62.58"></span>
+                                <span class="dot" style="--v: 61.87" tabindex="0" data-tip-value="37.1%" data-tip="First two messages · after step 2"></span>
+                                <span class="dot dot--accent" style="--v: 62.58" tabindex="0" data-tip-value="37.5%" data-tip="First two messages · after step 3"></span>
+                            </div>
+                        </div>
+                        <div class="chart-row">
+                            <span class="chart-label">First four</span>
+                            <div class="dot-track">
+                                <span class="dot-span" style="--from: 52.40; --to: 68.42"></span>
+                                <span class="dot" style="--v: 52.40" tabindex="0" data-tip-value="31.4%" data-tip="First four messages · after step 2"><span class="dot-label">31%</span></span>
+                                <span class="dot dot--accent" style="--v: 68.42" tabindex="0" data-tip-value="41.0%" data-tip="First four messages · after step 3"><span class="dot-label">41%</span></span>
+                            </div>
+                        </div>
+                        <div class="chart-row">
+                            <span class="chart-label">All eight</span>
+                            <div class="dot-track">
+                                <span class="dot-span" style="--from: 23.28; --to: 37.85"></span>
+                                <span class="dot" style="--v: 23.28" tabindex="0" data-tip-value="14.0%" data-tip="All eight messages · after step 2"><span class="dot-label">14%</span></span>
+                                <span class="dot dot--accent" style="--v: 37.85" tabindex="0" data-tip-value="22.7%" data-tip="All eight messages · after step 3"><span class="dot-label">23%</span></span>
+                            </div>
+                        </div>
+                        <div class="chart-axis" aria-hidden="true">
+                            <span></span>
+                            <div class="chart-ticks"><span style="left: 0">0%</span><span class="minor" style="left: 25%">15%</span><span style="left: 50%">30%</span><span class="minor" style="left: 75%">45%</span><span style="left: 100%">60%</span></div>
+                        </div>
+                    </div>
+                    <p class="fig-caption">Classifier judge, 229 test conversations. Across is the fooled rate. Each row lets the judge see more of the model’s writing. Both models get caught more often as the judge sees more, because every message is another chance to slip. After one or two messages the two are even, within the noise of about 3 points. From the fourth message on, step 3 is ahead.</p>
+                    <table class="sr-only">
+                        <caption>Fooled rate by how many generated messages the judge sees</caption>
+                        <tr><th scope="col">Messages seen</th><th scope="col">After step 2</th><th scope="col">After step 3</th></tr>
+                        <tr><td>1</td><td>51.1%</td><td>47.2%</td></tr>
+                        <tr><td>2</td><td>37.1%</td><td>37.5%</td></tr>
+                        <tr><td>4</td><td>31.4%</td><td>41.0%</td></tr>
+                        <tr><td>8</td><td>14.0%</td><td>22.7%</td></tr>
+                    </table>
+                </figure>
+                <p>That is the pattern humans&amp; describe: training against a judge helped long conversations, not single replies. Another run showed the same thing on eight-message windows, under both judges: 33% against 12% with the classifier, and 25% against 17% with Phi-4, a different open language model.</p>
+                <p>I also tried a model about three times bigger, Qwen3-1.7B. It predicted held-out messages better, and step 3 again came out ahead on eight messages, 34% against 29% under Phi-4. That gap is within the noise. It also needed a bigger judge: the small one never got good enough to train against.</p>
+            </section>
+
+            <section id="keep">
+                <h2>What I’d keep</h2>
+                <ol class="takeaways">
+                    <li>
+                        <strong>Start from a model that was never taught to be an assistant, and give it a format it already knows.</strong>
+                        <p>The untrained base model wrote usable group chat once the format was a plain log. Chat markers it had never learned to write produced nothing usable at all.</p>
+                    </li>
+                    <li>
+                        <strong>Training on real conversations gets the voice.</strong>
+                        <p>Message length, naming people and staying with the people in the thread all moved close to people’s.</p>
+                    </li>
+                    <li>
+                        <strong>A judge is only worth training against if it is good, and only if a different judge checks the result.</strong>
+                        <p>A weak judge got fooled by shorter messages. A new judge caught it, and so did simply watching message length.</p>
+                    </li>
+                    <li>
+                        <strong>With a good judge, it helps where mistakes pile up.</strong>
+                        <p>The gain showed from the fourth message on, the same pattern humans&amp; report.</p>
+                    </li>
+                </ol>
+                <p style="margin-top: 36px">The limits are large. This is a 0.6B model trained on one kind of conversation: technical help on Ubuntu IRC, mostly from the 2010s. The test sets are a few hundred conversations, so a gap of a few points is noise, and fooled rates for the same model moved between runs. Persimmon is 550B, trained on far more varied conversations and judged on eight-message group chats. None of these numbers can be set against its 19.8%.</p>
+                <p>Two open models are worth knowing about: <a href="https://huggingface.co/microsoft/UserLM-8b">UserLM-8B</a> from Microsoft, trained on people’s messages to ChatGPT, and <a href="https://huggingface.co/cmu-lti/osim-8b">OSim-8B</a> from CMU, trained across many kinds of human behavior. Neither is built for group chat. A companion note asks <a href="../student/">what a simulated student knows</a>.</p>
+                <p><a class="chev" href="../research.html">Back to research</a></p>
+            </section>
+        </article>
+    </main>
+
+    <footer class="site-footer">
+        <div class="wrap">
+            <p>© 2026 Bhuvan Koduru · Last updated Nov 2026</p>
+            <ul>
+                <li><a href="mailto:bkoduru@andrew.cmu.edu">bkoduru@andrew.cmu.edu</a></li>
+                <li><a href="https://github.com/BhuvanKoduru">GitHub</a></li>
+                <li><a href="https://linkedin.com/in/bhuvankoduru">LinkedIn</a></li>
+                <li><a href="https://scholar.google.com/citations?user=pp204vMAAAAJ">Scholar</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <script src="../assets/js/main.js?v=20261005l"></script>
+</body>
+</html>
