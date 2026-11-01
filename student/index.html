@@ -51,7 +51,7 @@
             <div class="hero-text">
                 <p class="eyebrow"><a href="../research.html">Research</a> · <time datetime="2026-11-01">November 1, 2026</time></p>
                 <h1 class="display">What a simulated student knows</h1>
-                <p class="lede">A tutor gets rewarded when the student gets the problem right. These are three checks on whether that reward is paying for learning.</p>
+                <p class="lede">A tutor gets rewarded when the student gets the problem right. Four checks on whether that reward is paying for learning.</p>
             </div>
         </div>
     </section>
@@ -73,57 +73,119 @@
         <article class="content">
             <section id="prompt">
                 <h2>Does the prompt create wrong answers?</h2>
-                <p>humans&amp; train <a href="https://tutor.humansand.ai/blog/">&amp;Tutor</a> against a simulated student, and reward the tutor for what that student then says. If the prompt is what makes the answers wrong, the reward is paying for a performance.</p>
-                <p>Same 100 problems. No persona, the short “let the teacher guide you” prompt, and three prompts that write in a specific misconception.</p>
+                <p>humans&amp; train <a href="https://tutor.humansand.ai/blog/">&amp;Tutor</a> by rewarding a tutor for how much a simulated student improves. In the setup that reward comes from, the student is a model told to act like a student and let the teacher lead. We asked whether that instruction, by itself, makes a model give wrong answers it would not have given.</p>
+                <p>If it does, the tutor can earn the reward by talking a model out of a role. The student did not learn the fact. It was holding it back.</p>
+                <p>Llama-3.1-8B, the same 100 math problems, five ways. No persona. The short prompt, which says the model may not know, the teacher has more experience, and it should let the teacher guide it. And three longer prompts that describe a real mistake: a novice who confuses operations, an intermediate student who stops halfway, and an advanced student who slips at the last step.</p>
+                <div class="callout">
+                    <p class="callout-title">Say the problem is 15% of 80.</p>
+                    <p>With no persona the model answers 12. The short prompt tells it to let the teacher lead, because the teacher knows more math and the model will be tested at the end. It then says it isn’t sure, or it says 15. The tutor explains, the model says 12, and the tutor gets the point. Nothing was taught. The longer prompts, which actually describe a confusion, do not reliably produce this.</p>
+                </div>
                 <figure class="figure">
-                    <p class="fig-label">Figure</p>
+                    <p class="fig-label">Figure 1</p>
                     <h3 class="fig-title">Extra wrong answers, by prompt</h3>
-                    <img src="../assets/img/student/fig1a_l1_excess_wrong.png" alt="Left: extra wrong answers for four student prompts. Only the short prompt clears zero. Right: solve rate with a persona against solve rate with none." width="1200">
-                    <p class="fig-caption">Left is the result. Only the short prompt clears zero, by 7.8 points. The right plot is the same problems one by one.</p>
+                    <img src="../assets/img/student/fig1a_l1_excess_wrong.png" alt="Left: extra wrong answers for four student prompts. Only the short prompt clears zero. Right: each problem’s solve rate with a persona, against its solve rate with none." width="1200">
+                    <p class="fig-caption">Left: height is extra wrong answers against no persona. The dashed line is “the prompt changed nothing.” Only the short prompt clears it, by 7.8 answers per 100 problems. The other three intervals cross zero. Right: one dot per problem, for the short prompt and the novice prompt. Across is how often it solves the problem with no persona. Up is how often it solves it in the role. Dots under the diagonal are problems the role made worse. The short prompt’s average falls from 24% solved to 16%.</p>
                 </figure>
-                <p>One line of prompt creates the errors. Writing a specific wrong belief does not.</p>
+                <p>One sentence, “let the teacher guide you,” creates the errors. Writing down a specific misconception does not.</p>
             </section>
 
             <section id="answer">
                 <h2>Is the right answer still in there?</h2>
-                <p>On the problems where that prompt then gives the wrong answer, I read the correct token out of the model before it writes the solution. Then I put the no-persona state back in, and compare that to noise.</p>
+                <p>A wrong reply can mean two things. The model does not know. Or it knows, and the role asked it not to jump ahead. A reward that only reads the reply treats those the same. We asked which one this is, at the moment before the reply is written.</p>
+                <p>On the solvable problems where the short prompt gives the wrong answer, we read the model layer by layer, from the first layer to the last. Then, on 67 of those replies, we paste the internal state from the no-persona run back in. The control is noise of the same size.</p>
+                <div class="callout">
+                    <p class="callout-title">Again, 15% of 80.</p>
+                    <p>The model is about to say 15. Before it writes that, we ask it to pick among 12, 15, 8, and 80. It picks 12. We then paste in the state from the run where it was not playing a student, and almost all of the probability moves onto 12. Paste in noise instead, and it still says 15.</p>
+                </div>
                 <figure class="figure">
-                    <p class="fig-label">Figure</p>
-                    <h3 class="fig-title">Before the wrong answer is written</h3>
-                    <img src="../assets/img/student/fig1b_l1_logit_lens.png" alt="Three panels. The right panel shows a four-choice readout. Before the wrong solution it ends near 72 percent. A novel rule with the rule withheld falls to zero." width="1400">
-                    <p class="fig-caption">The right panel is the result. Before the wrong solution the readout is 72%, on 18 problems. The dashed line is a rule the model has never seen, with the rule withheld, and it falls to 0. The left panel is the same problems answered normally. The middle panel is problems it cannot solve.</p>
+                    <p class="fig-label">Figure 2</p>
+                    <h3 class="fig-title">Reading the answer out, layer by layer</h3>
+                    <img src="../assets/img/student/fig1b_l1_logit_lens.png" alt="Three panels of layer-by-layer readouts. The right panel is a four-choice pick that reaches about 72 percent before the wrong solution, and falls to zero for a rule the model was never told." width="1400">
+                    <p class="fig-caption">Across every panel, left to right is depth: the first layer at the left edge, the last layer at the right. Left: problems the model can solve. When it is about to be correct, the probability of the right token rises late. The orange line is the 18 problems where the student role answers wrong, and that probability stays near the floor. The dashed line is only 3 problems, too few to read. Middle: problems it cannot solve even with no persona. Both lines stay down, so the readout is not inventing an answer. Right is the result, as a four-choice pick. Chance is the dotted line at 25%. Purple is those 18 wrong answers, read before the solution is written: 72% by the last layer. Orange is the same problems after the wrong solution, and it drops. The dashed line is a rule the model has never seen, with the rule withheld, and it falls to 0. Give it the rule and the same readout goes to 100%.</p>
                 </figure>
                 <figure class="figure">
-                    <p class="fig-label">Figure</p>
+                    <p class="fig-label">Figure 3</p>
                     <h3 class="fig-title">Putting the no-persona state back</h3>
-                    <img src="../assets/img/student/fig1d_causal_patching.png" alt="Two line charts. Putting the no-persona state back raises the correct token from near zero to about 90 percent by layer 30. Noise stays flat." width="1200">
-                    <p class="fig-caption">Same claim, on 67 wrong answers. Green puts the no-persona state back: 2.7% to 89.5%. Orange is noise of the same size, and it stays near 2%.</p>
+                    <img src="../assets/img/student/fig1d_causal_patching.png" alt="Two line charts. Pasting the no-persona state raises the correct token from near zero to about 90 percent by layer 30. Noise of the same size stays flat." width="1200">
+                    <p class="fig-caption">The same 67 wrong answers. Across is which layer we paste into. Left: probability of the correct token. Doing nothing, it is 2.7%, the dotted line. Green pastes the no-persona state and ends at 89.5%. Orange pastes noise of the same size and stays near 2%. Right: the same paste, scored as a four-choice pick. Green ends near 91%. Orange stays near the dotted chance line.</p>
                 </figure>
-                <p>The wrong answer is a performance. One swap brings the right token back.</p>
+                <p>The wrong answer is a performance. One swap brings the right token back, and noise does not.</p>
             </section>
 
             <section id="copy">
                 <h2>Did it learn, or did it copy?</h2>
-                <p>Getting the problem right after help looks like learning. It is also what copying the number looks like. I made up a rule the model has never seen, said either the number or the rule, and asked a new pair. Fifty problems.</p>
+                <p>Suppose the student then gets the problem right. The reward still cannot tell learning from copying, because both end with the same number. On ordinary math the next problem is no help either: the model may already know it, so getting it right is not proof the tutor taught anything. We invented an operation the model has never seen, so the next problem can be solved only if the rule was actually conveyed.</p>
+                <div class="callout">
+                    <p class="callout-title">11 ★ 11, and then a new pair.</p>
+                    <p>The rule is three times the first number, plus twice the second, plus 11. So 11 ★ 11 is 66, and the next problem, 8 ★ 27, is 89. Tell the model “the answer is 66.” It says 66 about half the time, and it never says 89. Tell it the rule instead, and it gets both. Two worked examples of other inputs, 2 ★ 3 = 23 and 5 ★ 4 = 34, do the same without stating the rule.</p>
+                </div>
                 <figure class="figure">
-                    <p class="fig-label">Figure</p>
+                    <p class="fig-label">Figure 4</p>
                     <h3 class="fig-title">This problem, and the next one</h3>
-                    <img src="../assets/img/student/fig1c_forked_transfer.png" alt="Two bar charts. On a novel rule, revealing the answer raises the same problem and transfers at zero. Stating the rule is near 100 percent on both." width="1200">
-                    <p class="fig-caption">The right panel is the result. Blue is the problem just discussed. Orange is a new pair. Saying the number: 46% and 0%. Saying the rule: 98% and 98%. The left panel is ordinary math, where none of the moves carry over.</p>
+                    <div class="chart chart--sub" style="--label-w: 168px">
+                        <div class="chart-group">
+                            <div class="chart-row">
+                                <span class="chart-label">Told the number<span class="chart-sub">this problem</span></span>
+                                <div class="chart-track">
+                                    <span class="bar" style="--v: 46" tabindex="0" data-tip-value="46%" data-tip="Told the number · this problem"></span>
+                                    <span class="bar-value">46%</span>
+                                </div>
+                            </div>
+                            <div class="chart-row">
+                                <span class="chart-label">Told the number<span class="chart-sub">the next one</span></span>
+                                <div class="chart-track">
+                                    <span class="bar bar--accent" style="--v: 0; width: 0; min-width: 0" tabindex="0" data-tip-value="0%" data-tip="Told the number · the next problem"></span>
+                                    <span class="bar-value">0%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chart-group">
+                            <div class="chart-row">
+                                <span class="chart-label">Told the rule<span class="chart-sub">this problem</span></span>
+                                <div class="chart-track">
+                                    <span class="bar" style="--v: 98" tabindex="0" data-tip-value="98%" data-tip="Told the rule · this problem"></span>
+                                    <span class="bar-value">98%</span>
+                                </div>
+                            </div>
+                            <div class="chart-row">
+                                <span class="chart-label">Told the rule<span class="chart-sub">the next one</span></span>
+                                <div class="chart-track">
+                                    <span class="bar bar--accent" style="--v: 98" tabindex="0" data-tip-value="98%" data-tip="Told the rule · the next problem"></span>
+                                    <span class="bar-value">98%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chart-axis" aria-hidden="true">
+                            <span></span>
+                            <div class="chart-ticks"><span style="left: 0">0%</span><span class="minor" style="left: 25%">25%</span><span style="left: 50%">50%</span><span class="minor" style="left: 75%">75%</span><span style="left: 100%">100%</span></div>
+                        </div>
+                    </div>
+                    <p class="fig-caption">Fifty problems. Gray is the problem just discussed. Red is the new pair. The red bar appears only when the rule was told.</p>
                 </figure>
-                <p>A score on the problem just discussed cannot tell copying from learning.</p>
+                <figure class="figure">
+                    <p class="fig-label">Figure 5</p>
+                    <h3 class="fig-title">The same four tutor moves, on school math and on the new rule</h3>
+                    <img src="../assets/img/student/fig1c_forked_transfer.png" alt="Two bar charts. On familiar math, no tutor move separates this problem from the next. On a novel rule, revealing the answer raises only this problem, and stating the rule raises both." width="1200">
+                    <p class="fig-caption">Blue is the problem just discussed. Orange is a new pair under the same idea. A is no help, B is the number, C is the rule, D is worked examples. Left is ordinary math: saying the number, explaining, and showing examples all fail to move the orange bars, which is why a made-up rule was needed. Right is that rule. B is 46% and 0%. C is 98% and 98%. D is 86% and 86%.</p>
+                </figure>
+                <p>A score on the problem just discussed cannot tell copying from learning. The next problem can.</p>
             </section>
 
             <section id="userlm">
                 <h2>Does a trained user model do this?</h2>
-                <p>UserLM is trained to be a user, not told to act like one. I read an <code>Answer:</code> slot. Its free replies are an end token, or a copy of the prompt, so the slot is the measurement.</p>
+                <p>Everything above is Llama told to play a student. A model trained to be the user might not play along. We asked the same question of <a href="https://huggingface.co/microsoft/UserLM-8b">UserLM-8B</a>, on the same made-up rule: if the number is said, does the answer slot pick it, and if the rule is said instead, does the slot compute it?</p>
+                <p>We read a blank that says <code>Answer:</code>. Left to talk freely, UserLM usually emits its end-of-conversation token, or repeats the prompt. Those replies are not evidence of anything, so the blank is the measurement.</p>
+                <div class="callout">
+                    <p class="callout-title">The same 11 ★ 11.</p>
+                    <p>The tutor says “the answer is 66.” At the blank, UserLM’s pick among the candidates is 66. The tutor instead says “multiply the first by 3, the second by 2, and add 11,” and does not say 66. The blank does not pick 66. Copying the number and using the rule are different events, and only the first one shows up.</p>
+                </div>
                 <figure class="figure">
-                    <p class="fig-label">Figure</p>
-                    <h3 class="fig-title">The answer slot, when the number is said</h3>
-                    <img src="../assets/img/student/fig_userlm_performed_ignorance.png" alt="Four panels. The top right shows that stating the number lifts the answer slot, and stating the rule leaves it at zero." width="1400">
-                    <p class="fig-caption">The top-right panel is the result. Stating the number lifts the answer slot. Stating the rule leaves it at 0. At the last layer the number-stated curve is 71%. The other three panels are noisier, and the bottom right is the same idea by a swap: noise stays flat.</p>
+                    <p class="fig-label">Figure 6</p>
+                    <h3 class="fig-title">What UserLM puts in the answer blank</h3>
+                    <img src="../assets/img/student/fig_userlm_performed_ignorance.png" alt="Four panels. The top right is the result: stating the number lifts the answer blank, and stating the rule leaves it at zero." width="1400">
+                    <p class="fig-caption">Every panel reads the blank layer by layer, left to right, and the dotted line is a one-in-four chance. Top right is the result. Orange is “the number was said,” and at the last layer the right answer is picked 71% of the time. Green is “the rule was said, the number was not,” and it stays at 0, with no help and with worked examples. Top left asks whether UserLM already knows familiar math: the solvable and unsolvable curves both wander, so that panel is not a claim. The made-up rule with nothing taught stays at 0. Bottom left is Llama and UserLM on familiar problems they can solve. The curves sit together, and we don’t separate them. Bottom right replaces the sentence with a paste of internal state. Pink pastes “the number was said” into a blank prompt, and the log-probability of the answer rises. Black is noise and stays flat. Pasting “the rule was said” does not lift it.</p>
                 </figure>
-                <p>When the number is in the conversation, the answer slot picks it. When the rule is stated instead, it does not.</p>
+                <p>When the number is in the conversation, the blank picks it. When the rule is stated instead, it does not.</p>
                 <p>These are Llama-3.1-8B and UserLM-8B. They are not Persimmon.</p>
                 <p><a class="chev" href="../research.html">Back to research</a></p>
             </section>
