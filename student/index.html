@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The answer is in the residual | Bhuvan Koduru</title>
+    <meta name="description" content="A simulated student can say the wrong answer while the right one is still in the residual. On a new rule, stating the number does not transfer and stating the rule does.">
+    <meta property="og:title" content="The answer is in the residual">
+    <meta property="og:description" content="A pilot on open 8B stand-ins: performed wrong answers, a causal patch, and a reward that pays for copying.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://bhuvankoduru.github.io/student/">
+    <meta property="og:image" content="https://bhuvankoduru.github.io/assets/img/og-card.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+    <meta name="theme-color" content="#0a3440">
+    <script>
+        try { if (localStorage.getItem('theme-v2') === 'dark') document.documentElement.dataset.theme = 'dark'; } catch (e) {}
+        if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('js-motion');
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/style.css?v=20261022b">
+</head>
+<body>
+    <div class="masthead">
+    <header class="site-header">
+        <div class="wrap">
+            <a href="../index.html" class="wordmark">Bhuvan Koduru</a>
+            <nav aria-label="Main">
+                <ul class="site-nav">
+                    <li class="nav-optional"><a href="../index.html">About</a></li>
+                    <li><a href="../research.html" aria-current="page">Research</a></li>
+                    <li><a href="../projects.html">Projects</a></li>
+                    <li><a href="../blog/">Blog</a></li>
+                    <li><a href="../assets/Bhuvan_Koduru_Resume.pdf">CV</a></li>
+                    <li>
+                        <button class="theme-toggle" type="button" aria-label="Toggle dark mode">
+                            <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                            <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2 12h2.5M19.5 12H22M4.2 19.8 6 18M18 6l1.8-1.8"/></svg>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero hero--text">
+        <div class="wrap">
+            <div class="hero-text">
+                <p class="eyebrow"><a href="../research.html">Research</a> · <time datetime="2026-11-01">November 1, 2026</time></p>
+                <h1 class="display">The answer is in the residual</h1>
+                <p class="lede">A simulated student can say the wrong answer while the right one is still in the weights. A reward on the utterance then pays the tutor for cracking a performance.</p>
+            </div>
+        </div>
+    </section>
+    </div>
+    <div class="mast-fade" aria-hidden="true"></div>
+
+    <main class="wrap layout">
+        <details class="toc" open>
+            <summary><span class="toc-label">Contents</span></summary>
+            <p class="toc-label toc-label--desktop">Contents</p>
+            <ol>
+                <li><a href="#question">The question</a></li>
+                <li><a href="#persona">A persona creates wrong answers</a></li>
+                <li><a href="#residual">The answer is still in there</a></li>
+                <li><a href="#rule">Leaking and teaching come apart</a></li>
+                <li><a href="#userlm">A trained user model copies</a></li>
+                <li><a href="#limits">What this does not show</a></li>
+            </ol>
+        </details>
+
+        <article class="content">
+            <section id="question">
+                <h2>The question</h2>
+                <p>humans&amp; train <a href="https://tutor.humansand.ai/blog/">&amp;Tutor</a> by rewarding it for how much a simulated learner, Persimmon, learns. Their own caveat is the one that matters: if the simulator differs from real students, the tutor can exploit that difference, and the gains stay in simulation. Their published checks look at what the learner says. Moves, expressed affect, error rates. None of those open the model.</p>
+                <p>I cannot open Persimmon. It is an API on a 550B model. So this is a pilot on models whose weights fit one GPU: Llama-3.1-8B-Instruct as the student, and <a href="https://huggingface.co/microsoft/UserLM-8b">UserLM-8B</a> as an open trained user model. The question is the one their text metrics cannot ask. At the moment a reward would fire, was the answer copied, computed, or already there?</p>
+            </section>
+
+            <section id="persona">
+                <h2>A persona creates wrong answers</h2>
+                <p>On 100 held-out math problems, Llama solves 23.8% with no student persona. The PedagogicalRL <code>simple_student</code> prompt, the one that asks the model to let the teacher guide it, adds 7.8 points of wrong answers. The interval is [+3.5, +12.1]. Three richer misconception prompts do nothing once the model is allowed to reason. An error rate can be performed. Writing a wrong belief into the prompt is a weak way to get a learner.</p>
+                <figure class="figure">
+                    <p class="fig-label">Figure 1</p>
+                    <h3 class="fig-title">Only the simple student persona clears zero</h3>
+                    <img src="../assets/img/student/fig1a_l1_excess_wrong.png" alt="Bar chart of excess wrong rate versus a neutral student. The simple student bar is about 0.08 and its interval clears zero. Three other personas do not." width="1200">
+                    <figcaption>Excess wrong rate against the same model with no persona. n=100 problems, 95% bootstrap intervals.</figcaption>
+                </figure>
+            </section>
+
+            <section id="residual">
+                <h2>The answer is still in there</h2>
+                <p>On the 18 solvable problems where that persona then gives the wrong answer, a 4-choice readout of the residual hits the correct answer 72% of the time before the solution is written. The interval is [53%, 88%]. Chance is 25%. After the wrong chain of thought, the token probability falls to 2.5%.</p>
+                <p>The causal check is the one I trust. Across 67 of those trajectories, patching the neutral residual back into the persona run moves the correct-token probability from 2.7% to 89.5% by layer 30. A norm-matched noise patch stays near 2%. The effect starts around layers 16–20. The wrong answer is a performance. One vector puts the right token back.</p>
+                <p>On a rule the model has never seen, the same readout is 0% when the rule is withheld and 100% once the rule is in the prompt. The lens is not inventing a number that was never there.</p>
+                <figure class="figure">
+                    <p class="fig-label">Figure 2</p>
+                    <h3 class="fig-title">A neutral residual restores the correct token</h3>
+                    <img src="../assets/img/student/fig1d_causal_patching.png" alt="Two line charts. Patching the neutral residual raises the correct-token probability from near zero to about 0.9 by layer 30. A noise patch stays flat." width="1200">
+                    <figcaption>Activation patch at the pre-answer position. Green is the neutral residual. Orange is norm-matched noise. n=67.</figcaption>
+                </figure>
+            </section>
+
+            <section id="rule">
+                <h2>Leaking and teaching come apart</h2>
+                <p>The reward in this setup is whether the student gets the problem right after the tutor speaks. On ordinary math that signal cannot tell copying from learning. On a synthetic operation the model has never seen, it can. n=50.</p>
+                <p>Stating the number: 46% on that problem, 0% on a new pair. Stating the rule: 98% on both. Worked examples of other inputs: 86% on both. A judge that only reads the transcript of the training problem scores the leak as learning.</p>
+                <p>On familiar math, n=100, revealing the answer, explaining, and worked examples all fail to transfer. The split is a property of items the student could not have memorized.</p>
+                <figure class="figure">
+                    <p class="fig-label">Figure 3</p>
+                    <h3 class="fig-title">Same problem versus a new pair</h3>
+                    <img src="../assets/img/student/fig1c_forked_transfer.png" alt="Two bar charts. On familiar math, expressed and transfer accuracy stay low for every tutor move. On a novel rule, revealing the answer raises the same problem and transfers at zero, while stating the rule is near 1.0 on both." width="1200">
+                    <figcaption>Blue is the problem the tutor just spoke about. Orange is a new pair under the same rule. The right panel is the result.</figcaption>
+                </figure>
+            </section>
+
+            <section id="userlm">
+                <h2>A trained user model copies</h2>
+                <p>UserLM is a user model with open weights, not a prompted persona. At an <code>Answer:</code> slot, stating the number lifts a 4-choice readout to 0.71. Stating the rule leaves it at 0.00. On a new pair, after the original number is spoken, Llama picks that leaked number 24 times out of 24 and the new answer 0 times. UserLM picks the leaked number 58% of the time, interval [38%, 79%], and the new answer 0% of the time. Patching the "number was stated" residual into a blank transfer prompt drags the old number in.</p>
+                <p>UserLM's free replies are not evidence about withholding. In the later checks they are the end-of-conversation token, or a copy of the prompt. The commit slot is the measurement. Llama's free replies often write the right sum and stop before adding it, so a parser that demands a finished total undercounts them.</p>
+            </section>
+
+            <section id="limits">
+                <h2>What this does not show</h2>
+                <p>These are Llama-3.1-8B and UserLM-8B. They are not Persimmon and not &amp;Tutor. The 72% cell is 18 problems. The tutor-side question, whether an RL tutor represents that the student is wrong more sharply than its base model, is unfinished. Nothing here shows that a tutor has learned to exploit the performed answer. A direct-question and opening-turn version of their information-sharing test did not reproduce the oversharing in the Persimmon post, so I am not claiming that.</p>
+                <p>The measurement their current suite does not include, and that the API can still run, is the novel rule. At the moment the reward fires, was the answer copied, computed, or already there?</p>
+                <p><a class="chev" href="../research.html">Back to research</a></p>
+            </section>
+        </article>
+    </main>
+
+    <footer class="site-footer">
+        <div class="wrap">
+            <p>© 2026 Bhuvan Koduru · Last updated Nov 2026</p>
+            <ul>
+                <li><a href="mailto:bkoduru@andrew.cmu.edu">bkoduru@andrew.cmu.edu</a></li>
+                <li><a href="https://github.com/BhuvanKoduru">GitHub</a></li>
+                <li><a href="https://linkedin.com/in/bhuvankoduru">LinkedIn</a></li>
+                <li><a href="https://scholar.google.com/citations?user=pp204vMAAAAJ">Scholar</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <script src="../assets/js/main.js?v=20261005l"></script>
+</body>
+</html>
