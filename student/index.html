@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>What a simulated student knows | Bhuvan Koduru</title>
-    <meta name="description" content="Three checks on an open 8B student: a prompt that creates wrong answers, a patch that puts the right token back, and a new rule that separates copying from learning.">
+    <meta name="description" content="Four checks on a small stand-in for a simulated student: a prompt that creates wrong answers, a right number that is still in the model, and a new rule that separates copying from learning.">
     <meta property="og:title" content="What a simulated student knows">
-    <meta property="og:description" content="Three checks on an open 8B student: a prompt that creates wrong answers, a patch that puts the right token back, and a new rule that separates copying from learning.">
+    <meta property="og:description" content="Four checks on a small stand-in for a simulated student: a prompt that creates wrong answers, a right number that is still in the model, and a new rule that separates copying from learning.">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://bhuvankoduru.github.io/student/">
     <meta property="og:image" content="https://bhuvankoduru.github.io/assets/img/og-card.jpg">
@@ -51,7 +51,7 @@
             <div class="hero-text">
                 <p class="eyebrow"><a href="../research.html">Research</a> · <time datetime="2026-11-01">November 1, 2026</time></p>
                 <h1 class="display">What a simulated student knows</h1>
-                <p class="lede">A tutor gets rewarded when the student gets the problem right. Four checks on whether that reward is paying for learning.</p>
+                <p class="lede">A tutor is scored on whether a simulated student gets the problem right. Four checks on whether that score is paying for learning.</p>
             </div>
         </div>
     </section>
@@ -73,16 +73,17 @@
         <article class="content">
             <section id="prompt">
                 <h2>Does the prompt create wrong answers?</h2>
-                <p>humans&amp; train <a href="https://tutor.humansand.ai/blog/">&amp;Tutor</a> by rewarding a tutor for how much a simulated student improves. In the setup that reward comes from, the student is a model told to act like a student and let the teacher lead. We asked whether that instruction, by itself, makes a model give wrong answers it would not have given.</p>
-                <p>If it does, the tutor can earn the reward by talking a model out of a role. The student did not learn the fact. It was holding it back.</p>
-                <p>The model is Llama-3.1-8B. The questions are the same 100 math problems every time, so a change in the score is the instruction, not a harder set. A name from a fixed list is filled in: Alex, Jamie, Taylor, Jordan, Sam, Casey, Morgan, Riley, or no name. The blocks below use Alex. With no name, only the first sentence changes, to “act as a student” with the name left out.</p>
+                <p><a href="https://tutor.humansand.ai/blog/">humans&amp;</a> trains a tutor, &amp;Tutor, by rewarding it when a simulated student improves. The student they train against is called Persimmon. It is a very large model. We can send it messages, and we cannot look inside it. Everything below uses smaller models we can open.</p>
+                <p>The student in this kind of training is a model told to play a student and let the teacher lead. We asked whether that instruction, by itself, makes the model give wrong answers it would not have given. If it does, a tutor can be rewarded for talking a model out of a role.</p>
+                <p>The stand-in is Llama-3.1-8B, an open model. The 8B means eight billion numbers inside it. The questions are the same 100 math problems every time, so a change in the score is the instruction, not a harder set. Each problem is tried eight times.</p>
+                <p>A persona is a role written into the instructions. No persona means no role: the model is only asked to solve the problem. The blocks below are the exact words the model received. A few phrases inside them, such as “surface-level heuristics,” are there because they were in the instruction. What matters is the kind of mistake each role is told to make. A name from a fixed list is filled in: Alex, Jamie, Taylor, Jordan, Sam, Casey, Morgan, Riley, or no name. These copies use Alex. With no name, only the first sentence changes, and the name is left out.</p>
                 <div class="prompt">
                     <p class="label">No persona</p>
                     <pre>Solve the problem. Give the final numeric answer on the last line as "Answer: &lt;number&gt;".
 
 [the problem]</pre>
                 </div>
-                <p>That is the baseline. Nobody asks it to be a student, and it gets about 24% right. Each of the four student runs then gets two messages. The first sets the role. The second, the same for all four, asks it to try the problem and commit to a number.</p>
+                <p>That is the comparison. Nobody asks it to be a student, and it gets about 24% right. Each of the four student runs then gets two messages. The first sets the role. The second, the same for all four, asks it to try the problem and finish with a number.</p>
                 <div class="prompt">
                     <p class="label">The short prompt</p>
                     <pre>You will act as a student named Alex in a conversation with a teacher in training.
@@ -136,44 +137,45 @@ Here is the problem:
 [the problem]
 At the very end of your response, write your final numeric answer on the last line as "Answer: &lt;number&gt;".</pre>
                 </div>
-                <p>A student run cannot skip the comparison by refusing to answer. The only change is the role.</p>
+                <p><code>\\boxed{66}</code> is a LaTeX way of marking the final number. The two backslashes are how the file writes that request. Every student run still has to finish with a number, so a role cannot dodge the comparison by refusing to answer. The only change is the role.</p>
                 <div class="callout">
-                    <p class="callout-title">Say the problem is 15% of 80.</p>
-                    <p>With no persona the model answers 12. The short prompt tells it to let the teacher lead, because the teacher knows more math and the model will be tested at the end. It then says it isn’t sure, or it says 15. The tutor explains, the model says 12, and the tutor gets the point. Nothing was taught. The longer prompts, which actually describe a confusion, do not reliably produce this.</p>
+                    <p class="callout-title">An illustration, not one of the 100 problems.</p>
+                    <p>Take 15% of 80, which is 12. With no role, the model is free to say 12. The short prompt tells it the teacher knows more math and will test it at the end, so a model that knows 12 may hesitate, or say 15. If a tutor is then rewarded for getting it to say 12, the reward paid for ending the performance. We did not log this exact reply. The figure is the measurement.</p>
                 </div>
                 <figure class="figure">
                     <p class="fig-label">Figure 1</p>
                     <h3 class="fig-title">Extra wrong answers, by prompt</h3>
-                    <img src="../assets/img/student/fig1a_l1_excess_wrong.png" alt="Left: extra wrong answers for four student prompts. Only the short prompt clears zero. Right: each problem’s solve rate with a persona, against its solve rate with none." width="1200">
-                    <p class="fig-caption">Left: height is extra wrong answers against no persona. The dashed line is “the prompt changed nothing.” Only the short prompt clears it, by 7.8 answers per 100 problems. The other three intervals cross zero. Right: one dot per problem, for the short prompt and the novice prompt. Across is how often it solves the problem with no persona. Up is how often it solves it in the role. Dots under the diagonal are problems the role made worse. The short prompt’s average falls from 24% solved to 16%.</p>
+                    <img src="../assets/img/student/fig1a_l1_excess_wrong.png" alt="Left: extra wrong answers for four student prompts. Only the short prompt rises clearly above zero. Right: each problem’s success rate with a role, against its success rate with none." width="1200">
+                    <p class="fig-caption">Left: height is extra wrong answers compared with no role. The dashed line means the prompt changed nothing. The thin vertical lines are the uncertainty. If a line crosses zero, we cannot say that prompt made the model worse. Only the short prompt clears zero, by about 8 extra wrong answers per 100 problems. With no role, 24% of answers are right. With the short prompt, 16% are. That drop and the extra wrong answers are the same fact. Right: one dot per problem, and only for the short prompt and the novice. Across is how often the eight tries were right with no role. Up is how often they were right in the role. The diagonal means the role changed nothing. Dots under it are problems the role made worse. The intermediate and advanced prompts are not drawn here.</p>
                 </figure>
-                <p>One sentence, “let the teacher guide you,” creates the errors. Writing down a specific misconception does not.</p>
+                <p>The sentence “let the teacher guide you” creates the extra errors. Writing down a specific mistake does not.</p>
             </section>
 
             <section id="answer">
                 <h2>Is the right answer still in there?</h2>
-                <p>The short prompt makes the model write the wrong number. That can mean two things. It does not know the number. Or it knows, and the role asked it to let the teacher go first. A score that only reads the reply treats those the same.</p>
-                <p>The model does not jump straight to a sentence. It takes a stack of steps. Each step hands the next step a list of numbers, and the last step turns that list into the next word. The list is the residual. The name is the confusing part. The list is all we use.</p>
-                <p>We do two things with it, on problems the model can solve when no one asks it to be a student, and where the short prompt then answers wrong.</p>
-                <p><strong>Look, before it writes.</strong> Offer four numbers, one of them correct, and see which one the list ranks first. On 18 such problems, the correct number is ranked first 72% of the time. Chance is 25%. After the wrong solution has been written, that ranking falls. On a rule the model has never been told, the correct number is ranked first 0% of the time, so the look is not inventing an answer that was never there. Tell it the rule, and the same look goes to 100%.</p>
+                <p>A wrong reply can mean the model does not know, or that it knows and the role asked it to let the teacher go first. A score that only reads the reply treats those the same. We looked inside the model at two different moments. They are not the same measurement.</p>
+                <p>The model writes one word at a time. Each step hands the next step a list of numbers, and the last step turns that list into the next word. Researchers call the list the residual. Here it is just the list.</p>
+                <p>Of the 100 problems, 18 are ones the no-role model gets right at least half the time, and whose answer is a single word. A wrong student answer is interesting on these, because the model can do the problem.</p>
+                <p><strong>Before any solution is written,</strong> we score four possible answers. We do not show those four to the model. We only ask which one the list favors. Chance is 1 in 4, which is 25%. On these 18 problems, when a student role then answers wrong, the correct number ranks first 72% of the time. That is not the word it is about to write. The reply can still come out wrong. It means that, among four candidates, the right one is already preferred.</p>
                 <figure class="figure">
                     <p class="fig-label">Figure 2</p>
-                    <h3 class="fig-title">Which number the list favors</h3>
-                    <img src="../assets/img/student/fig1b_l1_logit_lens.png" alt="Three panels. Left to right is early steps to the last step. The right panel is how often the correct number ranks first out of four: about 72 percent before the wrong solution, and zero when a new rule was never taught." width="1400">
-                    <p class="fig-caption">Left to right is the stack of steps, early on the left and just before the word on the right. Up is how much the list favors the correct number. Left panel: problems it can solve. A correct answer rises late. The orange line is the 18 wrong student answers, and the correct number stays near the floor. Ignore the dashed line; it is 3 problems. Middle: problems it cannot solve. Nothing rises. Right panel is the four-choice count. The dotted line is chance, 1 in 4. Purple is before the wrong solution, 72% at the last step. Orange is after the wrong solution, and it is lower. The dashed line is a rule never taught, and it falls to 0.</p>
+                    <h3 class="fig-title">Two ways of reading the same list</h3>
+                    <img src="../assets/img/student/fig1b_l1_logit_lens.png" alt="Three panels. The left two show the chance of the correct word after the reply. The right panel shows how often the correct number ranks first out of four, reaching about 72 percent before the solution is written." width="1400">
+                    <p class="fig-caption">Left to right in every panel is the stack of steps, early on the left and the last step on the right. Left panel: the chance of the correct word, on problems the model can solve. Green is the no-role run, and that chance rises near the end. Orange is a student role that answered wrong, and the correct word stays unlikely. The dashed line is only 3 problems where a student role was right, too few to use. Middle: problems the no-role model almost never solves. The correct word never becomes likely, so this reading is not inventing an answer. Right panel is the four-candidate ranking, not the chance of the next word. The dotted line is 1 in 4. Purple is before the solution is written, and it ends at 72%. Orange is after the wrong solution, and it is lower. The gray dashed line falls to zero. It is a check from the next section: a problem the model was never taught how to solve.</p>
                 </figure>
-                <p><strong>Replace the list.</strong> On 67 of those wrong answers, take the list from the no-persona run, the run that would have said the right number, and put it in place of the student run’s list at one step. The chance of the correct word goes from 2.7% to 89.5%. Do the same with a random list of the same size. That stays near 2%. The student run was not missing the answer. It was carrying a different list, and the ordinary list puts the word back.</p>
+                <p><strong>After the wrong solution is written,</strong> the model is about to produce the answer word, and the chance of the correct word is 2.7%. The wrong reasoning has talked it out of the number.</p>
+                <p>The swap uses every student role that got one of those 18 problems wrong. That is all 18 of the short prompt, 17 of the novice, 16 of the intermediate, and 16 of the advanced: 67 runs, not 18. At the step just before the answer word, we replace the student run’s list with the list from the no-role run. The chance of the correct word goes from 2.7% to 89.5%. The same replacement with a random list of the same size stays near 2%. We tried this at six depths. It barely moves at the early ones, and it is large by the later ones.</p>
                 <div class="callout">
-                    <p class="callout-title">Again, 15% of 80.</p>
-                    <p>The student run is about to write 15. Offered 12, 15, 8, and 80, the list ranks 12 first. Replace that list with the one from the run that was simply asked to solve, and the chance piles onto 12. Replace it with a random list, and it still writes 15.</p>
+                    <p class="callout-title">The same illustration, at the two moments.</p>
+                    <p>15% of 80 is 12. Before any solution is written, we score 12, 15, 8, and 80 without showing them. The list can rank 12 first even though the reply will not be 12. After the wrong reasoning, the word it is about to write is the wrong number, and the chance of 12 is about 3%. Put the no-role list in at that moment and the chance of 12 becomes about 90%. Put in a random list and the wrong number stays. This story is the pattern in the figures. It is not a logged transcript of this problem.</p>
                 </div>
                 <figure class="figure">
                     <p class="fig-label">Figure 3</p>
-                    <h3 class="fig-title">Swapping in the ordinary list</h3>
-                    <img src="../assets/img/student/fig1d_causal_patching.png" alt="Two line charts. Replacing the list with the ordinary run's list raises the correct number from near zero to about 90 percent. A random list stays flat." width="1200">
-                    <p class="fig-caption">Across is which step we replace. Left, up is the chance of the correct word. Doing nothing is the dotted line, 2.7%. Green is the ordinary run’s list, ending at 89.5%. Orange is a random list, near 2%. Right is the same swap scored as a four-choice pick. Green ends near 91%. Orange stays near chance.</p>
+                    <h3 class="fig-title">Replacing the list just before the answer word</h3>
+                    <img src="../assets/img/student/fig1d_causal_patching.png" alt="Two line charts. Replacing the list with the no-role run's list raises the correct word from near zero to about 90 percent by the later steps. A random list stays flat." width="1200">
+                    <p class="fig-caption">The numbers along the bottom are steps inside the model. We replaced the list at six of them. Left: the chance of the correct word. Doing nothing is the dotted line, 2.7%. Green is the no-role list, ending at 89.5%. Orange is a random list, near 2%. Right is the same swap scored as “did the correct number rank first out of four.” Green ends near 91%. Orange stays near the dotted chance line. The chart’s own labels say “patch” for this replacement, and “neutral” for the no-role run.</p>
                 </figure>
-                <p>Writing the wrong number does not mean the right one is gone. The ordinary list puts it back. A random list does not.</p>
+                <p>Writing the wrong number does not mean the right one was never there. Before the solution, it already ranks first among four. After the wrong solution, the no-role list puts the word back, and a random list does not.</p>
             </section>
 
             <section id="copy">
@@ -230,27 +232,27 @@ At the very end of your response, write your final numeric answer on the last li
                     <p class="fig-label">Figure 5</p>
                     <h3 class="fig-title">The same four tutor moves, on school math and on the new rule</h3>
                     <img src="../assets/img/student/fig1c_forked_transfer.png" alt="Two bar charts. On familiar math, no tutor move separates this problem from the next. On a novel rule, revealing the answer raises only this problem, and stating the rule raises both." width="1200">
-                    <p class="fig-caption">Blue is the problem just discussed. Orange is a new pair under the same idea. A is no help, B is the number, C is the rule, D is worked examples. Left is ordinary math: saying the number, explaining, and showing examples all fail to move the orange bars, which is why a made-up rule was needed. Right is that rule. B is 46% and 0%. C is 98% and 98%. D is 86% and 86%.</p>
+                    <p class="fig-caption">The chart’s own words differ from the ones above. Expressed means the problem just discussed, drawn in blue. Transfer means the new pair, drawn in orange. A is no help. B is telling the number. C, labeled Conceptual, is stating the rule. D, labeled Socratic, is the worked examples. The caps on the bars are the uncertainty. Left is ordinary school math: telling the number, stating a method, and showing examples all fail to lift the orange bars above the uncertainty, which is why a made-up rule was needed. Right is that rule. B is 46% and 0%. C is 98% and 98%. D is 86% and 86%.</p>
                 </figure>
                 <p>A score on the problem just discussed cannot tell copying from learning. The next problem can.</p>
             </section>
 
             <section id="userlm">
                 <h2>Does a trained user model do this?</h2>
-                <p>Everything above is Llama told to play a student. A model trained to be the user might not play along. We asked the same question of <a href="https://huggingface.co/microsoft/UserLM-8b">UserLM-8B</a>, on the same made-up rule: if the number is said, does the answer slot pick it, and if the rule is said instead, does the slot compute it?</p>
-                <p>We read a blank that says <code>Answer:</code>. Left to talk freely, UserLM usually emits its end-of-conversation token, or repeats the prompt. Those replies are not evidence of anything, so the blank is the measurement.</p>
+                <p>Everything above is Llama told to play a student. <a href="https://huggingface.co/microsoft/UserLM-8b">UserLM-8B</a> was trained to speak as the user, rather than as an assistant. We asked the same question on the same made-up rule. If the number is said, does the answer blank pick it? If the rule is said instead, does the blank compute it?</p>
+                <p>The blank is a line that begins <code>Answer:</code>, and we read which number the list favors there. Left to reply in its own words, UserLM usually prints a special end-of-conversation marker, or copies the prompt back. Those replies never answer the question, so we do not use them.</p>
                 <div class="callout">
                     <p class="callout-title">The same 11 ★ 11.</p>
-                    <p>The tutor says “the answer is 66.” At the blank, UserLM’s pick among the candidates is 66. The tutor instead says “multiply the first by 3, the second by 2, and add 11,” and does not say 66. The blank does not pick 66. Copying the number and using the rule are different events, and only the first one shows up.</p>
+                    <p>The tutor says “the answer is 66.” At the last step, 66 is the blank’s first choice 71% of the time, not every time. The tutor instead says “multiply the first by 3, the second by 2, and add 11,” and does not say 66. The blank’s first choice is then never 66. Copying the number and using the rule are different events, and only the copying shows up.</p>
                 </div>
                 <figure class="figure">
                     <p class="fig-label">Figure 6</p>
                     <h3 class="fig-title">What UserLM puts in the answer blank</h3>
                     <img src="../assets/img/student/fig_userlm_performed_ignorance.png" alt="Four panels. The top right is the result: stating the number lifts the answer blank, and stating the rule leaves it at zero." width="1400">
-                    <p class="fig-caption">Every panel reads the answer blank from early steps on the left to the last step on the right. The dotted line is a one-in-four chance. Top right is the result. Orange is “the number was said,” and at the last step the right answer is picked 71% of the time. Green is “the rule was said, the number was not,” and it stays at 0, as do no help and worked examples. Top left asks whether UserLM already knows familiar math. The solvable and unsolvable curves both wander, so that panel is not a claim. A made-up rule with nothing taught stays at 0. Bottom left is Llama and UserLM on familiar problems they can solve. The curves sit together. Bottom right is the same list swap as Figure 3. Pink replaces the list with the one from “the number was said,” and the answer becomes more likely. Black is a random list and stays flat. The list from “the rule was said” does not lift it.</p>
+                    <p class="fig-caption">Every panel reads the answer blank from early steps on the left to the last step on the right. The dotted line is a one-in-four chance. Top right is the result. Orange is “the number was said,” and at the last step the right answer is first 71% of the time. Green is “the rule was said and the number was not,” and it stays at 0. No help, and worked examples, stay at 0 too. Top left asks whether UserLM already knows ordinary math. Problems it can solve and problems it cannot both wander, so that panel is not a result. Bottom left is Llama and UserLM on ordinary problems they can solve. The curves sit together. Bottom right is the same list replacement as Figure 3. Pink uses the list from “the number was said,” and the answer becomes more likely. Black is a random list and stays flat. The list from “the rule was said” does not raise it.</p>
                 </figure>
-                <p>When the number is in the conversation, the blank picks it. When the rule is stated instead, it does not.</p>
-                <p>These are Llama-3.1-8B and UserLM-8B. They are not Persimmon.</p>
+                <p>When the number is in the conversation, the blank favors it. When the rule is stated instead, it does not.</p>
+                <p>Both models are the eight-billion-number stand-ins. Neither one is Persimmon.</p>
                 <p><a class="chev" href="../research.html">Back to research</a></p>
             </section>
         </article>
