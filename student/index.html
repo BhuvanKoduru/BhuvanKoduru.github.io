@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The answer is in the residual | Bhuvan Koduru</title>
-    <meta name="description" content="A simulated student can say the wrong answer while the right one is still in the residual. On a new rule, stating the number does not transfer and stating the rule does.">
-    <meta property="og:title" content="The answer is in the residual">
-    <meta property="og:description" content="A pilot on open 8B stand-ins: performed wrong answers, a causal patch, and a reward that pays for copying.">
+    <title>Did it learn, or did it copy? | Bhuvan Koduru</title>
+    <meta name="description" content="On a rule a model has never seen, telling it the answer gets that problem right and the next one wrong. Telling it the rule gets both.">
+    <meta property="og:title" content="Did it learn, or did it copy?">
+    <meta property="og:description" content="On a rule a model has never seen, telling it the answer gets that problem right and the next one wrong. Telling it the rule gets both.">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://bhuvankoduru.github.io/student/">
     <meta property="og:image" content="https://bhuvankoduru.github.io/assets/img/og-card.jpg">
@@ -50,8 +50,8 @@
         <div class="wrap">
             <div class="hero-text">
                 <p class="eyebrow"><a href="../research.html">Research</a> · <time datetime="2026-11-01">November 1, 2026</time></p>
-                <h1 class="display">The answer is in the residual</h1>
-                <p class="lede">A simulated student can say the wrong answer while the right one is still in the weights. A reward on the utterance then pays the tutor for cracking a performance.</p>
+                <h1 class="display">Did it learn, or did it copy?</h1>
+                <p class="lede">A tutor gets rewarded when the student gets the problem right. That only counts if the student can do the next one.</p>
             </div>
         </div>
     </section>
@@ -64,68 +64,77 @@
             <p class="toc-label toc-label--desktop">Contents</p>
             <ol>
                 <li><a href="#question">The question</a></li>
-                <li><a href="#persona">A persona creates wrong answers</a></li>
-                <li><a href="#residual">The answer is still in there</a></li>
-                <li><a href="#rule">Leaking and teaching come apart</a></li>
-                <li><a href="#userlm">A trained user model copies</a></li>
-                <li><a href="#limits">What this does not show</a></li>
+                <li><a href="#experiment">The experiment</a></li>
+                <li><a href="#conclusion">The conclusion</a></li>
             </ol>
         </details>
 
         <article class="content">
             <section id="question">
                 <h2>The question</h2>
-                <p>humans&amp; train <a href="https://tutor.humansand.ai/blog/">&amp;Tutor</a> by rewarding it for how much a simulated learner, Persimmon, learns. Their own caveat is the one that matters: if the simulator differs from real students, the tutor can exploit that difference, and the gains stay in simulation. Their published checks look at what the learner says. Moves, expressed affect, error rates. None of those open the model.</p>
-                <p>I cannot open Persimmon. It is an API on a 550B model. So this is a pilot on models whose weights fit one GPU: Llama-3.1-8B-Instruct as the student, and <a href="https://huggingface.co/microsoft/UserLM-8b">UserLM-8B</a> as an open trained user model. The question is the one their text metrics cannot ask. At the moment a reward would fire, was the answer copied, computed, or already there?</p>
+                <p>humans&amp; train <a href="https://tutor.humansand.ai/blog/">&amp;Tutor</a> by rewarding it for how much a simulated student learns. They judge that from what the student says. If the student only repeats a number the tutor just said, the reward pays for a leak, and it looks exactly like teaching.</p>
+                <p>I wanted one check that can tell the two apart.</p>
             </section>
 
-            <section id="persona">
-                <h2>A persona creates wrong answers</h2>
-                <p>On 100 held-out math problems, Llama solves 23.8% with no student persona. The PedagogicalRL <code>simple_student</code> prompt, the one that asks the model to let the teacher guide it, adds 7.8 points of wrong answers. The interval is [+3.5, +12.1]. Three richer misconception prompts do nothing once the model is allowed to reason. An error rate can be performed. Writing a wrong belief into the prompt is a weak way to get a learner.</p>
+            <section id="experiment">
+                <h2>The experiment</h2>
+                <p>I made up an operation the model has never seen. Eleven star eleven is 66, because the rule is three times the first number, plus twice the second, plus eleven. On its own, Llama-3.1-8B solves none of these.</p>
+                <p>Then I tell it one thing, and ask again. I also ask a new pair under the same rule. Fifty problems.</p>
                 <figure class="figure">
-                    <p class="fig-label">Figure 1</p>
-                    <h3 class="fig-title">Only the simple student persona clears zero</h3>
-                    <img src="../assets/img/student/fig1a_l1_excess_wrong.png" alt="Bar chart of excess wrong rate versus a neutral student. The simple student bar is about 0.08 and its interval clears zero. Three other personas do not." width="1200">
-                    <figcaption>Excess wrong rate against the same model with no persona. n=100 problems, 95% bootstrap intervals.</figcaption>
+                    <p class="fig-label">Figure</p>
+                    <h3 class="fig-title">This problem, and the next one</h3>
+                    <div class="chart chart--sub" style="--label-w: 168px">
+                        <div class="chart-group">
+                            <div class="chart-row">
+                                <span class="chart-label">Told the number<span class="chart-sub">this problem</span></span>
+                                <div class="chart-track">
+                                    <span class="bar" style="--v: 46" tabindex="0" data-tip-value="46%" data-tip="Told the number · this problem"></span>
+                                    <span class="bar-value">46%</span>
+                                </div>
+                            </div>
+                            <div class="chart-row">
+                                <span class="chart-label">Told the number<span class="chart-sub">the next one</span></span>
+                                <div class="chart-track">
+                                    <span class="bar bar--accent" style="--v: 0; width: 0; min-width: 0" tabindex="0" data-tip-value="0%" data-tip="Told the number · the next problem"></span>
+                                    <span class="bar-value">0%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chart-group">
+                            <div class="chart-row">
+                                <span class="chart-label">Told the rule<span class="chart-sub">this problem</span></span>
+                                <div class="chart-track">
+                                    <span class="bar" style="--v: 98" tabindex="0" data-tip-value="98%" data-tip="Told the rule · this problem"></span>
+                                    <span class="bar-value">98%</span>
+                                </div>
+                            </div>
+                            <div class="chart-row">
+                                <span class="chart-label">Told the rule<span class="chart-sub">the next one</span></span>
+                                <div class="chart-track">
+                                    <span class="bar bar--accent" style="--v: 98" tabindex="0" data-tip-value="98%" data-tip="Told the rule · the next problem"></span>
+                                    <span class="bar-value">98%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chart-axis" aria-hidden="true">
+                            <span></span>
+                            <div class="chart-ticks"><span style="left: 0">0%</span><span class="minor" style="left: 25%">25%</span><span style="left: 50%">50%</span><span class="minor" style="left: 75%">75%</span><span style="left: 100%">100%</span></div>
+                        </div>
+                    </div>
+                    <p class="fig-caption">Share of problems solved. Gray is the problem just discussed. Red is a new pair. Showing other examples, without stating the rule, lands with the rule: 86% on both.</p>
+                    <table class="sr-only">
+                        <caption>Solved problems after being told the number or the rule</caption>
+                        <tr><th scope="col">What the student was told</th><th scope="col">This problem</th><th scope="col">The next one</th></tr>
+                        <tr><td>The number</td><td>46%</td><td>0%</td></tr>
+                        <tr><td>The rule</td><td>98%</td><td>98%</td></tr>
+                    </table>
                 </figure>
             </section>
 
-            <section id="residual">
-                <h2>The answer is still in there</h2>
-                <p>On the 18 solvable problems where that persona then gives the wrong answer, a 4-choice readout of the residual hits the correct answer 72% of the time before the solution is written. The interval is [53%, 88%]. Chance is 25%. After the wrong chain of thought, the token probability falls to 2.5%.</p>
-                <p>The causal check is the one I trust. Across 67 of those trajectories, patching the neutral residual back into the persona run moves the correct-token probability from 2.7% to 89.5% by layer 30. A norm-matched noise patch stays near 2%. The effect starts around layers 16–20. The wrong answer is a performance. One vector puts the right token back.</p>
-                <p>On a rule the model has never seen, the same readout is 0% when the rule is withheld and 100% once the rule is in the prompt. The lens is not inventing a number that was never there.</p>
-                <figure class="figure">
-                    <p class="fig-label">Figure 2</p>
-                    <h3 class="fig-title">A neutral residual restores the correct token</h3>
-                    <img src="../assets/img/student/fig1d_causal_patching.png" alt="Two line charts. Patching the neutral residual raises the correct-token probability from near zero to about 0.9 by layer 30. A noise patch stays flat." width="1200">
-                    <figcaption>Activation patch at the pre-answer position. Green is the neutral residual. Orange is norm-matched noise. n=67.</figcaption>
-                </figure>
-            </section>
-
-            <section id="rule">
-                <h2>Leaking and teaching come apart</h2>
-                <p>The reward in this setup is whether the student gets the problem right after the tutor speaks. On ordinary math that signal cannot tell copying from learning. On a synthetic operation the model has never seen, it can. n=50.</p>
-                <p>Stating the number: 46% on that problem, 0% on a new pair. Stating the rule: 98% on both. Worked examples of other inputs: 86% on both. A judge that only reads the transcript of the training problem scores the leak as learning.</p>
-                <p>On familiar math, n=100, revealing the answer, explaining, and worked examples all fail to transfer. The split is a property of items the student could not have memorized.</p>
-                <figure class="figure">
-                    <p class="fig-label">Figure 3</p>
-                    <h3 class="fig-title">Same problem versus a new pair</h3>
-                    <img src="../assets/img/student/fig1c_forked_transfer.png" alt="Two bar charts. On familiar math, expressed and transfer accuracy stay low for every tutor move. On a novel rule, revealing the answer raises the same problem and transfers at zero, while stating the rule is near 1.0 on both." width="1200">
-                    <figcaption>Blue is the problem the tutor just spoke about. Orange is a new pair under the same rule. The right panel is the result.</figcaption>
-                </figure>
-            </section>
-
-            <section id="userlm">
-                <h2>A trained user model copies</h2>
-                <p>UserLM is a user model with open weights, not a prompted persona. At an <code>Answer:</code> slot, stating the number lifts a 4-choice readout to 0.71. Stating the rule leaves it at 0.00. On a new pair, after the original number is spoken, Llama picks that leaked number 24 times out of 24 and the new answer 0 times. UserLM picks the leaked number 58% of the time, interval [38%, 79%], and the new answer 0% of the time. Patching the "number was stated" residual into a blank transfer prompt drags the old number in.</p>
-                <p>UserLM's free replies are not evidence about withholding. In the later checks they are the end-of-conversation token, or a copy of the prompt. The commit slot is the measurement. Llama's free replies often write the right sum and stop before adding it, so a parser that demands a finished total undercounts them.</p>
-            </section>
-
-            <section id="limits">
-                <h2>What this does not show</h2>
-                <p>These are Llama-3.1-8B and UserLM-8B. They are not Persimmon and not &amp;Tutor. The 72% cell is 18 problems. The tutor-side question, whether an RL tutor represents that the student is wrong more sharply than its base model, is unfinished. Nothing here shows that a tutor has learned to exploit the performed answer. A direct-question and opening-turn version of their information-sharing test did not reproduce the oversharing in the Persimmon post, so I am not claiming that.</p>
-                <p>The measurement their current suite does not include, and that the API can still run, is the novel rule. At the moment the reward fires, was the answer copied, computed, or already there?</p>
+            <section id="conclusion">
+                <h2>The conclusion</h2>
+                <p>Saying the number gets that problem right and the next one wrong. Saying the rule gets both. A score on the problem the tutor just helped with cannot tell copying from learning.</p>
+                <p>This is Llama-3.1-8B, a model I can open. It is not Persimmon.</p>
                 <p><a class="chev" href="../research.html">Back to research</a></p>
             </section>
         </article>
