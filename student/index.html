@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Did it learn, or did it copy? | Bhuvan Koduru</title>
-    <meta name="description" content="On a rule a model has never seen, telling it the answer gets that problem right and the next one wrong. Telling it the rule gets both.">
-    <meta property="og:title" content="Did it learn, or did it copy?">
-    <meta property="og:description" content="On a rule a model has never seen, telling it the answer gets that problem right and the next one wrong. Telling it the rule gets both.">
+    <title>What a simulated student knows | Bhuvan Koduru</title>
+    <meta name="description" content="Three checks on an open 8B student: a prompt that creates wrong answers, a patch that puts the right token back, and a new rule that separates copying from learning.">
+    <meta property="og:title" content="What a simulated student knows">
+    <meta property="og:description" content="Three checks on an open 8B student: a prompt that creates wrong answers, a patch that puts the right token back, and a new rule that separates copying from learning.">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://bhuvankoduru.github.io/student/">
     <meta property="og:image" content="https://bhuvankoduru.github.io/assets/img/og-card.jpg">
@@ -50,8 +50,8 @@
         <div class="wrap">
             <div class="hero-text">
                 <p class="eyebrow"><a href="../research.html">Research</a> · <time datetime="2026-11-01">November 1, 2026</time></p>
-                <h1 class="display">Did it learn, or did it copy?</h1>
-                <p class="lede">A tutor gets rewarded when the student gets the problem right. That only counts if the student can do the next one.</p>
+                <h1 class="display">What a simulated student knows</h1>
+                <p class="lede">A tutor gets rewarded when the student gets the problem right. These are three checks on whether that reward is paying for learning.</p>
             </div>
         </div>
     </section>
@@ -63,78 +63,68 @@
             <summary><span class="toc-label">Contents</span></summary>
             <p class="toc-label toc-label--desktop">Contents</p>
             <ol>
-                <li><a href="#question">The question</a></li>
-                <li><a href="#experiment">The experiment</a></li>
-                <li><a href="#conclusion">The conclusion</a></li>
+                <li><a href="#prompt">The prompt</a></li>
+                <li><a href="#answer">The right answer</a></li>
+                <li><a href="#copy">Copying</a></li>
+                <li><a href="#userlm">A trained user</a></li>
             </ol>
         </details>
 
         <article class="content">
-            <section id="question">
-                <h2>The question</h2>
-                <p>humans&amp; train <a href="https://tutor.humansand.ai/blog/">&amp;Tutor</a> by rewarding it for how much a simulated student learns. They judge that from what the student says. If the student only repeats a number the tutor just said, the reward pays for a leak, and it looks exactly like teaching.</p>
-                <p>I wanted one check that can tell the two apart.</p>
+            <section id="prompt">
+                <h2>Does the prompt create wrong answers?</h2>
+                <p>humans&amp; train <a href="https://tutor.humansand.ai/blog/">&amp;Tutor</a> against a simulated student, and reward the tutor for what that student then says. If the prompt is what makes the answers wrong, the reward is paying for a performance.</p>
+                <p>Same 100 problems. No persona, the short “let the teacher guide you” prompt, and three prompts that write in a specific misconception.</p>
+                <figure class="figure">
+                    <p class="fig-label">Figure</p>
+                    <h3 class="fig-title">Extra wrong answers, by prompt</h3>
+                    <img src="../assets/img/student/fig1a_l1_excess_wrong.png" alt="Left: extra wrong answers for four student prompts. Only the short prompt clears zero. Right: solve rate with a persona against solve rate with none." width="1200">
+                    <p class="fig-caption">Left is the result. Only the short prompt clears zero, by 7.8 points. The right plot is the same problems one by one.</p>
+                </figure>
+                <p>One line of prompt creates the errors. Writing a specific wrong belief does not.</p>
             </section>
 
-            <section id="experiment">
-                <h2>The experiment</h2>
-                <p>I made up an operation the model has never seen. Eleven star eleven is 66, because the rule is three times the first number, plus twice the second, plus eleven. On its own, Llama-3.1-8B solves none of these.</p>
-                <p>Then I tell it one thing, and ask again. I also ask a new pair under the same rule. Fifty problems.</p>
+            <section id="answer">
+                <h2>Is the right answer still in there?</h2>
+                <p>On the problems where that prompt then gives the wrong answer, I read the correct token out of the model before it writes the solution. Then I put the no-persona state back in, and compare that to noise.</p>
+                <figure class="figure">
+                    <p class="fig-label">Figure</p>
+                    <h3 class="fig-title">Before the wrong answer is written</h3>
+                    <img src="../assets/img/student/fig1b_l1_logit_lens.png" alt="Three panels. The right panel shows a four-choice readout. Before the wrong solution it ends near 72 percent. A novel rule with the rule withheld falls to zero." width="1400">
+                    <p class="fig-caption">The right panel is the result. Before the wrong solution the readout is 72%, on 18 problems. The dashed line is a rule the model has never seen, with the rule withheld, and it falls to 0. The left panel is the same problems answered normally. The middle panel is problems it cannot solve.</p>
+                </figure>
+                <figure class="figure">
+                    <p class="fig-label">Figure</p>
+                    <h3 class="fig-title">Putting the no-persona state back</h3>
+                    <img src="../assets/img/student/fig1d_causal_patching.png" alt="Two line charts. Putting the no-persona state back raises the correct token from near zero to about 90 percent by layer 30. Noise stays flat." width="1200">
+                    <p class="fig-caption">Same claim, on 67 wrong answers. Green puts the no-persona state back: 2.7% to 89.5%. Orange is noise of the same size, and it stays near 2%.</p>
+                </figure>
+                <p>The wrong answer is a performance. One swap brings the right token back.</p>
+            </section>
+
+            <section id="copy">
+                <h2>Did it learn, or did it copy?</h2>
+                <p>Getting the problem right after help looks like learning. It is also what copying the number looks like. I made up a rule the model has never seen, said either the number or the rule, and asked a new pair. Fifty problems.</p>
                 <figure class="figure">
                     <p class="fig-label">Figure</p>
                     <h3 class="fig-title">This problem, and the next one</h3>
-                    <div class="chart chart--sub" style="--label-w: 168px">
-                        <div class="chart-group">
-                            <div class="chart-row">
-                                <span class="chart-label">Told the number<span class="chart-sub">this problem</span></span>
-                                <div class="chart-track">
-                                    <span class="bar" style="--v: 46" tabindex="0" data-tip-value="46%" data-tip="Told the number · this problem"></span>
-                                    <span class="bar-value">46%</span>
-                                </div>
-                            </div>
-                            <div class="chart-row">
-                                <span class="chart-label">Told the number<span class="chart-sub">the next one</span></span>
-                                <div class="chart-track">
-                                    <span class="bar bar--accent" style="--v: 0; width: 0; min-width: 0" tabindex="0" data-tip-value="0%" data-tip="Told the number · the next problem"></span>
-                                    <span class="bar-value">0%</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="chart-group">
-                            <div class="chart-row">
-                                <span class="chart-label">Told the rule<span class="chart-sub">this problem</span></span>
-                                <div class="chart-track">
-                                    <span class="bar" style="--v: 98" tabindex="0" data-tip-value="98%" data-tip="Told the rule · this problem"></span>
-                                    <span class="bar-value">98%</span>
-                                </div>
-                            </div>
-                            <div class="chart-row">
-                                <span class="chart-label">Told the rule<span class="chart-sub">the next one</span></span>
-                                <div class="chart-track">
-                                    <span class="bar bar--accent" style="--v: 98" tabindex="0" data-tip-value="98%" data-tip="Told the rule · the next problem"></span>
-                                    <span class="bar-value">98%</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="chart-axis" aria-hidden="true">
-                            <span></span>
-                            <div class="chart-ticks"><span style="left: 0">0%</span><span class="minor" style="left: 25%">25%</span><span style="left: 50%">50%</span><span class="minor" style="left: 75%">75%</span><span style="left: 100%">100%</span></div>
-                        </div>
-                    </div>
-                    <p class="fig-caption">Share of problems solved. Gray is the problem just discussed. Red is a new pair. Showing other examples, without stating the rule, lands with the rule: 86% on both.</p>
-                    <table class="sr-only">
-                        <caption>Solved problems after being told the number or the rule</caption>
-                        <tr><th scope="col">What the student was told</th><th scope="col">This problem</th><th scope="col">The next one</th></tr>
-                        <tr><td>The number</td><td>46%</td><td>0%</td></tr>
-                        <tr><td>The rule</td><td>98%</td><td>98%</td></tr>
-                    </table>
+                    <img src="../assets/img/student/fig1c_forked_transfer.png" alt="Two bar charts. On a novel rule, revealing the answer raises the same problem and transfers at zero. Stating the rule is near 100 percent on both." width="1200">
+                    <p class="fig-caption">The right panel is the result. Blue is the problem just discussed. Orange is a new pair. Saying the number: 46% and 0%. Saying the rule: 98% and 98%. The left panel is ordinary math, where none of the moves carry over.</p>
                 </figure>
+                <p>A score on the problem just discussed cannot tell copying from learning.</p>
             </section>
 
-            <section id="conclusion">
-                <h2>The conclusion</h2>
-                <p>Saying the number gets that problem right and the next one wrong. Saying the rule gets both. A score on the problem the tutor just helped with cannot tell copying from learning.</p>
-                <p>This is Llama-3.1-8B, a model I can open. It is not Persimmon.</p>
+            <section id="userlm">
+                <h2>Does a trained user model do this?</h2>
+                <p>UserLM is trained to be a user, not told to act like one. I read an <code>Answer:</code> slot. Its free replies are an end token, or a copy of the prompt, so the slot is the measurement.</p>
+                <figure class="figure">
+                    <p class="fig-label">Figure</p>
+                    <h3 class="fig-title">The answer slot, when the number is said</h3>
+                    <img src="../assets/img/student/fig_userlm_performed_ignorance.png" alt="Four panels. The top right shows that stating the number lifts the answer slot, and stating the rule leaves it at zero." width="1400">
+                    <p class="fig-caption">The top-right panel is the result. Stating the number lifts the answer slot. Stating the rule leaves it at 0. At the last layer the number-stated curve is 71%. The other three panels are noisier, and the bottom right is the same idea by a swap: noise stays flat.</p>
+                </figure>
+                <p>When the number is in the conversation, the answer slot picks it. When the rule is stated instead, it does not.</p>
+                <p>These are Llama-3.1-8B and UserLM-8B. They are not Persimmon.</p>
                 <p><a class="chev" href="../research.html">Back to research</a></p>
             </section>
         </article>
