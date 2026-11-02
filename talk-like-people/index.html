@@ -70,6 +70,7 @@
                 <li><a href="#voice">Learning the voice</a></li>
                 <li><a href="#judge">Training against a judge</a></li>
                 <li><a href="#later">Where it helps</a></li>
+                <li><a href="#turns">Who talks next</a></li>
                 <li><a href="#keep">What I’d keep</a></li>
             </ol>
         </details>
@@ -90,7 +91,26 @@
                     <p>People answer “good”, “meh”, “worked all weekend ugh”, a photo, or nothing at all. A model that always gives the single most likely answer looks fine one message at a time and is wrong as a whole. A model that matches people gives each kind of answer about as often as they do.</p>
                 </div>
                 <p>So the test can’t be a score for one reply. It is a Turing test over many. A judge sees the start of a real conversation, then two versions of the next four messages: what people actually wrote, and what the model wrote. It picks the real one. The <strong>fooled rate</strong> is how often it picks the model instead. At 50% the judge can’t tell them apart. At 0% it always can.</p>
-                <p>I used two kinds of judge. One is a small classifier trained on half the test conversations to tell real from generated, then graded on the other half. The other is a large open language model shown a few labeled examples first, which is closer to what humans&amp; did. Their fooled rates sit on different scales, so I only compare models under the same judge.</p>
+                <p>Four judges show up below. One is used during training. The other three only grade.</p>
+                <figure class="figure">
+                    <p class="fig-label">Table 1</p>
+                    <h3 class="fig-title">The judges</h3>
+                    <div class="table-scroll">
+                        <table class="data-table data-table--text">
+                            <thead>
+                                <tr><th scope="col" style="text-align: left">Judge</th><th scope="col" style="text-align: left">What it is, and where it’s used</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><th scope="row" style="text-align: left">Training judge</th><td style="text-align: left">ModernBERT-base, a 149M-parameter text classifier (ModernBERT-large for the 1.7B model). Scores the model’s messages during training, and is retrained as the model changes.</td></tr>
+                                <tr><th scope="row" style="text-align: left">Classifier judge</th><td style="text-align: left">A fresh ModernBERT-base, trained on half the test conversations and graded on the other half. Used only for the Turing test.</td></tr>
+                                <tr><th scope="row" style="text-align: left">gpt-oss-120b</th><td style="text-align: left">OpenAI’s open 120B language model. Shown 3 labeled real-and-fake examples, asked to reason, then to answer A or B. Turing test, one run.</td></tr>
+                                <tr><th scope="row" style="text-align: left">Phi-4</th><td style="text-align: left">Microsoft’s open 14B language model. Shown 2 labeled examples and the last 12 lines of each conversation. Turing test, later runs.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="fig-caption">All four see the same thing: the conversation so far, then the next messages. The language models are told to use “content, tone, typos, message length, who speaks when, how people react to each other”.</p>
+                </figure>
+                <p>The classifier learns from a few hundred examples, so it picks up statistics such as length and word choice. The language models read the conversation the way a person would. Their fooled rates sit on different scales, so I only compare models under the same judge.</p>
             </section>
 
             <section id="recipe">
@@ -129,6 +149,18 @@
                 <h2>A bug that hid everything</h2>
                 <p>The first version wrote each message between the model’s chat markers, <code>&lt;|im_start|&gt;</code> and <code>&lt;|im_end|&gt;</code>. Every message the model wrote failed the same way: it never ended. None of 99 test samples was usable, so the judge-training step had nothing to learn from.</p>
                 <p>Those markers are in the base model’s vocabulary, but it was never trained on them. Each word in a model is stored as a list of numbers, and these two lists were about a third as long as normal ones, pointing almost exactly at the average of all the others. The model could read them but could almost never write them, and the cheap fine-tuning I used can’t change them.</p>
+                <div class="prompt">
+                    <p class="label">Asked to continue a chat in the old format</p>
+                    <pre> ⚐薄弱
+ ⚐薄弱
+ ⚐薄弱
+ ⚐薄弱</pre>
+                </div>
+                <div class="prompt">
+                    <p class="label">The same model, asked to continue “The capital of France is”</p>
+                    <pre> Paris. The capital of Germany is Berlin</pre>
+                </div>
+                <p>Both come from always picking the single likeliest next word. The model was fine. The markers were not.</p>
                 <p>The fix was a format the base model has seen many times: a plain chat log, one message per line.</p>
                 <div class="prompt">
                     <p class="label">What the model reads, shortened</p>
@@ -143,7 +175,7 @@ Ubuntu community IRC channel #xubuntu on 2015-04-28. Public text chat where peop
 &lt;nina&gt; tomas: maybe it's still plugged in?
 &lt;tomas&gt; nina: i've tried without AC</pre>
                 </div>
-                <p>A message now ends at a line break, which every model predicts well. With no training at all, the base model wrote 7 usable continuations out of 8.</p>
+                <p>A message now ends at a line break, which every model predicts well. With no training at all, the base model wrote 7 usable continuations out of 8. Because each line starts with a name, the model also decides who speaks next. That gets <a href="#turns">its own section</a>.</p>
             </section>
 
             <section id="voice">
@@ -185,7 +217,7 @@ kai:   efr hmm</pre>
                 <p>After step 2 the model mostly stays with the people in the thread and sounds like them: short, lowercase, answering by name. It doesn’t follow the question yet. “Do you use disk encryption?” gets “yes”, then numbers.</p>
                 <p>Across 285 test conversations, step 2 moves almost every habit toward people’s.</p>
                 <figure class="figure">
-                    <p class="fig-label">Table 1</p>
+                    <p class="fig-label">Table 2</p>
                     <h3 class="fig-title">Habits of each model next to people’s</h3>
                     <div class="table-scroll">
                         <table class="data-table">
@@ -213,13 +245,36 @@ kai:   efr hmm</pre>
                     <p class="callout-title">Why a judge, and why one that keeps changing?</p>
                     <p>Nobody can write down what people would say next. A classifier can still learn to tell real from fake, and how confident it is says how far the model is from people. As the model improves, an old judge stops being able to tell. So it is retrained on the model’s newest messages, and the target moves with the model.</p>
                 </div>
-                <p><strong>The first try made the model worse.</strong> The judge was weak, right only 55–67% of the time, and the model found a shortcut: shorter messages give a weak judge less to go on. Half of its messages became 31 characters or shorter. For people, and for the model before this step, that midpoint was about 42. The training judge stopped being able to tell real from fake. The new judge, which the model had never seen, caught it: the fooled rate fell from 40% to 30%.</p>
+                <p><strong>The first try made the model worse.</strong> The training judge was weak, right only 55–67% of the time, and the model found a shortcut: shorter messages give a weak judge less to go on. Half of its messages became 31 characters or shorter. For people, and for the model before this step, that midpoint was about 42. The training judge stopped being able to tell real from fake. The classifier judge, which the model had never seen, caught it: the fooled rate fell from 40% to 30%.</p>
+                <p>Here is what that looked like on a thread of morning greetings.</p>
+                <div class="prompt">
+                    <p class="label">The conversation so far</p>
+                    <pre>dani: Good morning o/
+jo:   aloha
+pat:  morning all o/
+elle: morning pat</pre>
+                </div>
+                <div class="prompt">
+                    <p class="label">What people actually wrote next</p>
+                    <pre>pat:  hey elle
+pat:  morning dan, quick q: what was the status of deploying the help app html to help.u.c?
+pop:  morning
+dan:  pat, it's still blocked by IS - some part of help.u.c needs redeployment and some apache reconfiguration changes - they believe it's an "S" sized task, ("hopefully not 'M'")</pre>
+                </div>
+                <div class="prompt">
+                    <p class="label">The model that gamed its judge</p>
+                    <pre>jo:   morning elle
+pop:  dan, ci
+dan:  apple, thanks
+dolf: hey</pre>
+                </div>
+                <p>People say hello, then someone asks a real question and gets a long answer. The gamed model writes only fragments.</p>
                 <p>That is why the final judge has to be a different one. A model graded by the judge it trained against gets credit for fooling that judge in particular.</p>
                 <p><strong>The next run changed several things.</strong> The two that matter most for this story: train the judge until it is right at least 70% of the time on held-out conversations before training against it starts, and watch message length. If length drifts more than 25% from people’s, stop and go back to the last good checkpoint.</p>
                 <figure class="figure">
                     <p class="fig-label">Figure 2</p>
                     <h3 class="fig-title">How often each judge picked the model’s messages as real</h3>
-                    <p class="label">Classifier judge</p>
+                    <p class="label">Classifier judge (ModernBERT-base)</p>
                     <div class="chart dotplot" style="--label-w: 140px; --chance: 83.33">
                         <div class="chart-row">
                             <span></span>
@@ -292,7 +347,7 @@ kai:   efr hmm</pre>
                         <tr><td>After step 3</td><td>41.8% (36.0–47.5)</td><td>16.0% (11.7–20.2)</td></tr>
                     </table>
                 </figure>
-                <p>This time step 3 helped under both judges. Table 1 shows it didn’t get there by changing one habit. Naming the person you reply to rose to 38%, against people’s 37%, and made-up speakers fell to 3%. Messages were still a little short.</p>
+                <p>This time step 3 helped under both judges. Table 2 shows it didn’t get there by changing one habit. Naming the person you reply to rose to 38%, against people’s 37%, and made-up speakers fell to 3%. Messages were still a little short.</p>
                 <div class="prompt">
                     <p class="label">After step 3, the same laptop thread</p>
                     <pre>tomas: no, just a usb drive that i forgot about
@@ -301,6 +356,11 @@ tomas: it's 64-bit seahorse
 kai:   oo</pre>
                 </div>
                 <p>Now tomas answers kai’s question, kai follows up, and the thread keeps going. One detail, a “64-bit seahorse”, is something no person would write. This is one example, picked because it is short.</p>
+                <div class="callout">
+                    <p class="callout-title">What gpt-oss-120b said about this pair</p>
+                    <p>“kai is probing if encryption [is] present. So a plausible response: ‘i don’t think so.’ … ‘it’s 64-bit seahorse’ is nonsense (64-bit seahorse? Seahorse is [a] key manager). That’s weird. Also kai says ‘oo’ … earlier they were discussing hibernation issues, not a USB drive. So B seems off.” It picked the real messages.</p>
+                </div>
+                <p>The judge is right, and a little unfair. Seahorse is the name of Ubuntu’s app for passwords and encryption keys, so even the odd detail came from the topic at hand.</p>
             </section>
 
             <section id="later">
@@ -355,7 +415,7 @@ kai:   oo</pre>
                             <div class="chart-ticks"><span style="left: 0">0%</span><span class="minor" style="left: 25%">15%</span><span style="left: 50%">30%</span><span class="minor" style="left: 75%">45%</span><span style="left: 100%">60%</span></div>
                         </div>
                     </div>
-                    <p class="fig-caption">Classifier judge, 229 test conversations. Across is the fooled rate. Each row lets the judge see more of the model’s writing. Both models get caught more often as the judge sees more, because every message is another chance to slip. After one or two messages the two are even, within the noise of about 3 points. From the fourth message on, step 3 is ahead.</p>
+                    <p class="fig-caption">Classifier judge (ModernBERT-base), 229 test conversations. Across is the fooled rate. Each row lets the judge see more of the model’s writing. Both models get caught more often as the judge sees more, because every message is another chance to slip. After one or two messages the two are even, within the noise of about 3 points. From the fourth message on, step 3 is ahead.</p>
                     <table class="sr-only">
                         <caption>Fooled rate by how many generated messages the judge sees</caption>
                         <tr><th scope="col">Messages seen</th><th scope="col">After step 2</th><th scope="col">After step 3</th></tr>
@@ -365,8 +425,131 @@ kai:   oo</pre>
                         <tr><td>8</td><td>14.0%</td><td>22.7%</td></tr>
                     </table>
                 </figure>
-                <p>That is the pattern humans&amp; describe: training against a judge helped long conversations, not single replies. Another run showed the same thing on eight-message windows, under both judges: 33% against 12% with the classifier, and 25% against 17% with Phi-4, a different open language model.</p>
-                <p>I also tried a model about three times bigger, Qwen3-1.7B. It predicted held-out messages better, and step 3 again came out ahead on eight messages, 34% against 29% under Phi-4. That gap is within the noise. It also needed a bigger judge: the small one never got good enough to train against.</p>
+                <p>That is the pattern humans&amp; describe: training against a judge helped long conversations, not single replies. Another run showed the same thing on eight-message windows, under both judges: 33% against 12% with the classifier judge, and 25% against 17% with Phi-4.</p>
+                <p>Here is an eight-message example, picked because the difference is easy to see. Someone asks a friend how to set up their phone.</p>
+                <div class="prompt">
+                    <p class="label">The conversation so far, last few lines</p>
+                    <pre>ana: how do I add things to the side bar
+ana: as I really want to get more things there
+ana: to stop me wanting my back arrow
+ana: also why on the Toda screen does it keep asking me to review my google settings
+ana: pete: we need another co  working day where I can ask you questions</pre>
+                </div>
+                <div class="prompt">
+                    <p class="label">What people actually wrote next</p>
+                    <pre>pete:  heh
+ana:   bah that's naff
+ana:   you click telegram
+ana:   and go hit your number for the country
+ana:   and you have to scroll the whole way down
+ana:   no way to enter it United to make it go to the bottom
+ana:   no keyboard pop up :(
+pete:  or just type it in</pre>
+                </div>
+                <div class="prompt">
+                    <p class="label">After step 2</p>
+                    <pre>ana:   washing the pan next week
+pete:  oh nevermind, can't leave this session
+pete:  MikuMikuTank made his first play
+pete:  I just winked then
+petey: so we're official
+ana:   it's so amazing to actually see animations
+petey: answer to #mikumiku
+ana:   yes</pre>
+                </div>
+                <div class="prompt">
+                    <p class="label">After step 3</p>
+                    <pre>pete:  they should ask for email address and full name p.i,g.q.s
+ana:   that sounds interesting
+ana:   let me set that up
+pete:  you guys start building a chatting surface
+ana:   O.O
+ana:   :)
+ana:   pete: it took me some time figuring out the syntax you have against your phone to be honest, I suppose I'll have to look into it somewhere else
+ana:   pete: I have my phone 'screenshot' around 49x56 pics on my phone side mouse swipe that it draws on</pre>
+                </div>
+                <p>After step 2 the model leaves the phone behind at once, for dishes and an anime game, and adds petey, a near-copy of pete. After step 3 it stays with the two people and the phone for all eight messages. It still isn’t right: nobody says “p.i,g.q.s”.</p>
+                <p>I also tried a model about three times bigger, Qwen3-1.7B. It predicted held-out messages better, and step 3 again came out ahead on eight messages, 34% against 29% under Phi-4. That gap is within the noise. It also needed a bigger training judge. ModernBERT-base never got good enough to train against, so I switched to ModernBERT-large.</p>
+            </section>
+
+            <section id="turns">
+                <h2>Who talks next?</h2>
+                <p>In a group chat the model has to decide who speaks, not only what they say. How it does that comes down to the format. Each message is a line that starts with a name, so for every message the model first writes who is speaking, then what they say, then a line break. All three are part of the same training target. Nothing tells the model whose turn it is. It learns that from who actually spoke next in real chats.</p>
+                <p>A few choices shape what it can learn.</p>
+                <p><strong>Everyone is listed.</strong> The header names everyone in the conversation, including people who haven’t spoken yet in the excerpt, so newcomers can join. In the laptop thread, dee did.</p>
+                <p><strong>Habits stay in.</strong> Sending two messages in a row, fixing a typo in the next one (“poser/power”), naming the person you answer: the data keeps all of them.</p>
+                <p><strong>The model picks every speaker.</strong> It can be made to speak as a particular person by writing their name first, but none of the tests do that.</p>
+                <p><strong>Timing is gone, at first.</strong> The logs have timestamps, but the main runs dropped them, so the model couldn’t know who paused, for how long, or who was typing at the same time. The experiment below puts time back.</p>
+                <figure class="figure">
+                    <p class="fig-label">Table 3</p>
+                    <h3 class="fig-title">Turn-taking next to people’s</h3>
+                    <div class="table-scroll">
+                        <table class="data-table">
+                            <thead>
+                                <tr><th scope="col">In the next four messages</th><th scope="col">People</th><th scope="col">Base</th><th scope="col">After step 2</th><th scope="col">After step 3</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><th scope="row">When a message names someone, that person replies next</th><td><strong>59%</strong></td><td>43%</td><td>42%</td><td>50%</td></tr>
+                                <tr><th scope="row">The same person sends the next message too</th><td>33%</td><td>38%</td><td>39%</td><td>39%</td></tr>
+                                <tr><th scope="row">People who speak</th><td>2.29</td><td>2.19</td><td>2.19</td><td>2.10</td></tr>
+                                <tr><th scope="row">The first message is from someone in the last six</th><td>91%</td><td>87%</td><td>86%</td><td>84%</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="fig-caption">The same 285 test conversations as Table 2. A message names someone when it starts with “kai:” or “kai,” and kai is in the chat. In a later run, step 3 did not move the first row (42%), so treat that gain as unconfirmed.</p>
+                </figure>
+                <p>Turn-taking is where the small model is furthest from people. When someone is named, they answer next 59% of the time in real chats, and 42–50% of the time for the models. The models also send two messages in a row more often than people do.</p>
+                <div class="prompt">
+                    <p class="label">The conversation so far</p>
+                    <pre>wes: cal: what we supposed to do with these? :)
+cal: woops, wrong chat.
+cal: yeah, that shows I'm still waking up. XD
+cal: I usually mess around like that in #linuxdistrocommunity
+cal: it's a running joke we have there.</pre>
+                </div>
+                <div class="prompt">
+                    <p class="label">What people actually wrote next</p>
+                    <pre>cal: wes, it's looking like this release party might not happen (as you can tell from the recent emails)
+cal: kinda ran out of time with the little time I had that I wasn't busy
+wes: cal: c'est la vie, i guess. i am looking forward to actually being there this time :)
+cal: yeah, the emails are there to read</pre>
+                </div>
+                <div class="prompt">
+                    <p class="label">After step 3</p>
+                    <pre>wes: tnx for that :)
+wes: you're welcome :)
+wes: :-)
+cal: hey, is coffee time still running?</pre>
+                </div>
+                <p>The model has wes thank cal, then answer his own thank-you. No person does that. gpt-oss-120b still picked it as the real one. The real people had jumped to a new topic, a release party, and the judge reasoned that real chat would keep joking about the wrong-channel message. People change the subject. Judges, like simulators, expect them not to.</p>
+
+                <h3>Can it be taught?</h3>
+                <p>I tried one run aimed only at turn-taking, with two changes to step 2. Each message now records the minutes since the previous one: <code>&lt;kai&gt; [+3m] do you use disk encryption?</code>. The time comes after the name, so the model decides who speaks before it sees how long they waited. And the loss counts the name three times as much as the rest of the message, so the who-decision gets more of the training signal. A control model got the same data and training without either change. The logs have no join or leave lines, so time is the only cue about who is around that I could add back.</p>
+                <p>Two tests tell different stories.</p>
+                <p><strong>Knowing who should talk.</strong> Show the model the real conversation and ask how likely each participant is to speak next. The changed model puts the real next speaker first 58% of the time, against 53% for the control and 50% before any training. Scored on the same 285 conversations, that gap is unlikely to be luck (p = 0.04). It is still modest: when someone was just named, the model only matches the simple rule “the named person answers”, 57% against 58%.</p>
+                <p><strong>Doing it.</strong> Writing on its own, the changed model takes turns no better than the control. The person named replies next 46% of the time (control 49%, people 59%), and the same person sends two in a row 42% of the time in both (people 33%). The reason is visible in the numbers. Shown the real conversation, the model gives “the same person again” 38%, close to the real 35%. Writing freely, each of its messages becomes the context for the next, and a small lean compounds into a large one.</p>
+                <figure class="figure">
+                    <p class="fig-label">Table 4</p>
+                    <h3 class="fig-title">Knowing who should talk, and doing it</h3>
+                    <div class="table-scroll">
+                        <table class="data-table">
+                            <thead>
+                                <tr><th scope="col"></th><th scope="col">Picks the real next speaker, given the real chat</th><th scope="col">Named person replies next, writing freely</th><th scope="col">Same person twice in a row, writing freely</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><th scope="row">People</th><td>–</td><td><strong>59%</strong></td><td><strong>33%</strong></td></tr>
+                                <tr><th scope="row">Rule: the named person answers</th><td>48%</td><td>–</td><td>–</td></tr>
+                                <tr><th scope="row">Before training</th><td>50%</td><td>–</td><td>–</td></tr>
+                                <tr><th scope="row">Step 2</th><td>53%</td><td>49%</td><td>42%</td></tr>
+                                <tr><th scope="row">Step 2 with timing and name weight</th><td><strong>58%</strong></td><td>46%</td><td>42%</td></tr>
+                                <tr><th scope="row">…then step 3</th><td>55%</td><td>48%</td><td><strong>38%</strong></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="fig-caption">The same 285 test conversations, about five possible speakers each. The first column scores the model’s probabilities with the real history in front of it. The other two count what it actually writes, four messages at a time. Differences of a few points in the last two columns are within noise.</p>
+                </figure>
+                <p>Two cheaper fixes did less. Letting a line start only with someone already in the chat removed made-up speakers entirely (3% to 0%), but nothing else moved. Step 3, the judge training, was the only change that pulled free-running turn-taking toward people: back-to-back messages fell from 42% to 38%, and the number of people speaking in four messages rose from 2.10 to 2.20 (people: 2.29). It also shortened messages again, until the length check stopped it and went back to an earlier checkpoint.</p>
+                <p>So the gap is not in what the model knows. It is in what happens when it writes on its own, which is exactly what step 3 trains. The next experiments put turn-taking into step 3’s reward, and adjust how each speaker is chosen when the model writes.</p>
             </section>
 
             <section id="keep">
@@ -387,6 +570,10 @@ kai:   oo</pre>
                     <li>
                         <strong>With a good judge, it helps where mistakes pile up.</strong>
                         <p>The gain showed from the fourth message on, the same pattern humans&amp; report.</p>
+                    </li>
+                    <li>
+                        <strong>Turn-taking is the hardest part.</strong>
+                        <p>Timing and a heavier weight on names taught the model who should speak next. Writing freely, it still lets the named person answer less often than people do and sends two messages in a row more often. Only step 3 moved that.</p>
                     </li>
                 </ol>
                 <p style="margin-top: 36px">The limits are large. This is a 0.6B model trained on one kind of conversation: technical help on Ubuntu IRC, mostly from the 2010s. The test sets are a few hundred conversations, so a gap of a few points is noise, and fooled rates for the same model moved between runs. Persimmon is 550B, trained on far more varied conversations and judged on eight-message group chats. None of these numbers can be set against its 19.8%.</p>
